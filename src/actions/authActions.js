@@ -13,7 +13,7 @@ import { cleanUpCAP } from "./capActions";
 
 // Register User
 export const registerUser = (userData, social) => dispatch => {
-  const link = social ? "http://172.19.162.53:3000/user/sociallogin" : "http://172.19.162.53:3000/user/register"
+  const link = social ? "https://172.19.162.53:3000/user/sociallogin" : "https://172.19.162.53:3000/user/register"
   axios.defaults.timeout = 2000;
 
   // //indicate beginnning of request
@@ -42,7 +42,7 @@ export const registerUser = (userData, social) => dispatch => {
 
 // Login - get user token
 export const loginUser = (userData, status, social) => dispatch => {
-  const link = social ? "http://172.19.162.53:3000/user/sociallogin" : "http://172.19.162.53:3000/user/login"
+  const link = social ? "https://172.19.162.53:3000/user/sociallogin" : "https://172.19.162.53:3000/user/login"
   
   //indicate beginnning of request
   dispatch(setUserLoading(true));
@@ -151,7 +151,7 @@ export const logoutUser = () => dispatch => {
 };
 
 export const deleteUser = () => dispatch => {
-  axios.delete("http://172.19.162.53:3000/account")
+  axios.delete("https://172.19.162.53:3000/account")
     .then(res => dispatch(logoutUser()))
     .catch(err => console.log(err))
 }
