@@ -1,0 +1,51 @@
+$finalHeight: 250px;
+$finalWidth: 3 * $finalHeight;
+$scrollBarHeight: 1px;
+
+::-webkit-scrollbar {
+  width: $scrollBarHeight;
+  height: $scrollBarHeight;
+}
+
+::-webkit-scrollbar-button {
+  width: $scrollBarHeight;
+  height: $scrollBarHeight;
+}
+
+
+div {
+  box-sizing: border-box;
+}
+
+.horizontal-scroll-wrapper {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 450px;
+  max-height: 1440px;
+  margin: 0;
+  padding-top: $scrollBarHeight;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: rotate(-90deg) translateY(-300px) translateX(-150px);
+  transform-origin: right top;
+  
+}
+.card-content {
+  display: block;
+  padding: 5px;
+  background: #D3D3D3;
+  transform: rotate(90deg);
+  transform-origin: right top;
+}
+
+.squares {
+  padding: 30px 0 0 0;
+  & > .card-content {
+  
+    width: 450x;
+    height: 360px;
+    margin: 200px 0px;
+  }
+}
