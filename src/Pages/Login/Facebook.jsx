@@ -10,7 +10,7 @@ import { registerUser } from "../../actions/authActions";
     
 
     responseFacebook = response => {
-        console.log(response);
+        // console.log(response);
         const userData = {
             network: 'facebook',
             token: response.accessToken
