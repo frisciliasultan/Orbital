@@ -22,7 +22,7 @@ export const initialSettings = () => async dispatch => {
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
-                        .get('https://172.19.162.53:3000/account')
+                        .get('http://172.19.162.53:3000/account')
                         .then(res => {
                                 dispatch(setUserSettings(res.data))
                             })
@@ -41,7 +41,7 @@ export const initialSettings = () => async dispatch => {
 export const updateSettings = (userData) => dispatch => {
     axios.defaults.timeout = 6000;
     axios
-        .put("https://172.19.162.53:3000/account", userData)
+        .put("http://172.19.162.53:3000/account", userData)
         .then(res => {console.log(res); dispatch(setUserSettings(res.data.updated))})
         .then(res => {
             dispatch({
