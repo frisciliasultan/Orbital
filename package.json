@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "main": "index.js",
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
