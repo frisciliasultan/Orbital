@@ -4,19 +4,20 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "is-empty";
 
+//TEMPORARY OPEN WITHOUT LOGIN
 const PrivateRouteTemp = ({ component: Component, auth, userInfo, type, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      if(auth.isAuthenticated === true ) {
+      // if(auth.isAuthenticated === true ) {
         // if((!auth.loading && userInfo.faculty) || type === "settings") {
           return <Component {...props} />
         // } else if(!auth.loading && !userInfo.faculty) {
           // return <Redirect to="/settings/academics" />
         // }
-      } else {
-        return <Redirect to="/login" />
-      }
+      // } else {
+      //   return <Redirect to="/login" />
+      // }
     }}/>
 );
 

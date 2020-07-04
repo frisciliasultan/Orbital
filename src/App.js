@@ -91,7 +91,8 @@ if (localStorage.jwtToken) {
 const App = (props) => {
   return (
     <div>
-      {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
+      <PrivateNav class="navbar" />
+      {/* {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />} */}
     
       <Switch>
         <Route 
