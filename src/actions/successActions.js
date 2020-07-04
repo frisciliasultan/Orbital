@@ -2,7 +2,7 @@ import {
     REMOVE_SUCCESS
 } from "./types";
 
-import isEmpty from "is-empty";
+// import isEmpty from "is-empty";
 
 export const removeSuccess = (success) => {
     return {

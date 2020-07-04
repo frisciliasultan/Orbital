@@ -11,11 +11,9 @@ import { setCurrentSemester, initialSettings, cleanUpSettings } from "./settings
 import { cleanUpModPlan } from "./modplanActions";
 import { cleanUpCAP } from "./capActions";
 
-axios.defaults.proxy = "https://modtree-api.netlify.app/.netlify"
-
 // Register User
 export const registerUser = (userData, social) => dispatch => {
-  const link = social ? "/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/user/register"
+  const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/register"
   axios.defaults.timeout = 2000;
 
   // //indicate beginnning of request
@@ -44,7 +42,7 @@ export const registerUser = (userData, social) => dispatch => {
 
 // Login - get user token
 export const loginUser = (userData, status, social) => dispatch => {
-  const link = social ? "/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/user/login"
+  const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/login"
   
   //indicate beginnning of request
   dispatch(setUserLoading(true));
@@ -153,7 +151,7 @@ export const logoutUser = () => dispatch => {
 };
 
 export const deleteUser = () => dispatch => {
-  axios.delete("https://172.19.162.53:3000/account")
+  axios.delete("https://modtree-api.netlify.app/.netlify/functions/account")
     .then(res => dispatch(logoutUser()))
     .catch(err => console.log(err))
 }
