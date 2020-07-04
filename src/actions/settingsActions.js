@@ -18,7 +18,7 @@ export const setUserSettings = (userData) => {
 
 export const initialSettings = () => async dispatch => {
     try {
-        axios.defaults.timeout = 2000;
+        axios.defaults.timeout = 5000;
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
