@@ -33,8 +33,8 @@ export const callBackendAPI = (backend, ulrTag, degreeTag) => dispatch => {
         
     } else {
         axios.all([
-            axios.get('https://172.19.162.53:3000/rules/' + ulrTag),
-            axios.get('https://172.19.162.53:3000/rules/' + degreeTag)
+            axios.get('http://172.19.162.53:3000/rules/' + ulrTag),
+            axios.get('http://172.19.162.53:3000/rules/' + degreeTag)
         ])
         .then(resArr => {
                 dispatch(setRules([resArr[0].data, resArr[1].data]));
