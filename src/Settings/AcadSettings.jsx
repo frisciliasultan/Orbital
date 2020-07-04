@@ -28,8 +28,6 @@ const AcadSettings = (props) => {
     }
   )
 
-
-  console.log(userInput.facIndex);
   const residenceOptions = ['N/A','CAPT', 'RC4', 'RVRC','Tembusu', 'USP'];
   const dummyfac = [{'Business': [{'Business Administration': ['A', 'B']},
                     {'Accountancy': ['C', 'D']}]},
@@ -153,7 +151,7 @@ const checkSubmission = (userData) => {
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    status = userData[key] ? true : false;
+    status = (userData[key] || userData[key] === 0) ? true : false;
     console.log(status);
     console.log(userData[key]);
     if(!status) {
