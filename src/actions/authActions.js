@@ -11,9 +11,11 @@ import { setCurrentSemester, initialSettings, cleanUpSettings } from "./settings
 import { cleanUpModPlan } from "./modplanActions";
 import { cleanUpCAP } from "./capActions";
 
+axios.defaults.proxy = "https://modtree-api.netlify.app/.netlify"
+
 // Register User
 export const registerUser = (userData, social) => dispatch => {
-  const link = social ? "https://172.19.162.53:3000/user/sociallogin" : "https://172.19.162.53:3000/user/register"
+  const link = social ? "/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/user/register"
   axios.defaults.timeout = 2000;
 
   // //indicate beginnning of request
@@ -42,7 +44,7 @@ export const registerUser = (userData, social) => dispatch => {
 
 // Login - get user token
 export const loginUser = (userData, status, social) => dispatch => {
-  const link = social ? "https://172.19.162.53:3000/user/sociallogin" : "https://172.19.162.53:3000/user/login"
+  const link = social ? "/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/user/login"
   
   //indicate beginnning of request
   dispatch(setUserLoading(true));

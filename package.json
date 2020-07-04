@@ -36,7 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://172.19.162.53:3000/",
+  "proxy": "https://modtree-api.netlify.app/.netlify/functions/",
   "eslintConfig": {
     "extends": "react-app"
   },
