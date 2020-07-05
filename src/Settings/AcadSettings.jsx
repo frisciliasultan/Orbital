@@ -9,7 +9,7 @@ import { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, 
 import { deleteUser } from "../actions/authActions";
 import { removeSuccess } from "../actions/successActions";
 import isEmpty from "is-empty";
-// import { generateOptions } from '../utils/commonFunctions';
+import { generateOptions } from '../utils/commonFunctions';
 
 
 
@@ -75,16 +75,16 @@ const AcadSettings = (props) => {
   };
 
  //turn array of choices into options dropdown
-  const generateOptions = (choices) => {
-    const facIndex = userInput.facIndex;
-    if(choices === 'faculty'){
-      return props.settings.facultyOptions.map((obj) => {
-        return (
-        <option value={obj.name}>
-          {obj.name}
-        </option>
-        );
-      });
+  // const generateOptions = (choices) => {
+  //   const facIndex = userInput.facIndex;
+  //   if(choices === 'faculty'){
+  //     return props.settings.facultyOptions.map((obj) => {
+  //       return (
+  //       <option value={obj.name}>
+  //         {obj.name}
+  //       </option>
+  //       );
+  //     });
     // } else if(choices === 'major') {
     //     if(userInput.faculty) {
     //     return props.settings.facultyOptions
@@ -109,34 +109,34 @@ const AcadSettings = (props) => {
     //                 )
     //               }    
     //     )}
-    } else if(choices === 'residence') {
-      return props.settings.residenceOptions.map((obj) => {
-        return (
-        <option value={obj}>
-          {obj}
-        </option>
-        );
-      });
-    } else {
-        if(choices === 'matriculationYear') {
-          return props.settings.matriculationOptions.map((option) => {
-            return (
-            <option value={option.substr(3,9)}>
-              {option}
-            </option>
-            );
-          });
-        } else {
-            return props.settings.targetGradOptions.map((option) => {
-              return (
-              <option value={option.substr(6,9)}>
-                {option}
-              </option>
-              );
-            });
-          }
-      }
-}
+//     } else if(choices === 'residence') {
+//       return props.settings.residenceOptions.map((obj) => {
+//         return (
+//         <option value={obj}>
+//           {obj}
+//         </option>
+//         );
+//       });
+//     } else {
+//         if(choices === 'matriculationYear') {
+//           return props.settings.matriculationOptions.map((option) => {
+//             return (
+//             <option value={option.substr(3,9)}>
+//               {option}
+//             </option>
+//             );
+//           });
+//         } else {
+//             return props.settings.targetGradOptions.map((option) => {
+//               return (
+//               <option value={option.substr(6,9)}>
+//                 {option}
+//               </option>
+//               );
+//             });
+//           }
+//       }
+// }
 
 //Check if there is any part of userData that is undefined/falsy
 const checkSubmission = (userData) => {
@@ -181,8 +181,10 @@ const handleSubmit = () => {
         <h5>Enter your particulars so that we can personalise your user experience!</h5>
 
         <form>
-          {/* <Options
-            title="faculty"/> */}
+          <Options
+            category="faculty"
+            faculty={userInput.faculty}
+            handleChange={handleChange}/>
 
           <label>Your Faculty: {userInput.faculty}</label>
           <select
@@ -192,8 +194,8 @@ const handleSubmit = () => {
                 <option selected disabled>
                   Choose Your Faculty
                 </option>
-              {!isEmpty(props.settings.userInfo) && generateOptions("faculty")}
-              {/* {generateOptions(props.settings.facultyOptions, "faculty")} */}
+              {/* {!isEmpty(props.settings.userInfo) && generateOptions("faculty")} */}
+              {generateOptions(props.settings.facultyOptions, "faculty")}
             </select>   
             <br/>
             <br/>
@@ -222,7 +224,7 @@ const handleSubmit = () => {
               {!isEmpty(props.settings.userInfo) && generateOptions("specialisation")}
             </select>
             <br/>
-            <br/>
+            <br/> */
 
             <label>Your Residential College: {userInput.residence}</label>
             <select
@@ -232,12 +234,13 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Residence
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("residence")}
-              {/* {generateOptions(props.settings.residenceOptions, "residence")} */}
-            {/* </select>
+              {/* {!isEmpty(props.settings.userInfo) && generateOptions("residence")} */}
+              {generateOptions(props.settings.residenceOptions, "residence")}
+            </select>
             <br/>
             <br/>
 
+            /* 
             <label>Year of Matriculation: {userInput.matriculationYear}</label>
             <select
               name="matriculationYear"

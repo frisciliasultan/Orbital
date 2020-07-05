@@ -1,11 +1,31 @@
 import React from "react";
 import SubOptions from "./SubOptions";
-import { generateOptions } from "../utils/commonFunctions";
 
 const Options = (props) => {
+    const generateRecursiveOptions = () => {
+        return optionList.map((option) => {
+            return (
+                <div>
+                    <SubOptions 
+                        name={option.id ? "faculty" : "major"}
+                        label={option.id ? "Your Faculty" : "Your Degree"}
+                        value={faculty}
+                        />
 
+                    {(option.name === faculty && option.majors)}
+
+                    <Options 
+                        optionList={option.undergraduate.degrees}
+                        />
+                    
+                </div>
+            );
+        })
+    }
     return (
-        generateOptions
+        <div>
+        {generateRecursiveOptions()}
+        </div>
     )
 }
 

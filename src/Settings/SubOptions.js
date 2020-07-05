@@ -1,19 +1,20 @@
 import React from "react";
+import { generateOptions } from "../utils/commonFunctions";
 
 const SubOptions = (props) => {
     return (
-        <label>Your Faculty: </label>
+        <label>{props.label + ":"}</label>
+        <select
+            name={props.name}
+            onChange={handleChange}
+            value={props.value}>
+            <option selected disabled>
+                {"Choose " + props.label}
+            </option>
+            {generateOptions(props.settings.facultyOptions, props.name)}
+        </select> 
     )
-    
-        // <select
-        //     name="faculty" 
-        //     onChange={handleChange}
-        //     value={userInput.faculty}>
-        //     <option selected disabled>
-        //         Choose Your Faculty
-        //     </option>
-        //     {generateOptions(props.settings.facultyOptions, "test")}
-        // </select> 
+        
 }
 
 export default SubOptions;

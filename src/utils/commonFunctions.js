@@ -4,7 +4,7 @@ import SubOptions from "../Settings/SubOptions";
 import { Table } from "../Pages/Module Selection Page/Module Table";
 import  YearDisplay  from "../Pages/Module Planner Page/YearDisplay";
 
-export const generateOptions = (optionList, category, index) => {
+export const generateOptions = (optionList, category, faculty, facIndex) => {
     // let value;
 
     // if(category === 'grade') {
@@ -43,22 +43,6 @@ export const generateOptions = (optionList, category, index) => {
             );
         })
     } 
-
-    else if (category === 'test') {
-        return optionList.map((option) => {
-            return (
-                <div>
-                <SubOptions 
-                    name="faculty"
-                    />
-
-                <option value={option.fullName}>
-                    
-                </option>
-                </div>
-            );
-        })
-    }
 
     return optionList.map((option) => {
         return (
