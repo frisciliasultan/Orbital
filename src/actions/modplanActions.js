@@ -23,8 +23,7 @@ export const callBackendAPI = (backend, ulrTag, degreeTag) => dispatch => {
 
     if(backend === 'NUSMods') {
         setAuthToken(false);
-
-        axios.get('s://api.nusmods.com/v2/2018-2019/moduleInfo.json' )
+        axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json' )
         .then(res => dispatch(setModules(res.data)))
         .then(setAuthToken(localStorage.jwtToken))
         .catch(err => {

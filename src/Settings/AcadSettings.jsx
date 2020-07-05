@@ -270,7 +270,8 @@ const handleSubmit = () => {
         {!isEmpty(props.success) && 
                     setTimeout(props.removeSuccess, 500) &&
                     clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        {!isEmpty(props.success) && alert("Saved successfully!")
+        {!isEmpty(props.success) && alert("Saved successfully!") && props.history.push("./module-planner")
+      
                 // <p className="success">
                 //     {props.success}
                 // </p>
