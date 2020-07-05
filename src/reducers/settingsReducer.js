@@ -102,6 +102,7 @@ export default function (state = initialState, action ) {
         case SET_FACULTY_AND_RESIDENCE:
             const { faculties, residences } = action;
             return {
+                ...state,
                 facultyOptions: faculties,
                 residenceOptions: residences
             }
