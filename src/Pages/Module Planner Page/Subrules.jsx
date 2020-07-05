@@ -14,7 +14,11 @@ function Subrules(props) {
     useEffect(() => {
         const callBackendFunc = async (ruleTag) => {
             try{
+<<<<<<< HEAD
                 const link = "http://172.19.162.53:3000/eval/";
+=======
+                const link = "https://modtree-api.netlify.app/.netlify/functions/eval/";
+>>>>>>> working-hosting
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json',

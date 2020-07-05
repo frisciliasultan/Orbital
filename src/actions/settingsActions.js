@@ -18,11 +18,11 @@ export const setUserSettings = (userData) => {
 
 export const initialSettings = () => async dispatch => {
     try {
-        axios.defaults.timeout = 2000;
+        axios.defaults.timeout = 5000;
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
-                        .get('http://172.19.162.53:3000/account')
+                        .get('https://modtree-api.netlify.app/.netlify/functions/account')
                         .then(res => {
                                 dispatch(setUserSettings(res.data))
                             })
@@ -41,7 +41,11 @@ export const initialSettings = () => async dispatch => {
 export const updateSettings = (userData) => dispatch => {
     axios.defaults.timeout = 6000;
     axios
+<<<<<<< HEAD
         .put("http://172.19.162.53:3000/account", userData)
+=======
+        .put("https://modtree-api.netlify.app/.netlify/functions/account", userData)
+>>>>>>> working-hosting
         .then(res => {console.log(res); dispatch(setUserSettings(res.data.updated))})
         .then(res => {
             dispatch({
