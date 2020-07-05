@@ -184,7 +184,8 @@ const handleSubmit = () => {
 
   //if all props of userData is filled, allow user to save
   //else alert popup to redirect user back to filling in their data (TEMPORARY)
-  return checkSubmission(userData) ?  props.updateSettings(userData) : alert("Please fill in all the fields before saving!");
+  props.updateSettings(userData);
+  // return checkSubmission(userData) ?  props.updateSettings(userData) : alert("Please fill in all the fields before saving!");
 
 } 
 
@@ -201,7 +202,7 @@ const handleSubmit = () => {
                 <option selected disabled>
                   Choose Your Faculty
                 </option>
-              {!isEmpty(props.settings.userInfo) && generateOptions("faculty")}
+              {generateOptions("faculty")}
             </select>   
             <br/>
             <br/>
@@ -214,7 +215,7 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Major
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("major") }
+              {generateOptions("major") }
             </select>
             <br/>
             <br/>
@@ -227,7 +228,7 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Specialisation
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("specialisation")}
+              {generateOptions("specialisation")}
             </select>
             <br/>
             <br/>
@@ -240,7 +241,7 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Residence
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("residence")}
+              {generateOptions("residence")}
             </select>
             <br/>
             <br/>
@@ -253,7 +254,7 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Year of Matriculation
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("matriculationYear")}
+              {generateOptions("matriculationYear")}
             </select>
             <br/>
             <br/>
@@ -266,7 +267,7 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Target Graduation Year
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("targetGradYear")}
+              {generateOptions("targetGradYear")}
             </select>
             <br/>
             <br/>

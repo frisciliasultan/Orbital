@@ -21,10 +21,11 @@ export const setCAP = (cap, targetCap) => {
     }
 }
 
-export const setSemesterOptions = (years) => {
+export const setSemesterOptions = (matYear, gradYear) => {
     return {
         type: SET_SEMESTER_OPTIONS,
-        payload: years
+        matYear,
+        gradYear
     }
 }
 
