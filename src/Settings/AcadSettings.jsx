@@ -192,6 +192,9 @@ const handleSubmit = () => {
         <h5>Enter your particulars so that we can personalise your user experience!</h5>
 
         <form>
+          <Options>
+            
+          </Options>
           <label>Your Faculty: {userInput.faculty}</label>
           <select
               name="faculty" 

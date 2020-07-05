@@ -30,7 +30,7 @@ import ServerError from './Pages/Error Page/ServerError';
 import store from './store';
 import { connect } from 'react-redux';
 
-
+import axios from "axios";
 
 let totalGEMMCs = 0;
 
@@ -43,9 +43,25 @@ if (localStorage.jwtToken) {
   // Decode token and get user info and exp
   const decoded = jwt_decode(token);
 
+  // Check for expired token
+  const currentTime = Date.now() / 1000; // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+    // Redirect to login
+    window.location.href = "./login";
+  }
+
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded, false));
 
+  axios
+        .get("http://172.19.162.53:3000/info/faculties")
+        .then(res => {console.log(res); })
+
+        axios
+        .get("http://172.19.162.53:3000/info/residences")
+        .then(res => {console.log(res); })
     
 
     // Set current AY and semester
@@ -69,20 +85,14 @@ if (localStorage.jwtToken) {
     store.dispatch(initialSettings());
 
     
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
+  
 }
 
 const App = (props) => {
   return (
     <div>
-      {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
+      <PrivateNav class="navbar" />
+      {/* {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />} */}
     
       <Switch>
         <Route 

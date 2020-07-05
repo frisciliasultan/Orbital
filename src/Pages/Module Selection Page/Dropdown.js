@@ -1,5 +1,38 @@
 import React from "react";
 
+// getDropdownMCs(MCs) {
+//     totalGEMMCs += MCs
+//     this.setState({totalGEMMCs: totalGEMMCs}, () => this.countModule());
+//   }
+
+// generateDropDown() {
+//     let title;
+//     if(this.state.residence === 'N/A') {
+//       title = <h3>General Elective Modules</h3>;
+//     }  
+      
+//       return (<div>
+//       {title}
+//       {this.state.dummymodules[0].GEMs.map((module, i) => {
+//         const GEMCat = Object.keys(module)[0]
+//         return (
+//         <div>
+//         <Dropdown cat={GEMCat}
+//           title={this.state.GEMTitle}
+//           moduleCat={this.state.moduleCat}
+//           MCTemp={this.state.MCTemp}
+//           sendData={this.getDropdownMCs}
+//           id={"GEM_" + i}
+//           target={"GEM_" + i}
+//         module={this.makeTable('GEM', GEMCat, i)} />
+//         </div>
+//         )
+//       })}
+//         </div>);
+
+    
+  
+//   }
 
 export class Dropdown extends React.Component {
     constructor(props) {
