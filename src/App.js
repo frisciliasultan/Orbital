@@ -55,15 +55,6 @@ if (localStorage.jwtToken) {
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded, false));
 
-  axios
-        .get("http://172.19.162.53:3000/info/faculties")
-        .then(res => {console.log(res); })
-
-        axios
-        .get("http://172.19.162.53:3000/info/residences")
-        .then(res => {console.log(res); })
-    
-
     // Set current AY and semester
     const time = new Date();
     const month = time.getMonth() + 1;
@@ -91,8 +82,8 @@ if (localStorage.jwtToken) {
 const App = (props) => {
   return (
     <div>
-      <PrivateNav class="navbar" />
-      {/* {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />} */}
+      {/* <PrivateNav class="navbar" /> */}
+      {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
     
       <Switch>
         <Route 

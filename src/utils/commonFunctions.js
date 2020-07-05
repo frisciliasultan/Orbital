@@ -1,9 +1,10 @@
 import React from "react";
-import YearDisplay from './YearDisplay';
-import { Table } from './Module Table';
+import Options from "../Settings/Options";
+import SubOptions from "../Settings/SubOptions";
+import { Table } from "../Pages/Module Selection Page/Module Table";
+import  YearDisplay  from "../Pages/Module Planner Page/YearDisplay";
 
-// To generate dropdown options in settings page and CAP Calc page
-export const generateOptions = (optionList, category) => {
+export const generateOptions = (optionList, category, index) => {
     // let value;
 
     // if(category === 'grade') {
@@ -33,7 +34,31 @@ export const generateOptions = (optionList, category) => {
                 </option>
             );
         })
-}
+    } else if (category === 'major') {
+        return optionList.map((option) => {
+            return (
+                <option value={option.name}>
+                {option.name}
+                </option>
+            );
+        })
+    } 
+
+    else if (category === 'test') {
+        return optionList.map((option) => {
+            return (
+                <div>
+                <SubOptions 
+                    name="faculty"
+                    />
+
+                <option value={option.fullName}>
+                    
+                </option>
+                </div>
+            );
+        })
+    }
 
     return optionList.map((option) => {
         return (
@@ -44,7 +69,6 @@ export const generateOptions = (optionList, category) => {
     });
 }
 
-// To update user settings
 export const handleSaveClick = (props) => {
     const userData = {
         modPlan: props.modplan.selectedModules,
