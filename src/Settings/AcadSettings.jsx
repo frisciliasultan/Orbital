@@ -28,17 +28,17 @@ const AcadSettings = (props) => {
     }
   )
 
-  const residenceOptions = ['N/A','CAPT', 'RC4', 'RVRC','Tembusu', 'USP'];
-  const dummyfac = [{'Business': [{'Business Administration': ['A', 'B']},
-                    {'Accountancy': ['C', 'D']}]},
-                  {'FASS': [{'C': ['N/A']},
-                  {'D': ['N/A']}]},
-                  {
-                  'Computing': [
-                        {'Computer Science': ['N/A']},
-                        {'Business Analytics': ['N/A']}
-                  ] 
-  }];
+  // const residenceOptions = ['N/A','CAPT', 'RC4', 'RVRC','Tembusu', 'USP'];
+  // const dummyfac = [{'Business': [{'Business Administration': ['A', 'B']},
+  //                   {'Accountancy': ['C', 'D']}]},
+  //                 {'FASS': [{'C': ['N/A']},
+  //                 {'D': ['N/A']}]},
+  //                 {
+  //                 'Computing': [
+  //                       {'Computer Science': ['N/A']},
+  //                       {'Business Analytics': ['N/A']}
+  //                 ] 
+  // }];
 
   useEffect(() => {
     if(isEmpty(props.settings.facultyOptions)) {
@@ -87,68 +87,67 @@ const AcadSettings = (props) => {
   };
 
  //turn array of choices into options dropdown
-  const generateOptions = (choices) => {
-    let facIndex = userInput.facIndex;
-  if(choices === 'faculty'){
-    return dummyfac.map((obj) => {
-      return (
-      <option value={Object.keys(obj)}>
-        {Object.keys(obj)}
-      </option>
-      );
-    });
-  } else if(choices === 'major') {
-      if(userInput.faculty) {
-      return dummyfac
-            [facIndex]
-            [userInput.faculty].map((obj) => {
-                    return (
-                      <option value={Object.keys(obj)}>
-                        {Object.keys(obj)}
-                      </option>
-                    )
-                }
-      )}
-    } else if(choices === 'specialisation') {
-        if(userInput.major && userInput.faculty) {
-        return dummyfac
-              [facIndex]
-              [userInput.faculty][userInput.majorIndex][userInput.major].map((item) => {
-                    return (
-                      <option>
-                        {item}
-                      </option>
-                    )
-                  }    
-        )}
-    } else if(choices === 'residence') {
-      return residenceOptions.map((obj) => {
-        return (
-        <option value={obj}>
-          {obj}
-        </option>
-        );
-      });
-    } else {
-        if(choices === 'matriculationYear') {
-          return props.settings.matriculationOptions.map((option) => {
-            return (
-            <option value={option.substr(3,9)}>
-              {option}
-            </option>
-            );
-          });
-        } else {
-            return props.settings.targetGradOptions.map((option) => {
-              return (
-              <option value={option.substr(6,9)}>
-                {option}
-              </option>
-              );
-            });
-          }
-      }
-}
+//   const generateOptions = (choices) => {
+//     if(choices === 'faculty'){
+//       return props.settings.facultyOptions.map((obj) => {
+//         return (
+//         <option value={Object.keys(obj)}>
+//           {Object.keys(obj)}
+//         </option>
+//         );
+//       });
+//     } else if(choices === 'major') {
+//         if(userInput.faculty) {
+//         return dummyfac
+//               [facIndex]
+//               [userInput.faculty].map((obj) => {
+//                       return (
+//                         <option value={Object.keys(obj)}>
+//                           {Object.keys(obj)}
+//                         </option>
+//                       )
+//                   }
+//         )}
+//     } else if(choices === 'specialisation') {
+//         if(userInput.major && userInput.faculty) {
+//         return dummyfac
+//               [facIndex]
+//               [userInput.faculty][userInput.majorIndex][userInput.major].map((item) => {
+//                     return (
+//                       <option>
+//                         {item}
+//                       </option>
+//                     )
+//                   }    
+//         )}
+//     } else if(choices === 'residence') {
+//       return residenceOptions.map((obj) => {
+//         return (
+//         <option value={obj}>
+//           {obj}
+//         </option>
+//         );
+//       });
+//     } else {
+//         if(choices === 'matriculationYear') {
+//           return props.settings.matriculationOptions.map((option) => {
+//             return (
+//             <option value={option.substr(3,9)}>
+//               {option}
+//             </option>
+//             );
+//           });
+//         } else {
+//             return props.settings.targetGradOptions.map((option) => {
+//               return (
+//               <option value={option.substr(6,9)}>
+//                 {option}
+//               </option>
+//               );
+//             });
+//           }
+//       }
+// }
 
 //Check if there is any part of userData that is undefined/falsy
 const checkSubmission = (userData) => {
@@ -201,7 +200,8 @@ const handleSubmit = () => {
                 <option selected disabled>
                   Choose Your Faculty
                 </option>
-              {!isEmpty(props.settings.userInfo) && generateOptions("faculty")}
+              {/* {!isEmpty(props.settings.userInfo) && generateOptions(props.settings.facultyOptions, "faculty")} */}
+              {generateOptions(props.settings.facultyOptions, "faculty")}
             </select>   
             <br/>
             <br/>
@@ -240,7 +240,8 @@ const handleSubmit = () => {
                 (<option selected disabled>
                   Choose Your Residence
                 </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("residence")}
+              {/* {!isEmpty(props.settings.userInfo) && generateOptions("residence")} */}
+              {generateOptions(props.settings.residenceOptions, "residence")}
             </select>
             <br/>
             <br/>

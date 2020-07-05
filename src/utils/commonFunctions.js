@@ -1,6 +1,11 @@
 import React from "react";
 
 export const generateOptions = (optionList, category) => {
+    // let value;
+
+    // if(category === 'grade') {
+    //     value = option.grade;
+    // }
     if(category === "grade") {
         return optionList.map((option) => {
             return (
@@ -9,7 +14,23 @@ export const generateOptions = (optionList, category) => {
                 </option>
             );
         })
-    }
+    } else if (category === 'faculty') {
+            return optionList.map((option) => {
+                return (
+                    <option value={option.name}>
+                    {option.name}
+                    </option>
+                );
+            })
+    } else if (category === 'residence') {
+        return optionList.map((option) => {
+            return (
+                <option value={option.fullName}>
+                {option.fullName}
+                </option>
+            );
+        })
+}
 
     return optionList.map((option) => {
         return (
