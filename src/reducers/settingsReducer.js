@@ -3,13 +3,16 @@ import {
     SET_CURRENT_SEMESTER,
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
-    CLEAN_UP_SETTINGS
+    CLEAN_UP_SETTINGS,
+    SET_FACULTY_AND_RESIDENCE
 } from "../actions/types";
 
 const initialState = {
     currentAY: null,
     currentSemester: null,
     month: null,
+    facultyOptions: [],
+    residenceOptions: [],
     matriculationOptions:[],
     targetGradOptions: [],
     userInfo: {}
@@ -94,6 +97,13 @@ export default function (state = initialState, action ) {
             return{
                 ...state,
                 targetGradOptions: targetGradOptions    
+            }
+        
+        case SET_FACULTY_AND_RESIDENCE:
+            const { faculties, residences } = action;
+            return {
+                facultyOptions: faculties,
+                residenceOptions: residences
             }
         
         case CLEAN_UP_SETTINGS:

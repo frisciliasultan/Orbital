@@ -4,7 +4,8 @@ import {
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
-    GET_SUCCESS
+    GET_SUCCESS,
+    SET_FACULTY_AND_RESIDENCE
 } from "./types";
 import { setUserLoading } from "./authActions";
 import axios from "axios";
@@ -39,7 +40,7 @@ export const initialSettings = () => async dispatch => {
 }
 
 export const updateSettings = (userData) => dispatch => {
-    axios.defaults.timeout = 6000;
+    axios.defaults.timeout = 5000;
     axios
         .put("https://modtree-api.netlify.app/.netlify/functions/account", userData)
         .then(res => {console.log(res); dispatch(setUserSettings(res.data.updated))})
@@ -88,6 +89,30 @@ export const cleanUpSettings = () => {
         type: CLEAN_UP_SETTINGS
     }
 }
+
+export const setDegreeOptions = () => dispatch => {
+    axios.defaults.timeout = 5000;
+    axios.all([
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/faculties'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/residences')
+    ])
+    .then(resArr => {
+            dispatch(setFacultyAndResidence(res.data[0], res.data[1]);
+        }) 
+    .catch(err => {
+        console.log(err)
+    });
+}
+
+export const setFacultyAndResidence(faculties, residences) {
+    return {
+        type: SET_FACULTY_AND_RESIDENCE,
+        faculties, 
+        residences
+    }
+}
+
+
 //turn array of choices into options dropdown
 // export const generateOptions = (optionList, category,) {
 

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions } from "../actions/settingsActions";
+import { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions } from "../actions/settingsActions";
 import { deleteUser } from "../actions/authActions";
 import { removeSuccess } from "../actions/successActions";
 import isEmpty from "is-empty";
@@ -39,6 +39,12 @@ const AcadSettings = (props) => {
                         {'Business Analytics': ['N/A']}
                   ] 
   }];
+
+  useEffect(() => {
+    if(isEmpty(props.settings.facultyOptions)) {
+        props.setDegreeOptions();
+    }
+  }, []);
 
   useEffect(() => {
     if(props.settings.currentAY && isEmpty(props.settings.matriculationOptions)) {
@@ -270,7 +276,7 @@ const handleSubmit = () => {
         {!isEmpty(props.success) && 
                     setTimeout(props.removeSuccess, 500) &&
                     clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        {!isEmpty(props.success) && alert("Saved successfully!")
+        {!isEmpty(props.success) && props.history.push("/module-planner")
                 // <p className="success">
                 //     {props.success}
                 // </p>
@@ -290,6 +296,7 @@ AcadSettings.propTypes = {
   updateSettings: PropTypes.func.isRequired,
   setMatriculationYearOptions: PropTypes.func.isRequired,
   setTargetGradYearOptions: PropTypes.func.isRequired,
+  setDegreeOptions: PropTypes.func.isRequired,
   removeSuccess: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   modplan: PropTypes.object.isRequired,
@@ -305,4 +312,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, 
-  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, removeSuccess, deleteUser }) (AcadSettings);
+  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions, removeSuccess, deleteUser }) (AcadSettings);
