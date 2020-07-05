@@ -97,14 +97,14 @@ export const setDegreeOptions = () => dispatch => {
         axios.get('https://modtree-api.netlify.app/.netlify/functions/info/residences')
     ])
     .then(resArr => {
-            dispatch(setFacultyAndResidence(res.data[0], res.data[1]);
+            dispatch(setFacultyAndResidence(resArr[0].data, resArr[1].data));
         }) 
     .catch(err => {
         console.log(err)
     });
 }
 
-export const setFacultyAndResidence(faculties, residences) {
+export const setFacultyAndResidence = (faculties, residences) => {
     return {
         type: SET_FACULTY_AND_RESIDENCE,
         faculties, 
