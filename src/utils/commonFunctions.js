@@ -1,56 +1,62 @@
 import React from "react";
-import Options from "../Settings/Options";
-import SubOptions from "../Settings/SubOptions";
 import { Table } from "../Pages/Module Selection Page/Module Table";
 import  YearDisplay  from "../Pages/Module Planner Page/YearDisplay";
 
-export const generateOptions = (optionList, category, faculty, facIndex) => {
-    // let value;
-
-    // if(category === 'grade') {
-    //     value = option.grade;
-    // }
-    if(category === "grade") {
-        return optionList.map((option) => {
-            return (
-                <option value={option.grade}>
-                {option.grade}
-                </option>
-            );
-        })
-    } else if (category === 'faculty') {
+export const generateOptions = (optionList, category) => {
+    if(optionList) {
+        if(category === "grade") {
             return optionList.map((option) => {
                 return (
-                    <option value={option.name}>
-                    {option.name}
+                    <option value={option.grade}>
+                    {option.grade}
                     </option>
                 );
             })
-    } else if (category === 'residence') {
+        } else if (category === 'faculty') {
+                return optionList.map((option) => {
+                    return (
+                        <option key={option.name} value={option.name}>
+                        {option.name}
+                        </option>
+                    );
+                })
+        } else if (category === 'major' || category === "specialisation" 
+                    || category === "secondMajor" || category === "minor" 
+                        || category === "residence"
+                        ) {
+            return optionList.map((option) => {
+                return (
+                    <option key={option.fullName} value={option.fullName}>
+                    {option.fullName}
+                    </option>
+                );
+            })
+        } else if (category === 'matriculationYear') {
+            return optionList.map((option) => {
+                return (
+                    <option key={option.substr(3,9)} value={option.substr(3,9)}>
+                    {option}
+                    </option>
+                );
+            })
+        } else if (category === 'targetGradYear') {
+            return optionList.map((option) => {
+                return (
+                    <option key={option.substr(6,9)} value={option.substr(6,9)}>
+                    {option}
+                    </option>
+                );
+            })
+        } 
+    
         return optionList.map((option) => {
             return (
-                <option value={option.fullName}>
-                {option.fullName}
-                </option>
-            );
-        })
-    } else if (category === 'major') {
-        return optionList.map((option) => {
-            return (
-                <option value={option.name}>
+                <option value={option}>
                 {option.name}
                 </option>
             );
-        })
-    } 
-
-    return optionList.map((option) => {
-        return (
-            <option value={option}>
-            {option}
-            </option>
-        );
-    });
+        });
+    }
 }
 
 export const handleSaveClick = (props) => {

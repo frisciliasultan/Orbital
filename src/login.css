@@ -6,13 +6,13 @@
 
 body {
 	background: #f6f5f7;
-	/* display: flex; */
+	/* display: flex;
 	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+	align-items: center; */
+	/* flex-direction: column; */
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin: -20px 0 50px;
+	margin: 0;
 }
 
 h1 {
@@ -280,6 +280,54 @@ footer a {
 }
 
 /* Settings */
+body.settings {
+	display: flex;
+	justify-content: flex-start;
+	/* align-content: flex-start; */
+	align-items: flex-start; 
+	height: 100vh;
+}
+
+.sidenav h1 {
+	margin: 20px 10px 20px;
+	font-size: 30px;
+	line-height: 37px;
+	font-weight: 600;
+	align-self: flex-start;
+}
+.sidenav {
+	height: 100%;
+	width: 250px;
+	position: sticky;
+	left: 0px;
+	top: 60px;
+	background-color: #FFFFFF;
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+
+}
+
+.navlink-area{
+	height: 7%;
+	width: 100%;
+	margin: 0;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-style: solid;
+	background-color: #FFFFFF;
+}
+
+.navlink-area .navlink {
+	color: black;
+	margin-left: 40px;
+
+}
+
+.navlink-area i {
+	margin: 10px;
+}
+
 #delete {
 	background-color: #de4949;
 	border: none;

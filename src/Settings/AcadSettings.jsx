@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useReducer} from 'react';
-import Options from '../Settings/Options';
+import Options from './Options';
+import DegreeSettings from "./DegreeSettings";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import { Button } from 'react-bootstrap';
@@ -21,12 +22,16 @@ const AcadSettings = (props) => {
       facIndex: props.userInfo.facIndex,
       major: props.userInfo.major,
       majorIndex: props.userInfo.majorIndex,
-      specialisation: props.userInfo.specialisation,
+      specialisation: "N/A",
+      secondMajor: "N/A",
+      minor: "N/A",
       residence: props.userInfo.residential,
       matriculationYear: props.userInfo.matriculationYear,
       targetGradYear: props.userInfo.targetGradYear
     }
   )
+
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if(isEmpty(props.settings.facultyOptions)) {
@@ -42,19 +47,21 @@ const AcadSettings = (props) => {
   }, [props.settings.currentAY]);
 
   useEffect(() => {
-    if(!isEmpty(props.settings.userInfo)) {
+    if(!isEmpty(props.userInfo)) {
       setUserInput({
         faculty: props.userInfo.faculty,
         facIndex: props.userInfo.facIndex,
         major: props.userInfo.major,
         majorIndex: props.userInfo.majorIndex,
-        specialisation: props.userInfo.specialisation,
+        specialisation: props.userInfo.specialisation ? props.userInfo.specialisation : "N/A",
+        secondMajor: props.userInfo.secondMajor ? props.userInfo.secondMajor : "N/A",
+        minor: props.userInfo.minor ? props.userInfo.minor : "N/A",
         residence: props.userInfo.residential,
         matriculationYear: props.userInfo.matriculationYear,
         targetGradYear: props.userInfo.targetGradYear
       });
     }
-  }, [props.settings.userInfo]);
+  }, [props.userInfo]);
 
   const handleChange = (e) => {
     const {name, value, selectedIndex} = e.target;
@@ -71,72 +78,8 @@ const AcadSettings = (props) => {
     } else {
       setUserInput({[name]: value});
     } 
-    console.log(userInput.facIndex);
   };
 
- //turn array of choices into options dropdown
-  // const generateOptions = (choices) => {
-  //   const facIndex = userInput.facIndex;
-  //   if(choices === 'faculty'){
-  //     return props.settings.facultyOptions.map((obj) => {
-  //       return (
-  //       <option value={obj.name}>
-  //         {obj.name}
-  //       </option>
-  //       );
-  //     });
-    // } else if(choices === 'major') {
-    //     if(userInput.faculty) {
-    //     return props.settings.facultyOptions
-    //           [facIndex]
-    //           [userInput.faculty].map((obj) => {
-    //                   return (
-    //                     <option value={Object.keys(obj)}>
-    //                       {Object.keys(obj)}
-    //                     </option>
-    //                   )
-    //               }
-    //     )}
-    // } else if(choices === 'specialisation') {
-    //     if(userInput.major && userInput.faculty) {
-    //     return props.settings.facultyOptions
-    //           [facIndex]
-    //           [userInput.faculty][userInput.majorIndex][userInput.major].map((item) => {
-    //                 return (
-    //                   <option>
-    //                     {item}
-    //                   </option>
-    //                 )
-    //               }    
-    //     )}
-//     } else if(choices === 'residence') {
-//       return props.settings.residenceOptions.map((obj) => {
-//         return (
-//         <option value={obj}>
-//           {obj}
-//         </option>
-//         );
-//       });
-//     } else {
-//         if(choices === 'matriculationYear') {
-//           return props.settings.matriculationOptions.map((option) => {
-//             return (
-//             <option value={option.substr(3,9)}>
-//               {option}
-//             </option>
-//             );
-//           });
-//         } else {
-//             return props.settings.targetGradOptions.map((option) => {
-//               return (
-//               <option value={option.substr(6,9)}>
-//                 {option}
-//               </option>
-//               );
-//             });
-//           }
-//       }
-// }
 
 //Check if there is any part of userData that is undefined/falsy
 const checkSubmission = (userData) => {
@@ -162,6 +105,8 @@ const handleSubmit = () => {
     major: userInput.major,
     majorIndex: userInput.majorIndex,
     specialisation: userInput.specialisation,
+    secondMajor: userInput.secondMajor,
+    minor: userInput.minor,
     residential: userInput.residence,
     matriculationYear: userInput.matriculationYear,
     targetGradYear: userInput.targetGradYear,
@@ -173,117 +118,80 @@ const handleSubmit = () => {
   //if all props of userData is filled, allow user to save
   //else alert popup to redirect user back to filling in their data (TEMPORARY)
   return checkSubmission(userData) ?  props.updateSettings(userData) : alert("Please fill in all the fields before saving!");
-
 } 
 
   return (
-      <div className="container">
+      <body className="settings">
+        <div className="sidenav">
+          <h1>Settings</h1>
+          <div className="navlink-area">
+            <i className="fas fa-user"/>
+            <Link to="./settings/profile" className="navlink">Profile</Link>
+          </div>
+
+          <div className="navlink-area">
+            <i className="fas fa-graduation-cap"/>
+            <Link to="./settings/academics" className="navlink">Academics</Link>
+          </div>
+
+          <div className="navlink-area">
+            <i className="fas fa-user"/>
+            <Link to="./settings/account" className="navlink">Account</Link>
+          </div>
+        </div>
+      {/* <div className="container">
         <h5>Enter your particulars so that we can personalise your user experience!</h5>
 
         <form>
-          <Options
-            category="faculty"
-            faculty={userInput.faculty}
-            handleChange={handleChange}/>
-
-          <label>Your Faculty: {userInput.faculty}</label>
-          <select
-              name="faculty" 
-              onChange={handleChange}
-              defaultValue={userInput.faculty}>
-                <option selected disabled>
-                  Choose Your Faculty
-                </option>
-              {/* {!isEmpty(props.settings.userInfo) && generateOptions("faculty")} */}
-              {generateOptions(props.settings.facultyOptions, "faculty")}
-            </select>   
-            <br/>
-            <br/>
-
-            {/* <label>Your Major: {userInput.major}</label>
-            <select
-              name="major"
-              onChange={handleChange}
-              value={userInput.major}>
-                (<option selected disabled>
-                  Choose Your Major
-                </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("major") }
-            </select>
-            <br/>
-            <br/>
-
-            <label>Your Specialisation: {userInput.specialisation}  </label>
-            <select
-              name="specialisation"
-              onChange={handleChange}
-              value={userInput.specialisation}>
-                (<option selected disabled>
-                  Choose Your Specialisation
-                </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("specialisation")}
-            </select>
-            <br/>
-            <br/> */
-
-            <label>Your Residential College: {userInput.residence}</label>
-            <select
+          <DegreeSettings
+            status="first"
+            userInput={userInput}
+            handleChange={handleChange}
+            facultyOptions={props.settings.facultyOptions}
+            />
+          
+          <p onClick={() => setIsOpen(!isOpen)}>Add Second Degree</p>
+            {isOpen && 
+              (<DegreeSettings
+                status="second"
+                userInput={userInput}
+                handleChange={handleChange}
+                facultyOptions={props.settings.facultyOptions}
+                />)}
+         
+            <Options
+              label="Your Residential College: "
+              handleChange={handleChange}
               name="residence"
-              onChange={handleChange}
-              value={userInput.residence}>
-                (<option selected disabled>
-                  Choose Your Residence
-                </option>)
-              {/* {!isEmpty(props.settings.userInfo) && generateOptions("residence")} */}
-              {generateOptions(props.settings.residenceOptions, "residence")}
-            </select>
-            <br/>
-            <br/>
-
-            /* 
-            <label>Year of Matriculation: {userInput.matriculationYear}</label>
-            <select
+              value={userInput.residence}
+              optionList={props.settings.residenceOptions}/>
+            
+            <Options
+              label="Year of Matriculation: "
+              handleChange={handleChange}
               name="matriculationYear"
-              onChange={handleChange}
-              value={userInput.matriculationYear}>
-                (<option selected disabled>
-                  Choose Your Year of Matriculation
-                </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("matriculationYear")}
-            </select>
-            <br/>
-            <br/>
+              value={userInput.matriculationYear}
+              optionList={props.settings.matriculationOptions}/>
 
-            <label>Target Graduation Year: {userInput.targetGradYear}</label>
-            <select
+            <Options
+              label="Target Graduation Year: "
+              handleChange={handleChange}
               name="targetGradYear"
-              onChange={handleChange}
-              value={userInput.targetGradYear}>
-                (<option selected disabled>
-                  Choose Your Target Graduation Year
-                </option>)
-              {!isEmpty(props.settings.userInfo) && generateOptions("targetGradYear")}
-            </select>
-            <br/>
-            <br/> */} 
-                      </form>
+              value={userInput.targetGradYear}
+              optionList={props.settings.targetGradOptions}/>
+            
+          </form>
 
         <Button className='button' id='save' onClick={() => handleSubmit()}>Save Settings</Button>
         {!isEmpty(props.success) && 
-                    setTimeout(props.removeSuccess, 500) &&
+                    setTimeout(props.history.push("/module-planner"), 500) &&
                     clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        {!isEmpty(props.success) && props.history.push("/module-planner")
-                // <p className="success">
-                //     {props.success}
-                // </p>
-                
-                }
-                
-               
+        {!isEmpty(props.success) && alert("Saved successfully!") && props.history.push("/module-planner")}
 
         <Button className='button' id='delete' onClick={() => props.deleteUser()}>Delete Account</Button>
         
-      </div>
+      </div> */}
+      </body>
   );
 }
 
@@ -296,10 +204,11 @@ AcadSettings.propTypes = {
   removeSuccess: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   modplan: PropTypes.array.isRequired,
-  settings: PropTypes.object.isRequired
+  settings: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
+  loading: state.auth.loading,
   modplan: state.modplan.selectedModules,
   settings: state.settings,
   userInfo: state.settings.userInfo,

@@ -35,7 +35,7 @@ const Register = (props) => {
         };  
         props.loginUser(userData, true, false)
       } 
-       else if (!props.auth.loading) {
+       else if (props.auth.isAuthenticated && !props.auth.loading) {
         props.history.push('/settings/academics');
       }
     }
