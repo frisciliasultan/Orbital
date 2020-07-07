@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useReducer} from 'react';
+import SideNav from "./SideNav";
 import Options from './Options';
 import DegreeSettings from "./DegreeSettings";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { Button } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions } from "../actions/settingsActions";
@@ -32,6 +33,7 @@ const AcadSettings = (props) => {
   )
 
   const [isOpen, setIsOpen] = useState(false);
+  const [generalEditing, setGeneralEditing] = useState(false)
 
   useEffect(() => {
     if(isEmpty(props.settings.facultyOptions)) {
@@ -121,25 +123,67 @@ const handleSubmit = () => {
 } 
 
   return (
-      <body className="settings">
-        <div className="sidenav">
-          <h1>Settings</h1>
-          <div className="navlink-area">
-            <i className="fas fa-user"/>
-            <Link to="./settings/profile" className="navlink">Profile</Link>
-          </div>
+    <div className="settings">
+      <SideNav active="academics"/>
+      
+      <div className="acad-settings">
+        <h1>Academic Settings</h1>
 
-          <div className="navlink-area">
-            <i className="fas fa-graduation-cap"/>
-            <Link to="./settings/academics" className="navlink">Academics</Link>
-          </div>
+        <Card id="general-acad">
+          <Card.Header className="card-header">General Academic Settings</Card.Header>
+          <table className="table settings-table" id="general-acad-table">
+            <tbody>
+              <Options
+                label="Residential College : "
+                handleChange={handleChange}
+                name="residence"
+                value={userInput.residence}
+                editing={generalEditing}
+                optionList={props.settings.residenceOptions}/>
+              
+              <Options
+                label="Matriculation Year : "
+                handleChange={handleChange}
+                name="matriculationYear"
+                value={userInput.matriculationYear}
+                editing={generalEditing}
+                optionList={props.settings.matriculationOptions}/>
 
-          <div className="navlink-area">
-            <i className="fas fa-user"/>
-            <Link to="./settings/account" className="navlink">Account</Link>
-          </div>
-        </div>
-      {/* <div className="container">
+              <Options
+                label="Graduation Year : "
+                handleChange={handleChange}
+                name="targetGradYear"
+                value={userInput.targetGradYear}
+                editing={generalEditing}
+                optionList={props.settings.targetGradOptions}/>
+            </tbody>
+          </table>
+          
+            <button className="button settings-button" onClick={() => setGeneralEditing(!generalEditing)}>{generalEditing ? "Save Settings" : "Edit Settings"}</button>
+        </Card> 
+
+        <div className="container" id="degree-settings">
+          <h2>Degree Settings</h2>
+          <DegreeSettings
+            status="first"
+            userInput={userInput}
+            handleChange={handleChange}
+            facultyOptions={props.settings.facultyOptions}
+            />
+          
+          <p onClick={() => setIsOpen(!isOpen)}>Add Second Degree</p>
+            {isOpen && 
+              (<DegreeSettings
+                status="second"
+                userInput={userInput}
+                handleChange={handleChange}
+                facultyOptions={props.settings.facultyOptions}
+                />)}
+        </div> 
+      </div>
+    </div>
+      
+      /* <div className="container">
         <h5>Enter your particulars so that we can personalise your user experience!</h5>
 
         <form>
@@ -190,8 +234,8 @@ const handleSubmit = () => {
 
         <Button className='button' id='delete' onClick={() => props.deleteUser()}>Delete Account</Button>
         
-      </div> */}
-      </body>
+      </div> */
+      // </body>
   );
 }
 

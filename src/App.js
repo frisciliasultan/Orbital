@@ -15,6 +15,8 @@ import { PublicNav } from './Components/Navbar/PublicNav';
 import  ModulePlannerPageTemp  from "./Pages/Module Planner Page/ModulePlannerPage";
 import  CAPCalculatorPage  from "./Pages/CAP Calculator Page/CAPCalculatorPage";
 import AcadSettings from './Settings/AcadSettings';
+import ProfileSettings from "./Settings/ProfileSettings";
+import AcccountSettings from "./Settings/AccountSettings";
 
 import PrivateRoute from './Components/PrivateRoute';
 import jwt_decode from "jwt-decode";
@@ -31,6 +33,8 @@ import store from './store';
 import { connect } from 'react-redux';
 
 import axios from "axios";
+import SettingsPage from './Settings/SettingsPage';
+import AccountSettings from './Settings/AccountSettings';
 
 let totalGEMMCs = 0;
 
@@ -113,7 +117,20 @@ const App = (props) => {
         <PrivateRouteTemp 
             exact path="/settings/academics" 
             type="settings"
+            active="academics"
             component={AcadSettings} /> 
+        
+        <PrivateRouteTemp 
+            exact path="/settings/profile" 
+            type="settings"
+            active="profile"
+            component={ProfileSettings} /> 
+        
+        <PrivateRouteTemp 
+            exact path="/settings/account" 
+            type="settings"
+            active="account"
+            component={AccountSettings} /> 
 
         <Route 
           exact path="/500-error" 

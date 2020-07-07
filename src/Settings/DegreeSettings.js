@@ -4,21 +4,22 @@ import HiddenOptions from "./HiddenOptions";
 import isEmpty from "is-empty";
 
 const DegreeSettings = (props) => {
-    // const status = props.status[0].toUpperCase() + props.status.slice(1);
 
     return (
         <div>
             {!isEmpty(props.facultyOptions) && (
                 <Options
+                status={props.status}
                 label={props.status === "first" ? "Your Faculty: " : `Your ${props.status} Faculty: `}
                 handleChange={props.handleChange}
-                name={`${props.status} faculty"`}
+                name={"faculty"}
                 value={props.userInput.faculty}
                 optionList={props.facultyOptions}/>)}
           
             {props.userInput.faculty && !isEmpty(props.facultyOptions) && (
                 <div>
                     <Options
+                        status={props.status}
                         label="Your Degree: "
                         handleChange={props.handleChange}
                         name="major"
@@ -28,6 +29,7 @@ const DegreeSettings = (props) => {
                                 : null}/>
 
                     <HiddenOptions 
+                        status={props.status}
                         title="Add Specialisation"
                         label="Your Specialisation: "
                         handleChange={props.handleChange}
@@ -36,6 +38,7 @@ const DegreeSettings = (props) => {
                         optionList={props.userInput.major && props.facultyOptions[props.userInput.facIndex].undergraduate.degrees}/>
 
                     <HiddenOptions 
+                        status={props.status}
                         title="Add Second Major"
                         label="Your Second Major: "
                         handleChange={props.handleChange}
@@ -44,6 +47,7 @@ const DegreeSettings = (props) => {
                         optionList={props.facultyOptions[props.userInput.facIndex].undergraduate.secondMajors}/>
                     
                     <HiddenOptions 
+                        status={props.status}
                         title="Add Minor"
                         label="Your Minor: "
                         handleChange={props.handleChange}
