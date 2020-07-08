@@ -7,7 +7,9 @@ import axios from "axios";
 import { Button, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions } from "../actions/settingsActions";
+import { updateSettings, setMatriculationYearOptions,
+  setTargetGradYearOptions, setDegreeOptions,
+  setEditAll } from "../actions/settingsActions";
 import { deleteUser } from "../actions/authActions";
 import { removeSuccess } from "../actions/successActions";
 import isEmpty from "is-empty";
@@ -16,6 +18,7 @@ import { generateOptions } from '../utils/commonFunctions';
 
 
 const AcadSettings = (props) => {
+  
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({...state, ...newState}), 
     {
@@ -30,10 +33,10 @@ const AcadSettings = (props) => {
       matriculationYear: props.userInfo.matriculationYear,
       targetGradYear: props.userInfo.targetGradYear
     }
-  )
+  );
 
   const [isOpen, setIsOpen] = useState(false);
-  const [generalEditing, setGeneralEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if(isEmpty(props.settings.facultyOptions)) {
@@ -83,45 +86,69 @@ const AcadSettings = (props) => {
   };
 
 
-//Check if there is any part of userData that is undefined/falsy
-const checkSubmission = (userData) => {
-  const keys = Object.keys(userData);
-  let status;
+  //Check if there is any part of userData that is undefined/falsy
+  const checkSubmission = (userData) => {
+    const keys = Object.keys(userData);
+    let status;
 
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    status = (userData[key] || userData[key] === 0) ? true : false;
-    console.log(status);
-    console.log(userData[key]);
-    if(!status) {
-      return status = false;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      status = (userData[key] || userData[key] === 0) ? true : false;
+      console.log(status);
+      console.log(userData[key]);
+      if(!status) {
+        return status = false;
+      }
     }
+    return status;
   }
-  return status;
-}
 
-const handleSubmit = () => {
-  const userData = {
-    faculty: userInput.faculty,
-    facIndex: userInput.facIndex,
-    major: userInput.major,
-    majorIndex: userInput.majorIndex,
-    specialisation: userInput.specialisation,
-    secondMajor: userInput.secondMajor,
-    minor: userInput.minor,
-    residential: userInput.residence,
-    matriculationYear: userInput.matriculationYear,
-    targetGradYear: userInput.targetGradYear,
-    modPlan: props.modplan,
-    cap: props.cap.cap,
-    targetCap: props.cap.targetCap
-  }
+  const handleSubmit = () => {
+    const userData = {
+      faculty: userInput.faculty,
+      facIndex: userInput.facIndex,
+      major: userInput.major,
+      majorIndex: userInput.majorIndex,
+      specialisation: userInput.specialisation,
+      secondMajor: userInput.secondMajor,
+      minor: userInput.minor,
+      residential: userInput.residence,
+      matriculationYear: userInput.matriculationYear,
+      targetGradYear: userInput.targetGradYear,
+      modPlan: props.modplan,
+      cap: props.cap.cap,
+      targetCap: props.cap.targetCap
+    }
 
   //if all props of userData is filled, allow user to save
   //else alert popup to redirect user back to filling in their data (TEMPORARY)
-  return checkSubmission(userData) ?  props.updateSettings(userData) : alert("Please fill in all the fields before saving!");
+  if(checkSubmission(userData)) {
+    props.updateSettings(userData);
+  } else {
+    alert("Please fill in all the fields before saving!");
+  }
 } 
 
+  const presentButton = () => {
+    if(!props.settings.editAll) {
+      if(!isEditing) {
+        return <button 
+          className="button settings-button" 
+          onClick={() => setIsEditing(true)}>
+              Edit Settings
+        </button>
+      } else {
+        return <button 
+          className="button settings-button" 
+          onClick={() => {
+            handleSubmit();
+            setIsEditing(false);}}>
+            Save Settings
+        </button>
+      }
+    }
+  }
+    
   return (
     <div className="settings">
       <SideNav active="academics"/>
@@ -129,16 +156,16 @@ const handleSubmit = () => {
       <div className="acad-settings">
         <h1>Academic Settings</h1>
 
-        <Card id="general-acad">
+        <Card classname="container" id="general-acad">
           <Card.Header className="card-header">General Academic Settings</Card.Header>
-          <table className="table settings-table" id="general-acad-table">
+          <table className="table settings-table table-hover" id="general-acad-table">
             <tbody>
               <Options
                 label="Residential College : "
                 handleChange={handleChange}
                 name="residence"
                 value={userInput.residence}
-                editing={generalEditing}
+                editing={isEditing || props.settings.editAll}
                 optionList={props.settings.residenceOptions}/>
               
               <Options
@@ -146,7 +173,7 @@ const handleSubmit = () => {
                 handleChange={handleChange}
                 name="matriculationYear"
                 value={userInput.matriculationYear}
-                editing={generalEditing}
+                editing={isEditing || props.settings.editAll}
                 optionList={props.settings.matriculationOptions}/>
 
               <Options
@@ -154,85 +181,37 @@ const handleSubmit = () => {
                 handleChange={handleChange}
                 name="targetGradYear"
                 value={userInput.targetGradYear}
-                editing={generalEditing}
+                editing={isEditing || props.settings.editAll}
                 optionList={props.settings.targetGradOptions}/>
             </tbody>
           </table>
-          
-            <button className="button settings-button" onClick={() => setGeneralEditing(!generalEditing)}>{generalEditing ? "Save Settings" : "Edit Settings"}</button>
+
+          {presentButton()}
         </Card> 
 
         <DegreeSettings
           status="first"
           userInput={userInput}
           handleChange={handleChange}
-          facultyOptions={props.settings.facultyOptions}
+          handleSubmit={handleSubmit}
         />
-          
-          <p onClick={() => setIsOpen(!isOpen)}>Add Second Degree</p>
-            {isOpen && 
-              (<DegreeSettings
-                status="second"
-                userInput={userInput}
-                handleChange={handleChange}
-                facultyOptions={props.settings.facultyOptions}
-                />)} 
+
+      {!props.settings.editAll 
+        ? <button 
+            className="button settings-button" id="all-settings"
+            onClick={() => props.setEditAll(true)}>
+                Edit All Settings
+          </button>
+        : <button 
+            className="button settings-button" id="all-settings"
+            onClick={() => {
+                handleSubmit();
+                props.setEditAll(false);}}>
+              Save All Settings
+          </button>
+      }
       </div>
     </div>
-      
-      /* <div className="container">
-        <h5>Enter your particulars so that we can personalise your user experience!</h5>
-
-        <form>
-          <DegreeSettings
-            status="first"
-            userInput={userInput}
-            handleChange={handleChange}
-            facultyOptions={props.settings.facultyOptions}
-            />
-          
-          <p onClick={() => setIsOpen(!isOpen)}>Add Second Degree</p>
-            {isOpen && 
-              (<DegreeSettings
-                status="second"
-                userInput={userInput}
-                handleChange={handleChange}
-                facultyOptions={props.settings.facultyOptions}
-                />)}
-         
-            <Options
-              label="Your Residential College: "
-              handleChange={handleChange}
-              name="residence"
-              value={userInput.residence}
-              optionList={props.settings.residenceOptions}/>
-            
-            <Options
-              label="Year of Matriculation: "
-              handleChange={handleChange}
-              name="matriculationYear"
-              value={userInput.matriculationYear}
-              optionList={props.settings.matriculationOptions}/>
-
-            <Options
-              label="Target Graduation Year: "
-              handleChange={handleChange}
-              name="targetGradYear"
-              value={userInput.targetGradYear}
-              optionList={props.settings.targetGradOptions}/>
-            
-          </form>
-
-        <Button className='button' id='save' onClick={() => handleSubmit()}>Save Settings</Button>
-        {!isEmpty(props.success) && 
-                    setTimeout(props.history.push("/module-planner"), 500) &&
-                    clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        {!isEmpty(props.success) && alert("Saved successfully!") && props.history.push("/module-planner")}
-
-        <Button className='button' id='delete' onClick={() => props.deleteUser()}>Delete Account</Button>
-        
-      </div> */
-      // </body>
   );
 }
 
@@ -242,6 +221,7 @@ AcadSettings.propTypes = {
   setMatriculationYearOptions: PropTypes.func.isRequired,
   setTargetGradYearOptions: PropTypes.func.isRequired,
   setDegreeOptions: PropTypes.func.isRequired,
+  setEditAll: PropTypes.func.isRequired,
   removeSuccess: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   modplan: PropTypes.array.isRequired,
@@ -258,4 +238,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, 
-  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions, removeSuccess, deleteUser }) (AcadSettings);
+  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions, setEditAll, removeSuccess, deleteUser }) (AcadSettings);

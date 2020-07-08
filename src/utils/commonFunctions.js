@@ -78,7 +78,7 @@ export const handleSaveClick = (props) => {
 }
 
 // generate Year Cards in Module Planner Page / Tables in Mod Info Page
-export const generateObject = (matriYear, gradYear, category) => {
+export const generateObject = (matriYear, gradYear, module, category) => {
     const matYear = Number(matriYear.substr(0, 4));
     const noOfYear = Number(gradYear.substr(5, 4)) - matYear;
     let display = [];
@@ -91,7 +91,7 @@ export const generateObject = (matriYear, gradYear, category) => {
                 AY: `${start}/${start + 1}`
             })
         }
-
+        
         return display.map((object) => {
                 return (
                     <YearDisplay

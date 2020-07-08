@@ -5,7 +5,8 @@ import {
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
     GET_SUCCESS,
-    SET_FACULTY_AND_RESIDENCE
+    SET_FACULTY_AND_RESIDENCE,
+    SET_EDIT_ALL
 } from "./types";
 import { setUserLoading } from "./authActions";
 import axios from "axios";
@@ -43,7 +44,7 @@ export const updateSettings = (userData) => dispatch => {
     axios.defaults.timeout = 5000;
     axios
         .put("https://modtree-api.netlify.app/.netlify/functions/account", userData)
-        .then(res => {console.log(res); dispatch(setUserSettings(res.data.updated))})
+        .then(res => {dispatch(setUserSettings(res.data.updated))})
         .then(res => {
             dispatch({
                         type: GET_SUCCESS,
@@ -112,7 +113,12 @@ export const setFacultyAndResidence = (faculties, residences) => {
     }
 }
 
-
+export const setEditAll = (status) => {
+    return {
+        type: SET_EDIT_ALL,
+        payload: status
+    }
+} 
 //turn array of choices into options dropdown
 // export const generateOptions = (optionList, category,) {
 

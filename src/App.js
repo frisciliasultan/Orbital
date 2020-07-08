@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'antd/dist/antd.css';
 import React, { useEffect } from "react";
 import { ModuleSelectionPage } from "./Pages/Module Selection Page/ModuleSelectionPage"
 import { LoginPage } from './Pages/Login/LoginPage'

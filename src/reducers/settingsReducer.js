@@ -4,7 +4,8 @@ import {
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
-    SET_FACULTY_AND_RESIDENCE
+    SET_FACULTY_AND_RESIDENCE,
+    SET_EDIT_ALL
 } from "../actions/types";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
     residenceOptions: [],
     matriculationOptions:[],
     targetGradOptions: [],
-    userInfo: {}
+    userInfo: {},
+    editAll: false
 }
 
 export default function (state = initialState, action ) {
@@ -107,6 +109,12 @@ export default function (state = initialState, action ) {
                 residenceOptions: residences
             }
         
+        case SET_EDIT_ALL:
+            return {
+                ...state,
+                editAll: action.payload
+            }
+            
         case CLEAN_UP_SETTINGS:
             return initialState;
 

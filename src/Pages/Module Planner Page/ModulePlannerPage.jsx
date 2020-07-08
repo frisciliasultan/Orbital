@@ -61,11 +61,12 @@ const ModulePlannerPageTemp = (props) => {
             <div className="container-module-planner">
                 {!isEmpty(props.settings.userInfo.matriculationYear) 
                     && generateObject(props.settings.userInfo.matriculationYear, 
-                            props.settings.userInfo.targetGradYear,
+                            props.settings.userInfo.targetGradYear, 
+                            module,
                             "yearDisplay")}
                 
                 <TrashBox
-                        module={props.modplan.selectedModules}/>
+                        module={module}/>
 
 
                 <br/>
