@@ -23,9 +23,9 @@ const AcadSettings = (props) => {
       facIndex: props.userInfo.facIndex,
       major: props.userInfo.major,
       majorIndex: props.userInfo.majorIndex,
-      specialisation: "N/A",
-      secondMajor: "N/A",
-      minor: "N/A",
+      specialisation: "None",
+      secondMajor: "None",
+      minor: "None",
       residence: props.userInfo.residential,
       matriculationYear: props.userInfo.matriculationYear,
       targetGradYear: props.userInfo.targetGradYear
@@ -55,9 +55,9 @@ const AcadSettings = (props) => {
         facIndex: props.userInfo.facIndex,
         major: props.userInfo.major,
         majorIndex: props.userInfo.majorIndex,
-        specialisation: props.userInfo.specialisation ? props.userInfo.specialisation : "N/A",
-        secondMajor: props.userInfo.secondMajor ? props.userInfo.secondMajor : "N/A",
-        minor: props.userInfo.minor ? props.userInfo.minor : "N/A",
+        specialisation: props.userInfo.specialisation ? props.userInfo.specialisation : "None",
+        secondMajor: props.userInfo.secondMajor ? props.userInfo.secondMajor : "None",
+        minor: props.userInfo.minor ? props.userInfo.minor : "None",
         residence: props.userInfo.residential,
         matriculationYear: props.userInfo.matriculationYear,
         targetGradYear: props.userInfo.targetGradYear
@@ -162,14 +162,12 @@ const handleSubmit = () => {
             <button className="button settings-button" onClick={() => setGeneralEditing(!generalEditing)}>{generalEditing ? "Save Settings" : "Edit Settings"}</button>
         </Card> 
 
-        <div className="container" id="degree-settings">
-          <h2>Degree Settings</h2>
-          <DegreeSettings
-            status="first"
-            userInput={userInput}
-            handleChange={handleChange}
-            facultyOptions={props.settings.facultyOptions}
-            />
+        <DegreeSettings
+          status="first"
+          userInput={userInput}
+          handleChange={handleChange}
+          facultyOptions={props.settings.facultyOptions}
+        />
           
           <p onClick={() => setIsOpen(!isOpen)}>Add Second Degree</p>
             {isOpen && 
@@ -178,8 +176,7 @@ const handleSubmit = () => {
                 userInput={userInput}
                 handleChange={handleChange}
                 facultyOptions={props.settings.facultyOptions}
-                />)}
-        </div> 
+                />)} 
       </div>
     </div>
       

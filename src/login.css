@@ -287,7 +287,7 @@ div.settings {
 	align-items: flex-start; 
 	height: 100vh;
 	background-color: #f6f5f7;
-	overflow : hidden;
+	overflow-x : hidden;
 }
 
 .sidenav  {

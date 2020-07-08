@@ -6,16 +6,16 @@ const HiddenOptions = (props) => {
 
     return (
         <div>
-        <p onClick={() => setIsOpen(!isOpen)}>{props.title}</p>
+        {/* <p onClick={() => setIsOpen(!isOpen)}>{props.title}</p>
         {console.log(props.optionList)}
-        {isOpen && 
+        {isOpen &&  */}
             <Options
                 status={props.status}
                 label={props.label}
                 handleChange={props.handleChange}
                 name={props.name}
                 value={props.value}
-                optionList={props.optionList}/> }
+                optionList={props.optionList}/> 
 
         </div>
     )
