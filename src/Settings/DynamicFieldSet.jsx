@@ -1,6 +1,7 @@
 import { Form, Input, Button, Switch } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import React from "react";
+import AutocompleteText from "../Pages/Module Planner Page/AutocompleteText";
+import React, { useState, useEffect} from "react";
 
 const formItemLayout = {
     labelCol: {
@@ -19,19 +20,52 @@ const formItemLayout = {
     },
   };
   
+  
+
   const DynamicFieldSet = (props) => {
+    
+    const handleRemove = (index) => {
+      const original = props.value ? [...props.value] : [];
+      original.splice(index, 1);
+      props.setUserInput({[props.name]: original});
+    }
+
     const onFinish = values => {
       console.log('Received values of form:', values);
     };
+
+    const [fields, setFields] = useState();
+
+    useEffect(() => {
+      let updatedField;
+      if(props.value) {
+        for (let i = 0; i < props.value.length; i++) {
+          updatedField[i] = {fieldKey: i,
+                              isListField: true,
+                              key: i,
+                              name: i      }
+        }
+        setFields(updatedField);
+      }
+    }, [])
   
+    
     return (
-      <Form name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
+      <Form name="dynamic_form_item" 
+        {...formItemLayoutWithOutLabel} 
+        onFinish={onFinish}
+        >
+          
         <Form.List 
         // name={props.name}
         name="name">
           {(fields, { add, remove }) => {
+            console.log(fields)
+            console.log(add)
+            console.log(remove)
             return (
               <div>
+                
                 {fields.map((field, index) => (
                   <Form.Item
                     {...(formItemLayoutWithOutLabel)}
@@ -40,25 +74,31 @@ const formItemLayout = {
                     key={field.key}
                   >
                     <Form.Item
-                      {...field}
-                      validateTrigger={['onChange', 'onBlur']}
-                      rules={[
-                        {
-                          required: true,
-                          whitespace: true,
-                          message: "Please input passenger's name or delete this field.",
-                        },
-                      ]}
+                      // {...field}
+                      // validateTrigger={['onChange', 'onBlur']}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     whitespace: true,
+                      //     message: `Please input ${props.name} or delete this field.`,
+                      //   },
+                      // ]}
                       noStyle
                     >
-                      <Input placeholder={`Enter ${props.name}`} style={{ width: '60%' }} />
+                      <AutocompleteText category={props.name}
+                      setUserInput ={props.setUserInput}
+                      index={index}
+                      value={props.value}/>
+                      {/* <Input placeholder={`Enter ${props.name}`} style={{ width: '60%' }} /> */}
                     </Form.Item>
+
                     {fields.length > 1 ? (
                       <MinusCircleOutlined
                         className="dynamic-delete-button"
-                        style={{ margin: '0 8px' }}
+
                         onClick={() => {
                           remove(field.name);
+                          handleRemove(index);
                         }}
                       />
                     ) : null}
@@ -70,9 +110,9 @@ const formItemLayout = {
                     onClick={() => {
                       add();
                     }}
-                    style={{ width: '60%' }}
+                    style={{ width: '100%' }}
                   >
-                    <PlusOutlined /> Add field
+                    <PlusOutlined /> Add {props.name === "secondMajor" ? "Major" : "Minor"}
                   </Button>
                 </Form.Item>
               </div>
@@ -80,11 +120,11 @@ const formItemLayout = {
           }}
         </Form.List>
   
-        <Form.Item>
+        {/* <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     );
   };

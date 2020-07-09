@@ -6,9 +6,7 @@ import { Switch } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
-    // const optionList = !isEmpty(props.optionList) ? props.optionList : null;
-    // const status = props.status[0].toUpperCase() + props.status.slice(1);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(props.value ? true : false);
 
     const renderContent = () => {
         if(props.editing) {
@@ -30,20 +28,19 @@ const Options = (props) => {
             } else if (isOpen && props.category) {
                 return (
                     <div>
-                    <p>{props.value}</p>
-                    <AutoCompleteText 
-                        category={props.category}/>
+                    {/* <p>{props.value}</p> */}
                     <DynamicFieldSet
-                        name={props.category}/>
-
-
+                        setUserInput={props.setUserInput}
+                        options={props.optionList}
+                        name={props.category}
+                        value={props.value}/>
                     </div>
                 )
             } else {
-                return props.value;
+                return props.value ? props.value : "None";
             }
         } else {
-            return props.value;
+            return props.value ? props.value : "None";
         }
     }
     return (
@@ -58,7 +55,8 @@ const Options = (props) => {
 
                 <td>
                     {props.hidden && props.editing
-                        ? <Switch   
+                        ? <Switch  
+                            checked={isOpen} 
                             onChange={() => setIsOpen(!isOpen)}/>
                         : null}
                 </td>

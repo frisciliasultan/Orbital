@@ -26,16 +26,15 @@ const AcadSettings = (props) => {
       facIndex: props.userInfo.facIndex,
       major: props.userInfo.major,
       majorIndex: props.userInfo.majorIndex,
-      specialisation: "None",
-      secondMajor: "None",
-      minor: "None",
+      specialisation: props.userInfo.specialisation,
+      secondMajor: props.userInfo.secondMajor,
+      minor: props.userInfo.minor,
       residence: props.userInfo.residential,
       matriculationYear: props.userInfo.matriculationYear,
       targetGradYear: props.userInfo.targetGradYear
     }
   );
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -58,9 +57,9 @@ const AcadSettings = (props) => {
         facIndex: props.userInfo.facIndex,
         major: props.userInfo.major,
         majorIndex: props.userInfo.majorIndex,
-        specialisation: props.userInfo.specialisation ? props.userInfo.specialisation : "None",
-        secondMajor: props.userInfo.secondMajor ? props.userInfo.secondMajor : "None",
-        minor: props.userInfo.minor ? props.userInfo.minor : "None",
+        specialisation: props.userInfo.specialisation,
+        secondMajor: props.userInfo.secondMajor,
+        minor: props.userInfo.minor,
         residence: props.userInfo.residential,
         matriculationYear: props.userInfo.matriculationYear,
         targetGradYear: props.userInfo.targetGradYear
@@ -109,9 +108,9 @@ const AcadSettings = (props) => {
       facIndex: userInput.facIndex,
       major: userInput.major,
       majorIndex: userInput.majorIndex,
-      specialisation: userInput.specialisation,
-      secondMajor: userInput.secondMajor,
-      minor: userInput.minor,
+      specialisation: userInput.specialisation ? userInput.specialisation : "None",
+      secondMajor: userInput.secondMajor ? userInput.secondMajor : "None",
+      minor: userInput.minor ? userInput.minor : "None",
       residential: userInput.residence,
       matriculationYear: userInput.matriculationYear,
       targetGradYear: userInput.targetGradYear,
@@ -148,7 +147,7 @@ const AcadSettings = (props) => {
       }
     }
   }
-    
+
   return (
     <div className="settings">
       <SideNav active="academics"/>
@@ -192,6 +191,7 @@ const AcadSettings = (props) => {
         <DegreeSettings
           status="first"
           userInput={userInput}
+          setUserInput={setUserInput}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
         />

@@ -1,5 +1,5 @@
 import React from 'react';
-import "./AutocompleteText.css";
+import { Input } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { setSelectedModules } from "../../actions/modplanActions";
@@ -8,8 +8,9 @@ class AutoCompleteText extends React.Component {
     constructor (props) {
         super(props);
         this.state = { suggestions: [],
-                       text: '',
-
+                       text: this.props.value
+                       ? this.props.value[this.props.index] 
+                       : '',
                      };
         this.handleTextChange = this.handleTextChange.bind(this);
         this.renderSuggestions = this.renderSuggestions.bind(this);
@@ -31,7 +32,7 @@ class AutoCompleteText extends React.Component {
         if(category === "module") {
             dataPool = this.props.module;
             // toCompare = dataPool[i].moduleCode;
-        } else if (category === "major") {
+        } else if (category === "secondMajor") {
             this.props.facultyOptions.map((obj) => {
                 //TEMPORARY UNTIL DEGREES ARE OUT
                 if(obj.undergraduate) {
@@ -59,7 +60,7 @@ class AutoCompleteText extends React.Component {
             for(let i = 0; i < dataPool.length; i++) {
                 if(category === "module") {
                     toCompare = dataPool[i].moduleCode;
-                } else if(category === "major") {
+                } else if(category === "secondMajor") {
                     toCompare = dataPool[i].name;
                 } else if (category === "minor") {
                     toCompare = dataPool[i].name;
@@ -84,9 +85,13 @@ class AutoCompleteText extends React.Component {
             module.location = this.props.location;
             module.AY = this.props.AY
             this.props.setSelectedModules(module, this.props.modplan.selectedModules)
+            this.suggestionsSelected('');
             this.setState(() => ({suggestions: []})) 
         } else {
-            
+            const original = this.props.value ? [...this.props.value] : [];
+            original[this.props.index] = object.fullName;
+            this.props.setUserInput({[category]: original});
+            this.suggestionsSelected(object.fullName);
             this.setState(() => ({suggestions: []})) 
         }
     }
@@ -128,14 +133,18 @@ class AutoCompleteText extends React.Component {
     render () {
         const { text } = this.state;
         return (
-
-                <div className="AutoCompleteText">
-                    <input 
-                        className="autocomplete-input"
+            
+                <div className="AutoCompleteText" >
+                    {console.log(this.props.index)}
+                    <Input 
+                        className="autocomplete-input" id={this.props.category}
                         value={text}
                         onChange={this.handleTextChange}
                         type="text"
-                        placeholder="Enter module code" />
+                        autoComplete="off"
+                        placeholder={this.props.category === "module" 
+                            ? "Enter module code" 
+                            : `Enter ${this.props.category === "secondMajor" ? "Major" : "Minor"}`}/>
                     {this.renderSuggestions()}
                 
                 </div>

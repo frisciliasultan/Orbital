@@ -10,6 +10,7 @@ import {
     isAuthenticated: false,
     user: {},
     loading: false,
+    socialLogin: false,
     firstTimeRegistered: false
   };
   

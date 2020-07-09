@@ -78,11 +78,12 @@ const DegreeSettings = (props) => {
                     status={props.status}
                     editing={isEditing || props.settings.editAll}
                     hidden={true}
-                    category="major"
+                    category="secondMajor"
                     label="Second Major : "
                     handleChange={props.handleChange}
                     name="secondMajor"
                     value={props.userInput.secondMajor}
+                    setUserInput={props.setUserInput}
                     optionList={(props.userInput.major && !isEmpty(props.settings.facultyOptions)) 
                         ? props.settings.facultyOptions[props.userInput.facIndex].undergraduate.secondMajors
                         : null}/>
@@ -96,6 +97,7 @@ const DegreeSettings = (props) => {
                     handleChange={props.handleChange}
                     name="minor"
                     value={props.userInput.minor}
+                    setUserInput={props.setUserInput}
                     optionList={(props.userInput.major && !isEmpty(props.settings.facultyOptions)) 
                         ? props.settings.facultyOptions[props.userInput.facIndex].undergraduate.minors
                         : null}/>
@@ -105,7 +107,7 @@ const DegreeSettings = (props) => {
         
         {presentButton()}
        
-        {!addDegree && (
+        {/* {!addDegree && (
             <button 
                 className="button settings-button" 
                 onClick={() => setAddDegree(true)}>
@@ -119,11 +121,11 @@ const DegreeSettings = (props) => {
                 onClick={() => props.setAddDegree(false)}>
                 Delete Degree
             </button>
-        )}
+        )} */}
         
         </Card>
 
-        {addDegree && (
+        {/* {addDegree && (
             <DegreeSettings
                 status={props.status === "first" ? "Second" : "Third"}
                 settings={props.settings}
@@ -133,7 +135,7 @@ const DegreeSettings = (props) => {
                 handleSubmit={props.handleSubmit}
                 facultyOptions={props.facultyOptions}
             />
-        )}
+        )} */}
     </div>)
 }
 

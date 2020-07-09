@@ -394,13 +394,24 @@ button.button.settings-button {
 }
 
 /* Dynamic Field Set */
+#dynamic_form_item , .ant-form.ant-form-horizontal {
+	background-color: transparent;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-items: flex-start; 
+	align-content: flex-start;
+}
+
 .dynamic-delete-button {
     cursor: pointer;
-    position: relative;
+	position: absolute;
     top: 4px;
     font-size: 24px;
     color: #999;
-    transition: all 0.3s;
+	transition: all 0.3s;
+	margin: 0;
+	left: 270px;
   }
   .dynamic-delete-button:hover {
     color: #777;
@@ -410,6 +421,9 @@ button.button.settings-button {
     opacity: 0.5;
   }
 
+ .ant-col.ant-form-item-control.ant-col-xs-24.ant-col-xs-offset-0.ant-col-sm-20.ant-col-sm-offset-4{
+	align-items: flex-start;
+ }
 
 #delete {
 	background-color: #de4949;
@@ -477,6 +491,35 @@ h2 .year-title {
 .AutoCompleteText .autocomplete-input{
 	width: 250px;
 	margin: 0;
+}
+
+.AutoCompleteText .autocomplete-input#major, 
+	.AutoCompleteText .autocomplete-input#minor{
+	width: 350px,;
+	margin: 0;
+	position: relative;
+
+}
+
+.AutoCompleteText ul {
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+	padding: 0;
+	width: 250px;
+} 
+
+.AutoCompleteText ul::before{
+    content: '';
+}
+
+.AutoCompleteText li {
+	padding: 10px 5px;
+	background-color: #f6f5f7;
+}
+
+.AutoCompleteText li:hover {
+    background-color: #FFFFFF;
 }
 
 .col-3 {
