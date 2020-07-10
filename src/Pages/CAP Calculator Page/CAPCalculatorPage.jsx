@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import AutoCompleteText from "../Module Planner Page/AutocompleteText";
+import LoadingDots from "../Loading Page/LoadingPage";
 import { Button } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { setSemesterOptions, calculateCAP, setCAP } from '../../actions/capActions';
@@ -61,9 +62,8 @@ const CAPCalculatorPage = (props) => {
         if(!isEmpty(props.settings.userInfo)) {
             //set semester options according to how many years the user will spend in NUS
             const start = props.settings.userInfo.matriculationYear.substr(0, 4);
-            const end = props.settings.userInfo.targetGradYear.substr(5, 4);
-            const diff = end - start;
-            props.setSemesterOptions(diff);
+            props.setSemesterOptions(props.settings.userInfo.matriculationYear, 
+                props.settings.userInfo.targetGradYear);
 
             const year = props.settings.currentAY.substr(5,4);
             const statusYear = year - start; 
@@ -262,7 +262,9 @@ const CAPCalculatorPage = (props) => {
     }
     
     return(
-        <div className="ml-4">
+        isEmpty(props.settings.userInfo) 
+            ? <LoadingDots/>
+            : (<div className="ml-4">
             <h1 className="display-3">CAP Calculator</h1>
             <h3>Current CAP: {props.cap.cap}</h3>
             <h3>Target Future CAP: {props.cap.targetCap}</h3>
@@ -302,7 +304,8 @@ const CAPCalculatorPage = (props) => {
             {isTextBoxOpen && <AutoCompleteText 
                                             AY={AY}
                                             location={semester}
-                                            module={props.modplan.modules}/>}
+                                            module={props.modplan.modules}
+                                            category="module"/>}
             <Button className="button" onClick={() => setIsTextBoxOpen(!isTextBoxOpen)}>Add Module</Button>
             
             <br/>
@@ -319,7 +322,7 @@ const CAPCalculatorPage = (props) => {
                 {!isEmpty(props.success) && 
                     setTimeout(props.removeSuccess, 500) &&
                     clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        </div>
+        </div>)
     );
 }
 

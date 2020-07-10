@@ -34,13 +34,13 @@ export class LoginPage extends React.Component{
             <div className="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>To keep connected with us please login with your personal info</p>
+                        <h1>Have an account?</h1>
+                        <p>Welcome back! Please sign in with your account below</p>
                         <button class="ghost" id="signIn" onClick={this.handleSignInClick}>Sign In</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Enter your personal details and start journey with us</p>
+                        <h1>Don't have an account?</h1>
+                        <p>Register and start your journey with us</p>
                         <button class="ghost" id="signUp" onClick={this.handleSignUpClick}>Sign Up</button>
                     </div>
                 </div>

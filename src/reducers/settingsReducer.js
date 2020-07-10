@@ -17,7 +17,7 @@ const initialState = {
     matriculationOptions:[],
     targetGradOptions: [],
     userInfo: {},
-    editAll: false
+    isEditing: {}
 }
 
 export default function (state = initialState, action ) {
@@ -110,9 +110,12 @@ export default function (state = initialState, action ) {
             }
         
         case SET_EDIT_ALL:
+            const { status, current, category } = action;
+            const updated = {...current};
+            updated[category] = status;
             return {
                 ...state,
-                editAll: action.payload
+                isEditing: updated
             }
             
         case CLEAN_UP_SETTINGS:

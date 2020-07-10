@@ -23,10 +23,10 @@ const Login = (props) => {
   useEffect(() => {
     // If logged in and not first time registering and initial setup (current AY, userInfo) done, 
     // if user navigates to Login page, should redirect them to module planner
-    if(!props.auth.loading && props.auth.isAuthenticated && !props.auth.firstTimeRegistered ) {
+    if(props.auth.isAuthenticated && !props.auth.firstTimeRegistered ) {
       props.history.push("/module-planner");
     }
-  }, [props.auth.loading]);
+  }, [props.auth.isAuthenticated]);
 
   useEffect(() => {
     if (props.errors) {

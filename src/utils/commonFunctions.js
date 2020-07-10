@@ -1,6 +1,9 @@
 import React from "react";
+import { Select } from "antd";
 import { Table } from "../Pages/Module Selection Page/Module Table";
 import  YearDisplay  from "../Pages/Module Planner Page/YearDisplay";
+
+const { Option } = Select;
 
 export const generateOptions = (optionList, category) => {
     if(optionList) {
@@ -13,47 +16,62 @@ export const generateOptions = (optionList, category) => {
                 );
             })
         } else if (category === 'faculty') {
-                return optionList.map((option) => {
+                return optionList.map((option, index) => {
                     return (
-                        <option key={option.name} value={option.name}>
+                        <Option 
+                            key={option.name} 
+                            value={option.name}
+                            name={category}
+                            selectedindex={index}>
                         {option.name}
-                        </option>
+                        </Option>
                     );
                 })
         } else if (category === 'major' || category === "specialisation" 
                     || category === "secondMajor" || category === "minor" 
                         || category === "residence"
                         ) {
-            return optionList.map((option) => {
+            return optionList.map((option, index) => {
                 return (
-                    <option key={option.fullName} value={option.fullName}>
+                    <Option 
+                        key={option.fullName} 
+                        value={option.fullName}
+                        name={category}
+                        selectedindex={index}>
                     {option.fullName}
-                    </option>
+                    </Option>
                 );
             })
         } else if (category === 'matriculationYear') {
             return optionList.map((option) => {
                 return (
-                    <option key={option.substr(3,9)} value={option.substr(3,9)}>
+                    <Option 
+                        key={option.substr(3,9)} 
+                        value={option.substr(3,9)}
+                        name={category}>
                     {option}
-                    </option>
+                    </Option>
                 );
             })
         } else if (category === 'targetGradYear') {
             return optionList.map((option) => {
                 return (
-                    <option key={option.substr(6,9)} value={option.substr(6,9)}>
+                    <Option 
+                        key={option.substr(6,9)} 
+                        value={option.substr(6,9)}
+                        name={category}>
                     {option}
-                    </option>
+                    </Option>
                 );
             })
         } 
     
         return optionList.map((option) => {
+            console.log('called')
             return (
-                <option value={option}>
-                {option.name}
-                </option>
+                <Option key={option} value={option}>
+                {option}
+                </Option>
             );
         });
     }
@@ -78,7 +96,7 @@ export const handleSaveClick = (props) => {
 }
 
 // generate Year Cards in Module Planner Page / Tables in Mod Info Page
-export const generateObject = (matriYear, gradYear, module, category) => {
+export const generateObject = (matriYear, gradYear, category, module) => {
     const matYear = Number(matriYear.substr(0, 4));
     const noOfYear = Number(gradYear.substr(5, 4)) - matYear;
     let display = [];
@@ -116,9 +134,11 @@ export const generateObject = (matriYear, gradYear, module, category) => {
             return display;
         } else {
             return display.map((sem) => {
+                console.log(module + "hi")
                 return (
                         <Table
-                            title={sem} />
+                            title={sem}
+                            module={module} />
                 )
             })
         }

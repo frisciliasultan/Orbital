@@ -33,13 +33,13 @@ const DegreeSettings = (props) => {
     return (
         <div>
         <Card className="container" id="degree-settings">
-            <Card.Header className="card-header">
+            <h2 className="card-header">
                 {props.status === "first" 
                     ? "Degree Settings" 
                     : `${props.status} Degree Settings`}
-            </Card.Header>
+            </h2>
 
-            <table className="table table-hover settings-table" id="degree-acad-table">
+            <table className="table settings-table table-hover " id="degree-acad-table">
             <tbody>
                 <Options
                     status={props.status}
@@ -106,36 +106,7 @@ const DegreeSettings = (props) => {
         </table>
         
         {presentButton()}
-       
-        {/* {!addDegree && (
-            <button 
-                className="button settings-button" 
-                onClick={() => setAddDegree(true)}>
-                Add Degree
-            </button>
-        )}
-        
-        {props.status !== "first" && (
-            <button 
-                className="button settings-button" 
-                onClick={() => props.setAddDegree(false)}>
-                Delete Degree
-            </button>
-        )} */}
-        
         </Card>
-
-        {/* {addDegree && (
-            <DegreeSettings
-                status={props.status === "first" ? "Second" : "Third"}
-                settings={props.settings}
-                setAddDegree={setAddDegree}
-                userInput={props.userInput}
-                handleChange={props.handleChange}
-                handleSubmit={props.handleSubmit}
-                facultyOptions={props.facultyOptions}
-            />
-        )} */}
     </div>)
 }
 

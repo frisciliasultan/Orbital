@@ -2,29 +2,50 @@ import React, { useState } from "react";
 import AutoCompleteText from "../Pages/Module Planner Page/AutocompleteText";
 import { generateOptions } from "../utils/commonFunctions";
 import isEmpty from "is-empty";
-import { Switch } from "antd";
+import { Switch, Select } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
     const [isOpen, setIsOpen] = useState(props.value ? true : false);
 
+
+    const { Option } = Select;
+
+function onChange(value,) {
+  console.log(`selected ${value}`);
+  console.log(value)
+//   console.log(title)
+}
+
     const renderContent = () => {
         if(props.editing) {
             if(!props.hidden || (isOpen && !props.category )) {
                 return (
-                    <select
+                    <Select
+                        // labelInValue
+                        showSearch
                         name={props.name}
                         onChange={props.handleChange}
-                        defaultValue="None"
-                        value={props.value}>
-                        <option 
+                        // onChange={onChange}
+                        defaultValue="None "
+                        value={props.value ? props.value : "None"}
+                        style={{ width: 300 }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => {
+                            console.log(option)
+                            return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        
+                        }
+                    >
+                        <Option 
                             key={"choose" + props.label}
                             value="None" 
                              disabled>
                             {"Choose " + props.label}
-                        </option>
+                        </Option>
                         {generateOptions(props.optionList, props.name)}
-                    </select> ) 
+                    </Select> ) 
             } else if (isOpen && props.category) {
                 return (
                     <div>

@@ -1,12 +1,13 @@
 import React, { useState, useReducer } from "react";
 import SideNav from "./SideNav";
-import { Input } from 'antd';
+import { Input, Popconfirm, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RegistrationForm from "./ChangePassword";
 import { deleteUser } from "../actions/authActions";
+import LoadingDots from "../Pages/Loading Page/LoadingPage";
 
 const AccountSettings = (props) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -19,7 +20,17 @@ const AccountSettings = (props) => {
           email: props.auth.user.email,
         }
       );
-
+    
+    function confirm(e) {
+        console.log(e);
+        message.success('Account successfully deleted');
+        message.config({
+            top: '70px',
+            duration: 2
+        })
+        props.deleteUser();
+    }
+    
     const presentButton = () => {
           if(!isEditing) {
             return <button 
@@ -64,7 +75,9 @@ const AccountSettings = (props) => {
         }
     }
     return (
+        
         <div className="settings">
+            
             <SideNav active="account"/>
                 <Card className="container" id="degree-settings">
                     <Card.Header>
@@ -112,12 +125,18 @@ const AccountSettings = (props) => {
                             onClick={() => setChangePassword(true)}>
                                 Change Password
                         </button>}
-
-                    <button 
-                        className="button settings-button" id="delete" 
-                        onClick={props.deleteUser}>
-                            Delete account
-                    </button>
+                    
+                        <Popconfirm
+                            title="Confirm delete account?"
+                            onConfirm={confirm}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <button 
+                                className="button settings-button" id="delete">
+                                    Delete account
+                            </button>
+                        </Popconfirm>
                 </Card>
         </div>
     )

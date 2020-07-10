@@ -20,7 +20,7 @@ export const setUserSettings = (userData) => {
 
 export const initialSettings = () => async dispatch => {
     try {
-        axios.defaults.timeout = 5000;
+        axios.defaults.timeout = 7000;
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
@@ -41,7 +41,8 @@ export const initialSettings = () => async dispatch => {
 }
 
 export const updateSettings = (userData) => dispatch => {
-    axios.defaults.timeout = 5000;
+    axios.defaults.timeout = 7000;
+    dispatch(setUserLoading(true))
     axios
         .put("https://modtree-api.netlify.app/.netlify/functions/user/account", userData)
         .then(res => {dispatch(setUserSettings(res.data.updated))})
@@ -113,10 +114,12 @@ export const setFacultyAndResidence = (faculties, residences) => {
     }
 }
 
-export const setEditAll = (status) => {
+export const setEditAll = (status, current, category) => {
     return {
         type: SET_EDIT_ALL,
-        payload: status
+        status,
+        current,
+        category
     }
 } 
 //turn array of choices into options dropdown

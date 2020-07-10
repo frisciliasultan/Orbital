@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'antd/dist/antd.css';
 import React, { useEffect } from "react";
-import { ModuleSelectionPage } from "./Pages/Module Selection Page/ModuleSelectionPage"
+import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelectionPage"
 import { LoginPage } from './Pages/Login/LoginPage'
 import "./login.css";
 import {
@@ -34,7 +34,6 @@ import store from './store';
 import { connect } from 'react-redux';
 
 import axios from "axios";
-import SettingsPage from './Settings/SettingsPage';
 import AccountSettings from './Settings/AccountSettings';
 
 let totalGEMMCs = 0;
@@ -86,7 +85,7 @@ if (localStorage.jwtToken) {
 
 const App = (props) => {
   return (
-    <div>
+    <div className="main-container">
       {/* <PrivateNav class="navbar" /> */}
       {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
     

@@ -4,6 +4,7 @@ import Rules from './Rules';
 import TrashBox from './TrashBox';
 import './plannertemp.css';
 import { Button, Card } from 'react-bootstrap';
+import { Alert } from "antd";
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
@@ -13,10 +14,11 @@ import { removeSuccess } from "../../actions/successActions";
 import { handleSaveClick, generateObject } from "../../utils/commonFunctions";
 import PropTypes from 'prop-types';
 import isEmpty from 'is-empty'
+import LoadingDots from '../Loading Page/LoadingPage';
 
 
 const ModulePlannerPageTemp = (props) => {
-
+    console.log(props)
     const module = props.modplan.modules;
     const [noOfYear, setNoOfYear] = useState(4);
 
@@ -57,46 +59,46 @@ const ModulePlannerPageTemp = (props) => {
     }
 
     return (
-        <DndProvider backend={Backend} >
-            <div className="container-module-planner">
-                {!isEmpty(props.settings.userInfo.matriculationYear) 
-                    && generateObject(props.settings.userInfo.matriculationYear, 
-                            props.settings.userInfo.targetGradYear, 
-                            module,
-                            "yearDisplay")}
-                
-                <TrashBox
-                        module={module}/>
-
-
-                <br/>
-
-                <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
-                <br/>
-
-                <Button className="button" onClick={() => handleSaveClick(props)} >Save</Button>
-                {!isEmpty(props.success) && 
-                <p style={{color: "green"}}>
-                    {props.success}
-                </p>
-                
-                }
-                
-                {!isEmpty(props.success) && 
-                    setTimeout(props.removeSuccess, 500) &&
-                    clearTimeout(setTimeout(props.removeSuccess, 2000))}
-
-                <br/>
-                <br/>
-                <p>Click on each requirement for further information</p>
-                <Card>
-                    <Rules
-                        rules={props.modplan.rules}
-                        settings={props.settings}/>
-                </Card>
-                <br/>
-            </div>
-        </DndProvider>
+        isEmpty(props.settings.userInfo) 
+            ? <LoadingDots/>
+            : (<DndProvider backend={Backend} >
+                <div className="container-module-planner">
+                    {!isEmpty(props.settings.userInfo.matriculationYear) 
+                        && generateObject(props.settings.userInfo.matriculationYear, 
+                                props.settings.userInfo.targetGradYear, 
+                                "yearDisplay",
+                                module
+                                )}
+                    
+                    <TrashBox
+                            module={module}/>
+    
+    
+                    <br/>
+    
+                    <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
+                    <br/>
+    
+                    <Button className="button" onClick={() => handleSaveClick(props)} >Save</Button>
+                    {!isEmpty(props.success) && 
+                        <Alert message={props.success} type="success" showIcon />
+                    }
+                    
+                    {!isEmpty(props.success) && 
+                        setTimeout(props.removeSuccess, 500) &&
+                        clearTimeout(setTimeout(props.removeSuccess, 2000))}
+    
+                    <br/>
+                    <br/>
+                    <p>Click on each requirement for further information</p>
+                    <Card>
+                        <Rules
+                            rules={props.modplan.rules}
+                            settings={props.settings}/>
+                    </Card>
+                    <br/>
+                </div>
+            </DndProvider>)
     )
 }
 
@@ -116,7 +118,7 @@ const mapStateToProps = state => ({
     settings: state.settings,
     cap: state.cap,
     modplan: state.modplan,
-    success: state.success
+    success: state.success,
 });
 
 export default connect(mapStateToProps, 
