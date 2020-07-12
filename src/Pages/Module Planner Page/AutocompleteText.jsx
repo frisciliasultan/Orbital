@@ -135,9 +135,8 @@ class AutoCompleteText extends React.Component {
         return (
             
                 <div className="AutoCompleteText" >
-                    {console.log(this.props.index)}
                     <Input 
-                        className="autocomplete-input" id={this.props.category}
+                        className="autocomplete-input" id={this.props.id ? this.props.id : this.props.category}
                         value={text}
                         onChange={this.handleTextChange}
                         type="text"

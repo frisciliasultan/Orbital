@@ -14,7 +14,7 @@ import { removeSuccess } from "../../actions/successActions";
 import { handleSaveClick, generateObject } from "../../utils/commonFunctions";
 import PropTypes from 'prop-types';
 import isEmpty from 'is-empty'
-import LoadingDots from '../Loading Page/LoadingPage';
+import LoadingDots from '../Loading Page/LoadingDots';
 
 
 const ModulePlannerPageTemp = (props) => {

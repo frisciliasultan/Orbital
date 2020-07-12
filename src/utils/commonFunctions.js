@@ -1,18 +1,18 @@
 import React from "react";
 import { Select } from "antd";
-import { Table } from "../Pages/Module Selection Page/Module Table";
+import { TableContent } from "../Pages/Module Selection Page/Table Content";
 import  YearDisplay  from "../Pages/Module Planner Page/YearDisplay";
 
 const { Option } = Select;
 
-export const generateOptions = (optionList, category) => {
+export const generateOptions = (optionList, category, object) => {
     if(optionList) {
         if(category === "grade") {
             return optionList.map((option) => {
                 return (
-                    <option value={option.grade}>
+                    <Option value={option.grade} object={object}>
                     {option.grade}
-                    </option>
+                    </Option>
                 );
             })
         } else if (category === 'faculty') {
@@ -67,7 +67,6 @@ export const generateOptions = (optionList, category) => {
         } 
     
         return optionList.map((option) => {
-            console.log('called')
             return (
                 <Option key={option} value={option}>
                 {option}
@@ -96,7 +95,7 @@ export const handleSaveClick = (props) => {
 }
 
 // generate Year Cards in Module Planner Page / Tables in Mod Info Page
-export const generateObject = (matriYear, gradYear, category, module) => {
+export const generateObject = (matriYear, gradYear, category, module, props) => {
     const matYear = Number(matriYear.substr(0, 4));
     const noOfYear = Number(gradYear.substr(5, 4)) - matYear;
     let display = [];
@@ -132,15 +131,59 @@ export const generateObject = (matriYear, gradYear, category, module) => {
         
         if(category === "semesterOptions") {
             return display;
-        } else {
-            return display.map((sem) => {
-                console.log(module + "hi")
-                return (
-                        <Table
+        } else if(category === "tables") {
+            let nthFutureSem = 0;
+            return display.map((sem, i) => {
+                if(props) {
+                    const status = checkIsPast(sem, props.userSemester, props.currentSemester, props.month);
+                    if(!status) {
+                        nthFutureSem++
+                    }
+                    return (
+                        <TableContent
                             title={sem}
-                            module={module} />
-                )
+                            module={module}
+                            category={"capTable"}
+                            handleGradeClick={props.handleGradeClick}
+                            handleCheckboxChange={props.handleCheckboxChange}
+                            isPast={status}
+                            displayHeader={ i === 0 || nthFutureSem === 1}
+                            gradeList={props.gradeList}/>
+                    )
+                } else {
+                    return (
+                        <TableContent
+                            title={sem}
+                            module={module}
+                            category={category}/>
+                    )
+                }
             })
+        } 
+
         }
     } 
-}
+
+     //Eg. Y2S1 => 3 (third sem)
+    export const convertSemToNumber = (sem) => {
+        if(sem.substr(7) === "Semester 1") {
+            return sem.substr(5,1) * 2 - 1;
+        } else {
+            return sem.substr(5,1) * 2;
+        }
+    }
+
+    //check if the semester chosen is in the past or future
+    export const checkIsPast = (curr, user, currentSemester, month) => {
+        const currSem = convertSemToNumber(curr);
+        if (user > currSem) {
+            return true;
+        } else if (user === currSem) {
+            if ((currentSemester === "Semester 1" && month === 12) 
+                || (currentSemester === "Semester 2" && month >= 6)) {
+                    return true;
+            }
+        } else {
+            return false;
+        }
+    };

@@ -5,7 +5,8 @@ import {
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
     SET_FACULTY_AND_RESIDENCE,
-    SET_EDIT_ALL
+    SET_EDIT_ALL,
+    SETTINGS_LOADING
 } from "../actions/types";
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
     matriculationOptions:[],
     targetGradOptions: [],
     userInfo: {},
-    isEditing: {}
+    isEditing: {},
+    isLoading: false
 }
 
 export default function (state = initialState, action ) {
@@ -116,6 +118,12 @@ export default function (state = initialState, action ) {
             return {
                 ...state,
                 isEditing: updated
+            }
+        
+        case SETTINGS_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload
             }
             
         case CLEAN_UP_SETTINGS:

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import isEmpty from "is-empty";
 import { setSelectedModules } from "../../actions/modplanActions";
 import { generateObject } from "../../utils/commonFunctions";
-import LoadingDots from "../Loading Page/LoadingPage";
+import LoadingDots from "../Loading Page/LoadingDots";
 
 let totalGEMMCs = 0;
 
@@ -55,69 +55,6 @@ export const ModuleSelectionPage = (props) => {
             {generateObject(props.settings.userInfo.matriculationYear, 
                               props.settings.userInfo.targetGradYear,
                               "tables", props.modplan.selectedModules)}
-            {/* <div className="row">
-              <h1 className="display-3 ml-4">
-                Module Information
-              </h1>
-            </div>
-      
-            <div className="row"> 
-      
-            <div className="col-lg col-md-4 col-sm-6">
-              <Table
-                    title="Year 1 Semester 1"
-                    module={makeTable('y1s1')} />
-            </div>
-      
-            <div className="col-lg col-md-4 col-sm-6">
-              <Table
-                    title="Year 1 Semester 2"
-                    module={makeTable('y1s2')} />
-            </div>
-      
-            <div className="col-lg col-md-4 col-sm-6">
-              <Table
-                    title="Year 2 Semester 1"
-                    module={makeTable('y2s1')} />
-            </div>
-      
-            <div className="col-lg col-md-4 col-sm-6">
-              <Table
-                    title="Year 2 Semester 2"
-                    module={makeTable('y2s2')} />
-            </div>
-      
-            </div>
-      
-      
-            <div className="row"> 
-              <div className="col-lg col-md-4 col-sm-6">
-                <Table
-                      title="Year 3 Semester 1"
-                      module={makeTable('y3s1')} />
-              </div>
-      
-              <div className="col-lg col-md-4 col-sm-6">
-                <Table
-                      title="Year 3 Semester 2"
-                      module={makeTable('y3s2')} />
-              </div>
-      
-      
-                
-              <div className="col-lg col-md-4 col-sm-6">
-                <Table
-                      title="Year 4 Semester 1"
-                      module={makeTable('y4s1')} />
-              </div>
-      
-              <div className="col-lg col-md-4 col-sm-6">
-                <Table
-                      title="Year 4 Semester 2"
-                      module={makeTable('y4s2')} />
-              </div>
-            
-            </div> */}
         </div>)
   )
 }

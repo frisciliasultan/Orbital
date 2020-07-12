@@ -7,26 +7,16 @@ import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
     const [isOpen, setIsOpen] = useState(props.value ? true : false);
-
-
     const { Option } = Select;
-
-function onChange(value,) {
-  console.log(`selected ${value}`);
-  console.log(value)
-//   console.log(title)
-}
 
     const renderContent = () => {
         if(props.editing) {
             if(!props.hidden || (isOpen && !props.category )) {
                 return (
                     <Select
-                        // labelInValue
                         showSearch
-                        name={props.name}
+                        // name={props.name}
                         onChange={props.handleChange}
-                        // onChange={onChange}
                         defaultValue="None "
                         value={props.value ? props.value : "None"}
                         style={{ width: 300 }}

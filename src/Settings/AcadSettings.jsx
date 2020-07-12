@@ -2,7 +2,7 @@ import React, {useState, useEffect, useReducer} from 'react';
 import SideNav from "./SideNav";
 import Options from './Options';
 import DegreeSettings from "./DegreeSettings";
-import LoadingDots from "../Pages/Loading Page/LoadingPage"
+import LoadingDots from "../Pages/Loading Page/LoadingDots"
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
@@ -229,7 +229,7 @@ const AcadSettings = (props) => {
               handleSubmit={handleSubmit}
             />
 
-          {!props.settings.editAll 
+          {!props.settings.isEditing.editAll 
             ? <button 
                 className="button settings-button" id="all-settings"
                 onClick={() => props.setEditAll(true, props.settings.isEditing, "editAll")}>
@@ -242,7 +242,7 @@ const AcadSettings = (props) => {
                 onClick={() => {
                     handleSubmit("editAll");}}>
                   Save All Settings
-                  <Spin indicator={antIcon} spinning={false}/>
+                  <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
               </button>
              
                </div>)

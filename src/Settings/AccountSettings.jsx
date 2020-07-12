@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RegistrationForm from "./ChangePassword";
 import { deleteUser } from "../actions/authActions";
-import LoadingDots from "../Pages/Loading Page/LoadingPage";
+import LoadingDots from "../Pages/Loading Page/LoadingDots";
 
 const AccountSettings = (props) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -77,17 +77,17 @@ const AccountSettings = (props) => {
     return (
         
         <div className="settings">
-            
             <SideNav active="account"/>
+                <div className="acad-settings">
                 <Card className="container" id="degree-settings">
                     <Card.Header>
                         Account Settings
                     </Card.Header>
-                    <table className="table table-hover settings-table" id="degree-acad-table">
+                    <table className="table settings-table table-hover " id="degree-acad-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    <label>Username :</label>
+                                    Username :
                                 </td>
 
                                 <td>
@@ -138,6 +138,7 @@ const AccountSettings = (props) => {
                             </button>
                         </Popconfirm>
                 </Card>
+                </div>
         </div>
     )
 }
