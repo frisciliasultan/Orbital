@@ -66,9 +66,9 @@ export const generateOptions = (optionList, category, object) => {
             })
         } 
     
-        return optionList.map((option) => {
+        return optionList.map((option, i) => {
             return (
-                <Option key={option} value={option}>
+                <Option key={option} value={option} index={i}>
                 {option}
                 </Option>
             );

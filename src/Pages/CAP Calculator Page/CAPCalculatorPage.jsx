@@ -37,7 +37,9 @@ const CAPCalculatorPage = (props) => {
     //to count what semester the user is in currently
     const [userSemester, setUserSemester] = useState();
     //semester that user selects
-    const [semester, setSemester] = useState("Year 1 Semester 1");
+    const [semester, setSemester] = useState("Overview");
+    //semester index that user selects 
+    const [semIndex, setSemIndex] = useState();
     //AY that user selects
     const [AY, setAY] = useState();
     //whether autocomplete is open
@@ -91,14 +93,27 @@ const CAPCalculatorPage = (props) => {
             const updatedUserAY = `Year ${Math.ceil(updatedUserSemester / 2)} ${props.settings.currentSemester}`;
             setUserSemester(updatedUserSemester);
             setSemester(updatedUserAY);
+            
         }
+        
     }, [props.settings.userInfo.matriculationYear, props.settings.userInfo.targetGradYear])
 
     useEffect(() => {
-        
-        setIsPast(
-            checkIsPast(semester, userSemester, props.settings.currentSemester, props.settings.month)
-            );
+         console.log('called')
+        if(!semIndex && !isEmpty(props.cap.semesterOptions)) {
+            console.log(semester)
+            console.log(props.cap.semesterOptions)
+            setSemIndex(props.cap.semesterOptions.indexOf(semester));
+        }
+    }, [props.cap.semesterOptions])
+
+    useEffect(() => {
+        if(semester !== "Overview") {
+            setIsPast(
+                checkIsPast(semester, userSemester, props.settings.currentSemester, props.settings.month)
+                );
+        }
+       
 
         //convert semester chosen to AY
         const year = Number(semester.substr(5, 1));
@@ -143,38 +158,64 @@ const CAPCalculatorPage = (props) => {
         props.setSelectedModules(module, props.modplan.selectedModules);
     }
 
-    
-    
+    const handleArrowClick = (direction) => {
+        
+        if(direction === "right") {
+            setSemIndex(semIndex + 1);
+            setSemester(props.cap.semesterOptions[semIndex + 1]);
+            
+        } else {
+            if(semIndex === 0) {
+                setSemester("Overview");
+            } else {
+                setSemester(props.cap.semesterOptions[semIndex -1]);
+            }
+            setSemIndex(semIndex - 1);
+            
+        }
+        
+    }
+
+    console.log(semIndex)
     return(
         isEmpty(props.settings.userInfo)
             ? <LoadingDots/>
             : (<div className="main-cap-div">
                 <div className="cap-description">
-                <h1 className="main-title">CAP Calculator</h1>
-            <h3>Current CAP: {props.cap.cap}</h3>
-            <h3>Target Future CAP: {props.cap.targetCap}</h3>
-            <label>Semester :</label>
-            <Select 
-                id="time"
-                defaultValue="Overview"
-                value={semester}
-                onChange={(e) => setSemester(e)}
-                style={{width: "250px"}}>
-                {/* buffer to display to wait for userInfo */}
-                {isEmpty(props.cap.semesterOptions) && <Option>Overview</Option>}
-                <Option value="Overview">Overview</Option>
-                {generateOptions(props.cap.semesterOptions)}
-            </Select>
+                    <h1 className="main-title">CAP Calculator</h1>
+                    <h3 className="current-cap">Current CAP: {props.cap.cap}</h3>
+                    <h3 className="target-future-cap">Target Future CAP: {props.cap.targetCap}</h3>
+                    <label>Semester :</label>
+                    <Select 
+                        id="time"
+                        defaultValue="Overview"
+                        value={semester}
+                        onChange={(e, props) => {setSemester(e); setSemIndex(props.index);}}
+                        style={{width: "250px"}}>
+                        {/* buffer to display to wait for userInfo */}
+                        {isEmpty(props.cap.semesterOptions) && <Option>Overview</Option>}
+                        <Option value="Overview">Overview</Option>
+                        {generateOptions(props.cap.semesterOptions)}
+                    </Select>
 
-             <span className="fa-layers fa-fw "/>
-                <i className="fas fa-arrow-left fa-lg fa-border"/>
-                <i className="fas fa-arrow-right fa-lg fa-border"/> 
+             {/* <span className="fa-layers fa-fw "/> */}
+                {semIndex !== -1 &&
+                    (
+                        <i className="fas fa-arrow-left fa-lg fa-border"
+                            onClick={() => { handleArrowClick("left") }}/>
+                    )
+                } 
+                {semIndex !== (props.cap.semesterOptions.length - 1) && 
+                    (
+                        <i className="fas fa-arrow-right fa-lg fa-border"
+                            onClick={() => { handleArrowClick("right") }}/> 
+                    )}
                 </div>
             
             {/* Table to display modules taken according to modulePlanner */}
 
-            <div className="cap-table-section">
-                <h3>{semester === "Overview" ? "Overview" : "Courses taken this semester"}</h3>
+            <div className="cap-table-section container">
+                <h3 id={semester === "Overview" ? "overview" : undefined}>{semester === "Overview" ? "Overview" : "Courses taken this semester"}</h3>
                 <Table className="table table-hover cap-table">
                         {semester === "Overview" 
                             ? generateObject(
