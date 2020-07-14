@@ -4,7 +4,7 @@ import {
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
-    SET_FACULTY_AND_RESIDENCE,
+    SET_ACAD_OPTIONS,
     SET_EDIT_ALL,
     SETTINGS_LOADING
 } from "../actions/types";
@@ -13,7 +13,9 @@ const initialState = {
     currentAY: null,
     currentSemester: null,
     month: null,
-    facultyOptions: [],
+    bachelorOptions: [],
+    secondMajorOptions: [],
+    minorOptions: [],
     residenceOptions: [],
     matriculationOptions:[],
     targetGradOptions: [],
@@ -103,11 +105,13 @@ export default function (state = initialState, action ) {
                 targetGradOptions: targetGradOptions    
             }
         
-        case SET_FACULTY_AND_RESIDENCE:
-            const { faculties, residences } = action;
+        case SET_ACAD_OPTIONS:
+            const { bachelors, secondMajors, minors, residences } = action;
             return {
                 ...state,
-                facultyOptions: faculties,
+                bachelorOptions: bachelors,
+                secondMajorOptions: secondMajors,
+                minorOptions: minors,
                 residenceOptions: residences
             }
         

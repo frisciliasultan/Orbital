@@ -33,73 +33,63 @@ const DegreeSettings = (props) => {
     return (
         <div>
         <Card className="container" id="degree-settings">
-            <h2 className="card-header">
-                {props.status === "first" 
-                    ? "Degree Settings" 
-                    : `${props.status} Degree Settings`}
-            </h2>
+            <h2 className="card-header">Degree Settings</h2>
 
             <table className="table settings-table table-hover " id="degree-acad-table">
             <tbody>
-                <Options
+                {/* <Options
                     status={props.status}
                     editing={isEditing || props.settings.editAll}
                     label={props.status === "first" ? "Faculty : " : `${props.status} Faculty : `}
                     handleChange={props.handleChange}
                     name={"faculty"}
                     value={props.userInput.faculty}
-                    optionList={props.settings.facultyOptions}/>
+                    optionList={props.settings.facultyOptions}/> */}
 
                 <Options
-                    status={props.status}
                     editing={isEditing || props.settings.editAll}
-                    label="Degree : "
+                    label="Degree"
                     handleChange={props.handleChange}
                     name="major"
                     value={props.userInput.major}
-                    optionList={(props.userInput.faculty && !isEmpty(props.settings.facultyOptions)) 
-                        ? props.settings.facultyOptions[props.userInput.facIndex].undergraduate.degrees
+                    optionList={!isEmpty(props.settings.bachelorOptions)
+                        ? props.settings.bachelorOptions
                             : null}/>
 
                 <Options 
-                    status={props.status}
                     editing={isEditing || props.settings.editAll}
                     hidden={true}
-                    title="Add Specialisation"
-                    label="Specialisation : "
+                    label="Specialisation"
                     handleChange={props.handleChange}
                     name="specialisation"
                     value={props.userInput.specialisation}
-                    optionList={(props.userInput.major && !isEmpty(props.settings.facultyOptions))
-                        ?  props.settings.facultyOptions[props.userInput.facIndex].undergraduate.degrees
+                    setUserInput={props.setUserInput}
+                    optionList={!isEmpty(props.settings.bachelorOptions)
+                        ?  props.settings.bachelorOptions
                         : null}/>
 
                 <Options 
-                    status={props.status}
                     editing={isEditing || props.settings.editAll}
                     hidden={true}
-                    category="secondMajor"
-                    label="Second Major : "
+                    label="Second Major"
                     handleChange={props.handleChange}
-                    name="secondMajor"
-                    value={props.userInput.secondMajor}
+                    name="secondMajors"
+                    value={props.userInput.secondMajors}
                     setUserInput={props.setUserInput}
-                    optionList={(props.userInput.major && !isEmpty(props.settings.facultyOptions)) 
-                        ? props.settings.facultyOptions[props.userInput.facIndex].undergraduate.secondMajors
+                    optionList={!isEmpty(props.settings.secondMajorOptions) 
+                        ? props.settings.secondMajorOptions
                         : null}/>
                 
                 <Options 
-                    status={props.status}
                     editing={isEditing || props.settings.editAll}
                     hidden={true}
-                    category="minor"
-                    label="Minor : "
+                    label="Minor"
                     handleChange={props.handleChange}
-                    name="minor"
-                    value={props.userInput.minor}
+                    name="minors"
+                    value={props.userInput.minors}
                     setUserInput={props.setUserInput}
-                    optionList={(props.userInput.major && !isEmpty(props.settings.facultyOptions)) 
-                        ? props.settings.facultyOptions[props.userInput.facIndex].undergraduate.minors
+                    optionList={(!isEmpty(props.settings.minorOptions)) 
+                        ? props.settings.minorOptions
                         : null}/>
 
             </tbody>

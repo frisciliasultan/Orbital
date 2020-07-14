@@ -10,8 +10,7 @@ import { setSelectedModules, callBackendAPI, setModuleLocation } from "../../act
 import { removeSuccess } from "../../actions/successActions";
 import { generateOptions, generateObject, handleSaveClick, checkIsPast } from "../../utils/commonFunctions";
 import isEmpty from 'is-empty';
-import { Select } from "antd";
-import { generatePath } from "react-router-dom";
+import { Select, Alert } from "antd";
 import { TableContent } from "../Module Selection Page/Table Content";
 
 
@@ -99,10 +98,7 @@ const CAPCalculatorPage = (props) => {
     }, [props.settings.userInfo.matriculationYear, props.settings.userInfo.targetGradYear])
 
     useEffect(() => {
-         console.log('called')
         if(!semIndex && !isEmpty(props.cap.semesterOptions)) {
-            console.log(semester)
-            console.log(props.cap.semesterOptions)
             setSemIndex(props.cap.semesterOptions.indexOf(semester));
         }
     }, [props.cap.semesterOptions])
@@ -176,7 +172,6 @@ const CAPCalculatorPage = (props) => {
         
     }
 
-    console.log(semIndex)
     return(
         isEmpty(props.settings.userInfo)
             ? <LoadingDots/>
@@ -194,7 +189,7 @@ const CAPCalculatorPage = (props) => {
                         style={{width: "250px"}}>
                         {/* buffer to display to wait for userInfo */}
                         {isEmpty(props.cap.semesterOptions) && <Option>Overview</Option>}
-                        <Option value="Overview">Overview</Option>
+                        <Option value="Overview" index={-1}>Overview</Option>
                         {generateOptions(props.cap.semesterOptions)}
                     </Select>
 
@@ -263,15 +258,17 @@ const CAPCalculatorPage = (props) => {
             </div>
 
             {!isEmpty(props.success) && 
-                <p style={{color: "green"}}>
-                    {props.success}
-                </p>
-                
-                }
-                
-                {!isEmpty(props.success) && 
-                    setTimeout(props.removeSuccess, 500) &&
-                    clearTimeout(setTimeout(props.removeSuccess, 2000))}
+                        <Alert 
+                            message={props.success} 
+                            type="success" 
+                            showIcon 
+                            closable
+                            style={{margin: "15px 0px"}} />
+                    }
+                    
+                    {!isEmpty(props.success) && 
+                        setTimeout(props.removeSuccess, 2000) &&
+                        clearTimeout(setTimeout(props.removeSuccess, 2000))}
         </div>)
     );
 }

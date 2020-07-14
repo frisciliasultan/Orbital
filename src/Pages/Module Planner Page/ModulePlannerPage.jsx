@@ -18,9 +18,7 @@ import LoadingDots from '../Loading Page/LoadingDots';
 
 
 const ModulePlannerPageTemp = (props) => {
-    console.log(props)
     const module = props.modplan.modules;
-    const [noOfYear, setNoOfYear] = useState(4);
 
     useEffect(() => {
         if(isEmpty(props.modplan.rules)) {
@@ -39,20 +37,17 @@ const ModulePlannerPageTemp = (props) => {
             }
     }, [props.settings.userInfo])
 
-    // useEffect(() => {
-    //     if(!isEmpty(props.settings.userInfo)) {
-    //         const start = props.settings.userInfo.matriculationYear.substr(0, 4);
-    //         const end = props.settings.userInfo.targetGradYear.substr(5, 4);
-    //         const noOfYear = end - start;
-    //         setNoOfYear(noOfYear);
-    //     }
-
-    // }, [props.settings.userInfo.matriculationYear, props.settings.userInfo.targetGradYear])
-
     const handleEvalButtonClick = () => {
         const modules = props.modplan.selectedModules;
         if (isEmpty(modules)) {
-            alert('Please add modules before evaluating');
+            return (
+                <Alert 
+                    message='Please add modules before evaluating' 
+                    type="warning" 
+                    showIcon 
+                    closable
+                    style={{margin: "15px 0px"}} />
+            )
         } else {
             props.setCallBackendNow(true);
         }
@@ -63,12 +58,15 @@ const ModulePlannerPageTemp = (props) => {
             ? <LoadingDots/>
             : (<DndProvider backend={Backend} >
                 <div className="container-module-planner">
+                    <h3 id="module-planner-title">Module Planner</h3>
+                    <div className="year-display">
                     {!isEmpty(props.settings.userInfo.matriculationYear) 
                         && generateObject(props.settings.userInfo.matriculationYear, 
                                 props.settings.userInfo.targetGradYear, 
                                 "yearDisplay",
                                 module
                                 )}
+                    </div>
                     
                     <TrashBox
                             module={module}/>
@@ -77,17 +75,21 @@ const ModulePlannerPageTemp = (props) => {
                     <br/>
     
                     <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
-                    <br/>
     
                     <Button className="button" onClick={() => handleSaveClick(props)} >Save</Button>
+                    
                     {!isEmpty(props.success) && 
-                        <Alert message={props.success} type="success" showIcon />
+                        <Alert 
+                            message={props.success} 
+                            type="success" 
+                            showIcon 
+                            closable
+                            style={{margin: "15px 0px"}} />
                     }
                     
                     {!isEmpty(props.success) && 
-                        setTimeout(props.removeSuccess, 500) &&
+                        setTimeout(props.removeSuccess, 2000) &&
                         clearTimeout(setTimeout(props.removeSuccess, 2000))}
-    
                     <br/>
                     <br/>
                     <p>Click on each requirement for further information</p>

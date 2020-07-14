@@ -14,7 +14,6 @@ const ModuleCard = props => {
         })
     })
    
-    let message = false;
     return (
         <Button
             ref={drag}

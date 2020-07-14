@@ -56,7 +56,7 @@ function Board (props) {
 
         return (
             
-            <div>
+            <div className="card-board">
                 <h3>{props.semester}</h3>
             <div   
                 ref={drop}

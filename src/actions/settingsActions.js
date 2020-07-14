@@ -5,7 +5,7 @@ import {
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
     GET_SUCCESS,
-    SET_FACULTY_AND_RESIDENCE,
+    SET_ACAD_OPTIONS,
     SET_EDIT_ALL,
     SETTINGS_LOADING
 } from "./types";
@@ -96,21 +96,25 @@ export const cleanUpSettings = () => {
 export const setDegreeOptions = () => dispatch => {
     axios.defaults.timeout = 5000;
     axios.all([
-        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/faculties'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/bachelors'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/secondMajors'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/minors'),
         axios.get('https://modtree-api.netlify.app/.netlify/functions/info/residences')
     ])
     .then(resArr => {
-            dispatch(setFacultyAndResidence(resArr[0].data, resArr[1].data));
+            dispatch(setAcadOptions(resArr[0].data, resArr[1].data, resArr[2].data, resArr[3].data));
         }) 
     .catch(err => {
         console.log(err)
     });
 }
 
-export const setFacultyAndResidence = (faculties, residences) => {
+export const setAcadOptions = (bachelors, secondMajors, minors, residences) => {
     return {
-        type: SET_FACULTY_AND_RESIDENCE,
-        faculties, 
+        type: SET_ACAD_OPTIONS,
+        bachelors,
+        secondMajors,
+        minors, 
         residences
     }
 }

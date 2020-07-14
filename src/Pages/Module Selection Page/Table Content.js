@@ -3,6 +3,8 @@ import { generateOptions } from "../../utils/commonFunctions";
 import { Select, Empty } from "antd";
 import isEmpty from "is-empty"
 
+// let isOverviewTableFilled = true;
+
 export const TableContent = (props) => {
     let totalMCs = 0;
 
@@ -67,6 +69,10 @@ export const TableContent = (props) => {
             })
         )
     }
+
+    // if(isEmpty(modules) && isOverviewTableFilled) {
+
+    // }
  
     if(props.category === "tables") {
         return (

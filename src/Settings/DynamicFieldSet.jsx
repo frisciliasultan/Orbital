@@ -1,7 +1,10 @@
-import { Form, Input, Button, Switch } from 'antd';
+import { Form, Button, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import AutocompleteText from "../Pages/Module Planner Page/AutocompleteText";
+import { generateOptions } from "../utils/commonFunctions";
+// import AutocompleteText from "../Pages/Module Planner Page/AutocompleteText";
 import React, { useState, useEffect} from "react";
+
+const { Option } = Select;
 
 const formItemLayout = {
     labelCol: {
@@ -23,53 +26,98 @@ const formItemLayout = {
   
 
   const DynamicFieldSet = (props) => {
-    
+   
+    const [fields, setFields] = useState();
+    const [options, setOptions] = useState(props.optionList);
+
     const handleRemove = (index) => {
-      const original = props.value ? [...props.value] : [];
-      original.splice(index, 1);
-      props.setUserInput({[props.name]: original});
+      const updated = [...props.value];
+
+       //add removed option to options in state
+      const temp = [...options];
+        for(let i = 0; i < props.optionList.length; i++) {
+          if(props.optionList[i].fullName === updated[index].name) {
+            temp.splice(i, 1, props.optionList[i]);
+            break;
+          }
+        }
+       setOptions(temp);
+
+      //remove option from userInput state in acad settings page
+      updated.splice(index, 1);
+      props.setUserInput({[props.name]: updated});
     }
 
-    const onFinish = values => {
-      console.log('Received values of form:', values);
-    };
+    const onChange = (e, object, index) => {
+      const updated = [...props.value];
+     
+      const temp = [...options];
+        for(let i = 0; i < props.optionList.length; i++) {
+          if(updated[index]) {
+             //add removed option back into options
+            if(props.optionList[i].fullName === updated[index].name) {
+              temp.splice(i, 1, props.optionList[i]);
+            }
+          }
+          
+          if(props.optionList[i].fullName === object.value) {
+            temp.splice(i, 1, null);
+          } 
+        }
+       setOptions(temp);
 
-    const [fields, setFields] = useState();
+      updated[index] = {
+                        name: object.value,
+                        tag: object.tag
+                      };
+      props.setUserInput({[object.name]: updated});
+  }
 
     useEffect(() => {
-      let updatedField;
+      let updatedField = [];
       if(props.value) {
         for (let i = 0; i < props.value.length; i++) {
           updatedField[i] = {fieldKey: i,
                               isListField: true,
                               key: i,
-                              name: i      }
+                              name: i}
         }
         setFields(updatedField);
       }
     }, [])
-  
-    
+
+  //   useEffect(() => {
+  //     if(props.value[0]) {
+  //       let updated = [...options];
+        
+  //       props.value.map((object) => {
+  //         for(let i = 0; i < updated.length; i++) {
+  //           if(updated[i].fullName === object.name) {
+  //               updated.splice(i, 1);
+  //               break;
+  //           }
+  //         }
+  //       });
+  //       setOptions(updated);
+  //   }
+  // }, [props.value]);
+
+  console.log(options)
+  console.log(props.value)
     return (
       <Form name="dynamic_form_item" 
-        {...formItemLayoutWithOutLabel} 
-        onFinish={onFinish}
-        >
+        {...formItemLayoutWithOutLabel}>
           
         <Form.List 
         // name={props.name}
         name="name">
           {(fields, { add, remove }) => {
-            console.log(fields)
-            console.log(add)
-            console.log(remove)
             return (
               <div>
                 
                 {fields.map((field, index) => (
                   <Form.Item
                     {...(formItemLayoutWithOutLabel)}
-                    // label={index === 0 ? 'SecondMajors' : ''}
                     required={false}
                     key={field.key}
                   >
@@ -85,11 +133,24 @@ const formItemLayout = {
                       // ]}
                       noStyle
                     >
-                      <AutocompleteText category={props.name}
-                      setUserInput ={props.setUserInput}
-                      index={index}
-                      value={props.value}/>
-                      {/* <Input placeholder={`Enter ${props.name}`} style={{ width: '60%' }} /> */}
+                      <Select
+                        showSearch
+                        onChange={(e, object) => onChange(e, object, index)}
+                        defaultValue="None "
+                        value={props.value[index] ? props.value[index].name : "None "}
+                        style={{ width: 250 }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => {
+                            return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }}>
+                        <Option 
+                            key={"choose" + props.label}
+                            value="None " 
+                             disabled>
+                            {"Choose " + props.label}
+                        </Option>
+                        {generateOptions((options ? options : props.optionList), props.name)}
+                      </Select>
                     </Form.Item>
 
                     {fields.length > 1 ? (
@@ -104,17 +165,18 @@ const formItemLayout = {
                     ) : null}
                   </Form.Item>
                 ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    style={{ width: '100%' }}
-                  >
-                    <PlusOutlined /> Add {props.name === "secondMajor" ? "Major" : "Minor"}
-                  </Button>
-                </Form.Item>
+                
+                
+                  <Form.Item>
+                  {options[0] && <Button
+                      type="dashed"
+                      onClick={() => {
+                          add();
+                      }}
+                      style={{ width: '100%' }}>
+                       <PlusOutlined /> Add {props.name === "secondMajors" ? "Major" : props.name}
+                    </Button>}
+                  </Form.Item>
               </div>
             );
           }}

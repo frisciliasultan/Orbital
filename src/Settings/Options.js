@@ -6,52 +6,53 @@ import { Switch, Select } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
-    const [isOpen, setIsOpen] = useState(props.value ? true : false);
+    const [isOpen, setIsOpen] = useState(!isEmpty(props.value) ? true : false);
     const { Option } = Select;
+    let value;
+    if (!isEmpty(props.value)) {
+        value = props.value[0].name ? props.value[0].name : props.value;
+    } else {
+        value = "None ";
+    } 
 
     const renderContent = () => {
         if(props.editing) {
-            if(!props.hidden || (isOpen && !props.category )) {
+            if(!props.hidden) {
                 return (
                     <Select
                         showSearch
-                        // name={props.name}
                         onChange={props.handleChange}
                         defaultValue="None "
-                        value={props.value ? props.value : "None"}
+                        value={value}
                         style={{ width: 300 }}
                         optionFilterProp="children"
                         filterOption={(input, option) => {
-                            console.log(option)
                             return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                        
-                        }
-                    >
+                        }}>
                         <Option 
                             key={"choose" + props.label}
-                            value="None" 
+                            value="None " 
                              disabled>
                             {"Choose " + props.label}
                         </Option>
                         {generateOptions(props.optionList, props.name)}
                     </Select> ) 
-            } else if (isOpen && props.category) {
+            } else if (isOpen) {
                 return (
                     <div>
-                    {/* <p>{props.value}</p> */}
                     <DynamicFieldSet
+                        label={props.label}
                         setUserInput={props.setUserInput}
-                        options={props.optionList}
-                        name={props.category}
+                        optionList={props.optionList}
+                        name={props.name}
                         value={props.value}/>
                     </div>
                 )
             } else {
-                return props.value ? props.value : "None";
+                return value;
             }
         } else {
-            return props.value ? props.value : "None";
+            return value;
         }
     }
     return (

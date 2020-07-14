@@ -22,23 +22,21 @@ const AcadSettings = (props) => {
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({...state, ...newState}), 
     {
-      faculty: props.userInfo.faculty,
-      facIndex: props.userInfo.facIndex,
-      major: props.userInfo.major,
-      majorIndex: props.userInfo.majorIndex,
-      specialisation: props.userInfo.specialisation,
-      secondMajor: props.userInfo.secondMajor,
-      minor: props.userInfo.minor,
-      residence: props.userInfo.residential,
-      matriculationYear: props.userInfo.matriculationYear,
-      targetGradYear: props.userInfo.targetGradYear
+      major: null,
+      majorIndex: null,
+      specialisation: [],
+      secondMajors: [],
+      minors: [],
+      residence: null,
+      matriculationYear: null,
+      targetGradYear: null
     }
   );
 
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if(isEmpty(props.settings.facultyOptions)) {
+    if(isEmpty(props.settings.bachelorOptions)) {
         props.setDegreeOptions();
     }
   }, []);
@@ -51,13 +49,13 @@ const AcadSettings = (props) => {
   }, [props.settings.currentAY]);
 
   useEffect(() => {
-    if(!isEmpty(props.userInfo)) {
+    if(props.settings.userInfo.major) {
       setUserInput({
         faculty: props.userInfo.faculty,
         facIndex: props.userInfo.facIndex,
         major: props.userInfo.major,
         majorIndex: props.userInfo.majorIndex,
-        specialisation: props.userInfo.specialisation,
+        specialisation: props.userInfo.specialisation ,
         secondMajor: props.userInfo.secondMajor,
         minor: props.userInfo.minor,
         residence: props.userInfo.residential,
@@ -65,7 +63,7 @@ const AcadSettings = (props) => {
         targetGradYear: props.userInfo.targetGradYear
       });
       
-      if(props.auth.firstTimeRegistered || !props.settings.userInfo.faculty) {
+      if(props.auth.firstTimeRegistered || !props.settings.userInfo.major) {
         console.log(props.auth.firstTimeRegistered)
         console.log(props.settings.userInfo.faculty)
         props.setEditAll(true, props.settings.isEditing, "editAll");
@@ -78,7 +76,6 @@ const AcadSettings = (props) => {
   }, [props.success])
 
   const openNotification = (type, placement) => {
-    console.log(type)
     notification[type]({
       message: type === "success" ? "Success!" : "Whoops!",
       description:
@@ -87,20 +84,28 @@ const AcadSettings = (props) => {
     });
   };
 
-  const handleChange = (e, object) => {
-    const {name, value, selectedindex} = object;
-    if(name === "faculty") {
-      console.log('changed');
-      setUserInput({[name]: value,
-                      facIndex: (selectedindex),
-                      major: null});
-        
-    } else if(name === "major") {
-      setUserInput({[name]: value,
-                      majorIndex: (selectedindex)});
+  const handleChange = (unusedParam, object) => {
+    const {name, value, selectedindex, tag} = object;
+    const updated = {
+                      name: value,
+                      tag: tag
+                    };
+    if(name === "major") {
+      setUserInput({[name]: [{
+                              name: value,
+                              tag: tag
+                            }],
+                    majorIndex: (selectedindex)});
 
-    } else {
+    } else if(name === "matriculationYear" || name === "targetGradYear") {
       setUserInput({[name]: value});
+   
+    } else {
+      setUserInput({[name]: [{
+                              name: value,
+                              tag: tag
+                            }]
+                    });
     } 
   };
 
@@ -124,14 +129,12 @@ const AcadSettings = (props) => {
 
   const handleSubmit = (category) => {
     const userData = {
-      faculty: userInput.faculty,
-      facIndex: userInput.facIndex,
       major: userInput.major,
       majorIndex: userInput.majorIndex,
       specialisation: userInput.specialisation ? userInput.specialisation : "None",
-      secondMajor: userInput.secondMajor ? userInput.secondMajor : "None",
-      minor: userInput.minor ? userInput.minor : "None",
-      residential: userInput.residence ? userInput.residence : "None",
+      secondMajor: userInput.secondMajor,
+      minor: userInput.minor,
+      residential: userInput.residence,
       matriculationYear: userInput.matriculationYear,
       targetGradYear: userInput.targetGradYear,
       modPlan: props.modplan,
@@ -179,8 +182,10 @@ const AcadSettings = (props) => {
      } 
   }
 
+  console.log(userInput);
+
   return (
-    props.auth.loading || isEmpty(props.settings.facultyOptions) 
+    props.auth.loading 
       ? <LoadingDots/>
       : (<div className="settings">
           <SideNav active="academics"/>
@@ -193,15 +198,7 @@ const AcadSettings = (props) => {
               <table className="table settings-table table-hover" id="general-acad-table">
                 <tbody>
                   <Options
-                    label="Residential College : "
-                    handleChange={handleChange}
-                    name="residence"
-                    value={userInput.residence}
-                    editing={isEditing || props.settings.editAll}
-                    optionList={props.settings.residenceOptions}/>
-                  
-                  <Options
-                    label="Matriculation Year : "
+                    label="Matriculation Year "
                     handleChange={handleChange}
                     name="matriculationYear"
                     value={userInput.matriculationYear}
@@ -209,12 +206,20 @@ const AcadSettings = (props) => {
                     optionList={props.settings.matriculationOptions}/>
 
                   <Options
-                    label="Graduation Year : "
+                    label="Graduation Year"
                     handleChange={handleChange}
                     name="targetGradYear"
                     value={userInput.targetGradYear}
                     editing={isEditing || props.settings.editAll}
                     optionList={props.settings.targetGradOptions}/>
+
+                  <Options
+                    label="Residential College "
+                    handleChange={handleChange}
+                    name="residence"
+                    value={userInput.residence}
+                    editing={isEditing || props.settings.editAll}
+                    optionList={props.settings.residenceOptions}/>
                 </tbody>
               </table>
 
@@ -222,7 +227,6 @@ const AcadSettings = (props) => {
             </Card> 
 
             <DegreeSettings
-              status="first"
               userInput={userInput}
               setUserInput={setUserInput}
               handleChange={handleChange}

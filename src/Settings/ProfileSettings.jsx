@@ -6,10 +6,11 @@ const ProfileSettings = (props) => {
     return (
         <div className="settings">
             <SideNav active="profile"/>
-            <h1>Profile</h1>
+            <div className="acad-settings">
+                <h1>Profile</h1>
             <Card className="container" id="degree-settings">
                     <Card.Header>
-                        Account Settings
+                        Profile Settings
                     </Card.Header>
                     <table className="table table-hover settings-table" id="degree-acad-table">
                         <tbody>
@@ -38,6 +39,7 @@ const ProfileSettings = (props) => {
                     </table>
                   
                 </Card>
+            </div>
         </div>
     )
 }

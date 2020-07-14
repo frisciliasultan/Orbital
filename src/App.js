@@ -130,7 +130,7 @@ const App = (props) => {
             exact path="/settings/account" 
             type="settings"
             active="account"
-            component={AccountSettings} /> 
+            component={ AccountSettings } /> 
 
         <Route 
           exact path="/500-error" 

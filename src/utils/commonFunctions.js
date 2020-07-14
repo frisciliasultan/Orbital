@@ -15,32 +15,37 @@ export const generateOptions = (optionList, category, object) => {
                     </Option>
                 );
             })
-        } else if (category === 'faculty') {
-                return optionList.map((option, index) => {
-                    return (
-                        <Option 
-                            key={option.name} 
-                            value={option.name}
-                            name={category}
-                            selectedindex={index}>
-                        {option.name}
-                        </Option>
-                    );
-                })
+        // } else if (category === 'faculty') {
+        //         return optionList.map((option, index) => {
+        //             return (
+        //                 <Option 
+        //                     key={option.name} 
+        //                     value={option.name}
+        //                     name={category}
+        //                     selectedindex={index}>
+        //                 {option.name}
+        //                 </Option>
+        //             );
+        //         })
+
+        //DO NOT DELETE CATEGORY. Need diff category names for saving input
         } else if (category === 'major' || category === "specialisation" 
-                    || category === "secondMajor" || category === "minor" 
+                    || category === "secondMajors" || category === "minors" 
                         || category === "residence"
                         ) {
             return optionList.map((option, index) => {
-                return (
-                    <Option 
-                        key={option.fullName} 
-                        value={option.fullName}
-                        name={category}
-                        selectedindex={index}>
-                    {option.fullName}
-                    </Option>
-                );
+                if(option) {
+                    return (
+                        <Option 
+                            key={option.fullName} 
+                            value={option.fullName}
+                            name={category}
+                            tag={option.tag}
+                            selectedindex={index}>
+                            {option.name}
+                        </Option>
+                    );
+                }
             })
         } else if (category === 'matriculationYear') {
             return optionList.map((option) => {

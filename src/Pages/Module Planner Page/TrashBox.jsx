@@ -17,12 +17,14 @@ function TrashBox (props) {
     })
 
     return (
-        <Card 
-            ref={drop}
-            style={{width: '300px',
-                    height: '400px'}}>
+        <Card className="trashbox"
+            ref={drop}>
             <Card.Title>Trash</Card.Title>
             <Card.Subtitle>Drop Modules here to delete</Card.Subtitle>
+            <div className="trash-icon">
+            <i
+                className="far fa-trash-alt"/>
+            </div>
         </Card>
     )
 }

@@ -50,13 +50,14 @@ export default function (state = initialState, action) {
             if(!moduleAdded) {
                 return {
                     ...state,
-                    selectedModules: module
+                    // selectedModules: module
                 }
             }
             for(let i = 0; i < module.length; i++) {
                 if(module[i].moduleCode === moduleAdded.moduleCode) {
                     unique = false;
                     indexOfDuplicate = i;
+                    break;
                 }
             }
 
@@ -64,7 +65,6 @@ export default function (state = initialState, action) {
                 if(unique) {
                     module.push(moduleAdded);
                 } else {
-                    
                     module.splice(indexOfDuplicate, 1, moduleAdded);         
                 }
             }
@@ -81,8 +81,6 @@ export default function (state = initialState, action) {
 
             if(!location) {
                 changedModule = modulesToFilter.filter((object) => object.moduleCode !== item.id);
-                console.log(modulesToFilter.filter((object) => object.moduleCode === item.id));
-                console.log(changedModule);
             } else {
                 const temp = modulesToFilter.filter((object) => object.moduleCode === item.id);
                 const moduleToChange = [...temp];
