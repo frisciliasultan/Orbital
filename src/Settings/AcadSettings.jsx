@@ -131,9 +131,9 @@ const AcadSettings = (props) => {
     const userData = {
       major: userInput.major,
       majorIndex: userInput.majorIndex,
-      specialisation: userInput.specialisation ? userInput.specialisation : "None",
-      secondMajor: userInput.secondMajor,
-      minor: userInput.minor,
+      specialisation: userInput.specialisation,
+      secondMajors: userInput.secondMajors,
+      minors: userInput.minors,
       residential: userInput.residence,
       matriculationYear: userInput.matriculationYear,
       targetGradYear: userInput.targetGradYear,

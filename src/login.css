@@ -439,7 +439,7 @@ button.button.settings-button {
     color: #999;
 	transition: all 0.3s;
 	margin: 0;
-	left: 270px;
+	left: 320px;
   }
   .dynamic-delete-button:hover {
     color: #777;

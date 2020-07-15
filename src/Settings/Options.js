@@ -55,6 +55,15 @@ const Options = (props) => {
             return value;
         }
     }
+
+    const handleSwitch = () => {
+        if(isOpen) {
+            props.setUserInput({[props.name]: []});
+        }
+
+        setIsOpen(!isOpen);
+    }
+
     return (
             <tr>
                 <td>
@@ -69,7 +78,7 @@ const Options = (props) => {
                     {props.hidden && props.editing
                         ? <Switch  
                             checked={isOpen} 
-                            onChange={() => setIsOpen(!isOpen)}/>
+                            onChange={handleSwitch}/>
                         : null}
                 </td>
             </tr>
