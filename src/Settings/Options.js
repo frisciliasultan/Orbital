@@ -9,12 +9,13 @@ const Options = (props) => {
     const [isOpen, setIsOpen] = useState(!isEmpty(props.value) ? true : false);
     const { Option } = Select;
     let value;
-    if (!isEmpty(props.value)) {
-        value = props.value[0].name ? props.value[0].name : props.value;
+    if (!isEmpty(props.value) && props.name !== "specialisation"
+        && props.name !== "secondMajors" && props.name !== "minors") {
+        value = props.value.name ? props.value.name : props.value;
     } else {
         value = "None ";
     } 
-
+    console.log(value)
     const renderContent = () => {
         if(props.editing) {
             if(!props.hidden) {
@@ -58,7 +59,11 @@ const Options = (props) => {
 
     const handleSwitch = () => {
         if(isOpen) {
-            props.setUserInput({[props.name]: []});
+            if(props.name === "specialisation") {
+                props.setUserInput({specialisation: "None "});
+            } else {
+                props.setUserInput({[props.name]: []});
+            }
         }
 
         setIsOpen(!isOpen);

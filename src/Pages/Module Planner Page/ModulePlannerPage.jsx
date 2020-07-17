@@ -4,52 +4,72 @@ import Rules from './Rules';
 import TrashBox from './TrashBox';
 import './plannertemp.css';
 import { Button, Card } from 'react-bootstrap';
-import { Alert } from "antd";
+import { Alert, Spin, message } from "antd";
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
-import { callBackendAPI, setCallBackendNow, setSelectedModules } from '../../actions/modplanActions';
+import { callBackendAPI, setCallBackendNow, setSelectedModules, evalRules, setRules } from '../../actions/modplanActions';
 import { updateSettings, initialSettings } from "../../actions/settingsActions";
 import { removeSuccess } from "../../actions/successActions";
 import { handleSaveClick, generateObject } from "../../utils/commonFunctions";
 import PropTypes from 'prop-types';
 import isEmpty from 'is-empty'
 import LoadingDots from '../Loading Page/LoadingDots';
+import { LoadingOutlined } from '@ant-design/icons';
+
 
 
 const ModulePlannerPageTemp = (props) => {
     const module = props.modplan.modules;
+    const [ruleFunction, setRuleFunction] = useState();
+    const [alert, setAlert] = useState(false);
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     useEffect(() => {
-        if(isEmpty(props.modplan.rules)) {
-            props.callBackendAPI('Rules', "r_ulr", "r_cs_degree");
+        const fetchRules = async () => {
+            const evalfunc = await props.callBackendAPI("Rules", props.settings.userInfo.modPlan, props.history);
+            setRuleFunction(evalfunc);
+        } 
+        if(!isEmpty(props.settings.userInfo)) {
+            if(isEmpty(props.modplan.rules)) {
+                fetchRules();
+            }
+
+            if(!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)) {   
+                props.setSelectedModules(null, props.settings.userInfo.modPlan, props.history);
+            }
         }
-        
+    }, [props.settings.userInfo])
+
+    useEffect(() => {
         if(isEmpty(props.modplan.modules)){
-            props.callBackendAPI('NUSMods');
+            props.callBackendAPI('NUSMods', null, props.history);
         } 
     }, [])
 
-    useEffect(() => {
-            if(!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)) {
-                console.log(props.modplan.selectedModules)
-                props.setSelectedModules(null, props.settings.userInfo.modPlan)
-            }
-    }, [props.settings.userInfo])
-
     const handleEvalButtonClick = () => {
         const modules = props.modplan.selectedModules;
-        if (isEmpty(modules)) {
-            return (
-                <Alert 
-                    message='Please add modules before evaluating' 
-                    type="warning" 
-                    showIcon 
-                    closable
-                    style={{margin: "15px 0px"}} />
-            )
-        } else {
+        if(!isEmpty(modules)) {
             props.setCallBackendNow(true);
+            const modplan = modules.map((obj) => {
+                return obj.moduleCode
+            });
+            const asyncEvalRules = async () => {
+                const newEvaluatedRules = await evalRules(ruleFunction, modplan);
+                console.log(newEvaluatedRules)
+                props.setRules(newEvaluatedRules);
+            }
+            asyncEvalRules();
+        } else {
+            message.warning({
+                content: 'Please add modules before evaluating',
+              })
+      
+              message.config({
+                maxCount: 1,
+                duration: .7,
+                top: '70px',
+              })
         }
     }
 
@@ -57,8 +77,11 @@ const ModulePlannerPageTemp = (props) => {
         isEmpty(props.settings.userInfo) 
             ? <LoadingDots/>
             : (<DndProvider backend={Backend} >
-                <div className="container-module-planner">
+                <div className="page-title">
                     <h3 id="module-planner-title">Module Planner</h3>
+                </div>
+                
+                <div className="container-module-planner">
                     <div className="year-display">
                     {!isEmpty(props.settings.userInfo.matriculationYear) 
                         && generateObject(props.settings.userInfo.matriculationYear, 
@@ -75,7 +98,7 @@ const ModulePlannerPageTemp = (props) => {
                     <br/>
     
                     <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
-    
+
                     <Button className="button" onClick={() => handleSaveClick(props)} >Save</Button>
                     
                     {!isEmpty(props.success) && 
@@ -88,17 +111,19 @@ const ModulePlannerPageTemp = (props) => {
                     }
                     
                     {!isEmpty(props.success) && 
-                        setTimeout(props.removeSuccess, 2000) &&
+                        setTimeout(props.removeSuccess, 4000) &&
                         clearTimeout(setTimeout(props.removeSuccess, 2000))}
-                    <br/>
-                    <br/>
+
                     <p>Click on each requirement for further information</p>
-                    <Card>
-                        <Rules
-                            rules={props.modplan.rules}
-                            settings={props.settings}/>
-                    </Card>
-                    <br/>
+                        <Card className="container rule-container">
+                            <Card.Title className="card-title">Degree Requirements</Card.Title>
+                            <Spin indicator={antIcon} tip="Loading..." spinning={props.modplan.loading}>
+                                <Rules
+                                    rules={props.modplan.rules}
+                                    settings={props.settings}
+                                    ruleFunction={ruleFunction}/>
+                            </Spin>      
+                        </Card>
                 </div>
             </DndProvider>)
     )
@@ -109,8 +134,6 @@ ModulePlannerPageTemp.propTypes = {
     setCallBackendNow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
     removeSuccess: PropTypes.func.isRequired,
-    handleSaveClick: PropTypes.func.isRequired,
-    
     modplan: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     cap: PropTypes.object.isRequired
@@ -124,5 +147,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, 
-                    { callBackendAPI, setCallBackendNow, updateSettings, initialSettings, setSelectedModules, removeSuccess }) 
+                    { callBackendAPI, setCallBackendNow, updateSettings, initialSettings, 
+                        setSelectedModules, removeSuccess, setRules  }) 
                     (ModulePlannerPageTemp);

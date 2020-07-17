@@ -10,7 +10,7 @@ import { message } from 'antd';
 
 class PrivateNav extends React.Component {
     warning = () => {
-        if(!this.props.settings.userInfo.faculty) {
+        if(!this.props.settings.userInfo.major) {
             
             message.warning({
                 content: 'Please fill in your particulars!',

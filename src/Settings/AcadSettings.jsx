@@ -51,8 +51,6 @@ const AcadSettings = (props) => {
   useEffect(() => {
     if(props.settings.userInfo.major) {
       setUserInput({
-        faculty: props.userInfo.faculty,
-        facIndex: props.userInfo.facIndex,
         major: props.userInfo.major,
         majorIndex: props.userInfo.majorIndex,
         specialisation: props.userInfo.specialisation ,
@@ -91,20 +89,20 @@ const AcadSettings = (props) => {
                       tag: tag
                     };
     if(name === "major") {
-      setUserInput({[name]: [{
+      setUserInput({[name]: {
                               name: value,
                               tag: tag
-                            }],
+                            },
                     majorIndex: (selectedindex)});
 
     } else if(name === "matriculationYear" || name === "targetGradYear") {
       setUserInput({[name]: value});
    
     } else {
-      setUserInput({[name]: [{
+      setUserInput({[name]: {
                               name: value,
                               tag: tag
-                            }]
+                            }
                     });
     } 
   };
@@ -145,7 +143,7 @@ const AcadSettings = (props) => {
   //if all props of userData is filled, allow user to save
   //else alert popup to redirect user back to filling in their data (TEMPORARY)
   if(checkSubmission(userData)) {
-    props.updateSettings(userData);
+    props.updateSettings(userData, props.history);
     props.setEditAll(false, props.settings.isEditing, category);
 
   } else {

@@ -21,7 +21,7 @@ export const setUserSettings = (userData) => {
 
 export const initialSettings = () => async dispatch => {
     try {
-        axios.defaults.timeout = 7000;
+        axios.defaults.timeout = 10000;
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
@@ -41,12 +41,14 @@ export const initialSettings = () => async dispatch => {
         }
 }
 
-export const updateSettings = (userData) => dispatch => {
-    axios.defaults.timeout = 7000;
+export const updateSettings = (userData, history) => dispatch => {
+    axios.defaults.timeout = 10000;
     dispatch(setSettingsLoading(true))
+
     axios
         .put("https://modtree-api.netlify.app/.netlify/functions/user/account", userData)
-        .then(res => {dispatch(setUserSettings(res.data.updated))})
+        .then(res => {
+           dispatch(setUserSettings(res.data.updated))})
         .then(res => {
             dispatch({
                         type: GET_SUCCESS,
@@ -56,9 +58,9 @@ export const updateSettings = (userData) => dispatch => {
             }
         )
         .catch(err => {
-                dispatch(setSettingsLoading(false))
+                dispatch(setSettingsLoading(false));
                 console.log(err);
-                // window.location.replace("/500-error")
+                history.push("/500-error");
             })
 };
 
@@ -94,7 +96,7 @@ export const cleanUpSettings = () => {
 }
 
 export const setDegreeOptions = () => dispatch => {
-    axios.defaults.timeout = 5000;
+    axios.defaults.timeout = 10000;
     axios.all([
         axios.get('https://modtree-api.netlify.app/.netlify/functions/info/bachelors'),
         axios.get('https://modtree-api.netlify.app/.netlify/functions/info/secondMajors'),

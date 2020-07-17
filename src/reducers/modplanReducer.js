@@ -6,6 +6,7 @@ import {
     SET_SELECTED_MODULES,
     SET_MODULE_LOCATION,
     SET_CURRRENT_SEMESTER, 
+    SET_MODPLAN_LOADING,
     CLEAN_UP_MODPLAN
 } from "../actions/types";
 
@@ -13,7 +14,8 @@ const initialState = {
     selectedModules: [], 
     callBackendNow: false,
     rules: [],
-    modules: []
+    modules: [],
+    loading: false
 }
 
 export default function (state = initialState, action) {
@@ -50,7 +52,7 @@ export default function (state = initialState, action) {
             if(!moduleAdded) {
                 return {
                     ...state,
-                    // selectedModules: module
+                    selectedModules: module
                 }
             }
             for(let i = 0; i < module.length; i++) {
@@ -100,7 +102,11 @@ export default function (state = initialState, action) {
                AY: action.AY,
                semester: action.semester
            }
-        
+        case SET_MODPLAN_LOADING:
+            return {
+                ...state,
+                loading: action.status
+            }
         case CLEAN_UP_MODPLAN:
             return initialState;
 

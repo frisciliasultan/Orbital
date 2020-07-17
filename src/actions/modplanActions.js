@@ -7,11 +7,13 @@ import {
     SET_SELECTED_MODULES,
     SET_MODULE_LOCATION,
     SET_CURRRENT_SEMESTER,
+    SET_MODPLAN_LOADING,
     CLEAN_UP_MODPLAN
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-
+const compile = require('../backend_utils/compile');
+const toView = require('../backend_utils/toView');
 
 export const setIsBoardFilled = () => {
     return {
@@ -19,11 +21,10 @@ export const setIsBoardFilled = () => {
     }
 }
 
-export const callBackendAPI = (backend, ulrTag, degreeTag) => dispatch => {
+export const callBackendAPI = (backend, modplanObj, history) => async dispatch => {
 
     if(backend === 'NUSMods') {
         setAuthToken(false);
-
         axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json' )
         .then(res => dispatch(setModules(res.data)))
         .then(setAuthToken(localStorage.jwtToken))
@@ -32,36 +33,45 @@ export const callBackendAPI = (backend, ulrTag, degreeTag) => dispatch => {
         });
         
     } else {
-        axios.all([
-            axios.get('https://modtree-api.netlify.app/.netlify/functions/rules/' + ulrTag),
-            axios.get('https://modtree-api.netlify.app/.netlify/functions/rules/' + degreeTag)
-        ])
-        .then(resArr => {
-                dispatch(setRules([resArr[0].data, resArr[1].data]));
-            }) 
-        .catch(err => {
-            console.log(err)
+        dispatch(setModPlanLoading(true));
+        const modplan = modplanObj.map((obj) => {
+            return obj.moduleCode
         });
+        try {
+            const ruleList = await axios.get('https://modtree-api.netlify.app/.netlify/functions/user/directory');
+            const ruleData = await Promise.all(ruleList.data.list.map((ruleTag) => {
+                return axios
+                    .get('https://modtree-api.netlify.app/.netlify/functions/rules/assemble/' + ruleTag)
+                    .then(res => {
+                        if(res.status !== 200) {
+                            throw Error (res.message);
+                        }
+                        return res.data    
+                    })
+                    .then(res => {
+                        return compile(res);
+                    })
+
+            }));
+            const evaluatedRules = await evalRules(ruleData, modplan);
+            dispatch(setRules(evaluatedRules));
+            dispatch(setModPlanLoading(false));
+            return ruleData;
+        } catch(err) {
+            dispatch(setModPlanLoading(false));
+            console.log(err);
+            history.push("/500-error");
+        };
     }
     
 }
 
-//AXIOS CALL BUT IT DOESNT WORK -- FOR FUTURE REFERENCE
-// export const callBackendAPI = () => dispatch => {
-
-//     const headers = { headers: {'accept': 'application/json'}}
-//     axios.all([
-//         axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json', headers),
-//         axios.get('http://172.19.162.53:3000/rules/r_cs_degree')
-//     ])
-//     .then(resArr => {
-//         dispatch(setModules(resArr[0]));
-//         dispatch(setRules(resArr[1].data));
-//     }) 
-//     .catch(err => {
-//         console.log(err)
-//     });
-// }
+export const evalRules = (ruleData, modplan) => {
+    return Promise.all(ruleData.map((asyncFunc) => {
+        return asyncFunc({modules: modplan})
+            .then(res => toView(res))
+    }));
+}
 
 export const setModules = (modules) => {
     return {
@@ -110,6 +120,12 @@ export const setCurrentSemester = (AY, semester) => {
     }
 }
 
+export const setModPlanLoading = (status) => {
+    return {
+        type: SET_MODPLAN_LOADING,
+        status
+    }
+}
 export const cleanUpModPlan = () => {
     return { 
         type: CLEAN_UP_MODPLAN
