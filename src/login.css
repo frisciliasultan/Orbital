@@ -128,7 +128,7 @@ input {
 
 .page-title {
 	background-color: #FFFFFF;
-    height: 80px;
+    height: 60px;
     display: flex;
 	width: 100%;
 	align-content: center;
@@ -136,7 +136,7 @@ input {
 }
 
 .page-title h3 {
-	font-size: 30px;
+	font-size: 31.25px;
     font-weight: 600;
     margin-left: 30px;
     margin: 10px 100px;
@@ -553,13 +553,12 @@ button.button.settings-button {
 	margin-top: 20px;
 }
 
-.container.rule-container {
-	align-self: flex-start;
-    max-width: 650px;
-    overflow: unset;
-    position: absolute;
+.rule-container {
+	max-width: 650px;
+	position: relative;
+	min-height: 400px;
+	margin-bottom: 30px;
 }
-
 .button #eval-button {
 	margin-right: 10px;
 }
@@ -646,6 +645,27 @@ h2 .year-title {
 	margin-left: 0;
 	cursor: default;
 }
+
+.card-title {
+	font-size: 25px;
+    margin: 20px 0px 30px 20px;
+    font-weight: 600;
+}
+
+.rule {
+	font-size: 20px;
+	margin: 15px 0px;
+	font-weight: 400;
+}
+
+.rule-card-body {
+	padding-top: 0px;
+}
+.ant-spin.ant-spin-spinning.ant-spin-show-text {
+	top: 150px;
+}
+
+
 /* CAP calculator  */
  .fa-arrow-right, .fa-arrow-left, .fa-trash-alt {
 	margin-left: 20px;
@@ -656,6 +676,10 @@ h2 .year-title {
 
 .fa-arrow-right {
 	margin-left: 5px;
+}
+
+.fa-arrow-right.Overview  {
+	margin-left: 53.5px;
 }
 
 .fa-trash-alt {
@@ -672,7 +696,11 @@ h2 .year-title {
 .main-cap-div {
 	display: flex;
 	flex-direction: column;
-	margin: 50px 100px;
+	margin: 0px 100px 50px 100px;
+}
+
+.cap-status {
+	display: flex;
 }
 
 .main-title {
@@ -680,16 +708,11 @@ h2 .year-title {
 	font-weight: 800;	
 }
 
-.cap-description {
-	margin-left: 20px;
-}
 .cap-description h3{
-	margin: 10px 0px 10px;
+	margin: 30px 60px 20px 0px;
+	font-size: 20px;
 }
 
-.cap-description h3.target-future-cap {
-	margin-bottom: 35px;
-}
 
 .table-semester-header {
 	margin-top: 10px;
@@ -709,8 +732,8 @@ h2 .year-title {
 }
 
 .cap-table-section h3 {
-    font-size: 35px;
-    font-weight: 700;
+	font-size: 25px;
+    font-weight: 600;
     margin: 30px 0px 15px;
 }
 
@@ -721,6 +744,7 @@ h2 .year-title {
 .cap-table-header-body h4{
 	margin: 30px 0px 10px;
 	font-weight: 600;
+	font-size: 20px;
 }
 
 .cap-table-header, .cap-table-row {
@@ -737,7 +761,7 @@ h2 .year-title {
 
 .cap-table-header th{
 	font-size: 20px;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 
@@ -762,23 +786,49 @@ h2 .year-title {
 
 .cap-table-header th:nth-child(1), .cap-table td:nth-child(1) {
 	flex-grow: 2;
-	width: 200px;
+    width: 150px;
 }
 .cap-table-header th:nth-child(2), .cap-table td:nth-child(2) {
-	flex-grow: 2;
+    flex-grow: 2;
+    width: 400px;
 }
 .cap-table-header th:nth-child(3), .cap-table td:nth-child(3) {
-	flex-grow: 2;
+	flex-grow: 1;
+    width: 200px;
 }
 .cap-table-header th:nth-child(4), .cap-table td:nth-child(4) {
-	flex-grow: 1;
+    flex-grow: 1;
+    width: 100px;
 }
 .cap-table-header th:nth-child(5), .cap-table td:nth-child(5) {
 	flex-grow: 1;
+	width: 70px;
 }
 .cap-table-header th:nth-child(6) {
 	flex-grow: 0;
 }
+
+.cap-table-header.isPast th:nth-child(1), .cap-table.isPast td:nth-child(1) {
+	flex-grow: 2;
+    width: 150px;
+}
+.cap-table-header.isPast th:nth-child(2), .cap-table.isPast td:nth-child(2) {
+    flex-grow: 2;
+    width: 300px;
+}
+.cap-table-header.isPast th:nth-child(3), .cap-table.isPast td:nth-child(3) {
+	flex-grow: 1;
+    width: 130px;
+}
+.cap-table-header.isPast th:nth-child(4), .cap-table.isPast td:nth-child(4) {
+	flex-grow: 1;
+    width: 150px;
+}
+
+.cap-table-header.isPast th:nth-child(5), .cap-table.isPast td:nth-child(5) {
+	flex-grow: 0;
+}
+
 
 #cap-autocomplete {
 	width: 300px;

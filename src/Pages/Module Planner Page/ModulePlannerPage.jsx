@@ -9,7 +9,7 @@ import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
 import { callBackendAPI, setCallBackendNow, setSelectedModules, evalRules, setRules } from '../../actions/modplanActions';
-import { updateSettings, initialSettings } from "../../actions/settingsActions";
+import { updateSettings, setFirstRender } from "../../actions/settingsActions";
 import { removeSuccess } from "../../actions/successActions";
 import { handleSaveClick, generateObject } from "../../utils/commonFunctions";
 import PropTypes from 'prop-types';
@@ -35,8 +35,10 @@ const ModulePlannerPageTemp = (props) => {
                 fetchRules();
             }
 
-            if(!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)) {   
+            if(!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)
+                && props.settings.firstRender) {   
                 props.setSelectedModules(null, props.settings.userInfo.modPlan, props.history);
+                props.setFirstRender(false);
             }
         }
     }, [props.settings.userInfo])
@@ -115,15 +117,17 @@ const ModulePlannerPageTemp = (props) => {
                         clearTimeout(setTimeout(props.removeSuccess, 2000))}
 
                     <p>Click on each requirement for further information</p>
-                        <Card className="container rule-container">
+                    <Card className="rule-container">
+                        <Spin indicator={antIcon} tip="Loading..." spinning={props.modplan.loading}>
                             <Card.Title className="card-title">Degree Requirements</Card.Title>
-                            <Spin indicator={antIcon} tip="Loading..." spinning={props.modplan.loading}>
-                                <Rules
-                                    rules={props.modplan.rules}
-                                    settings={props.settings}
-                                    ruleFunction={ruleFunction}/>
-                            </Spin>      
-                        </Card>
+                                <Card.Body className="rule-card-body">
+                                    <Rules
+                                        rules={props.modplan.rules}
+                                        settings={props.settings}
+                                        ruleFunction={ruleFunction}/>      
+                                </Card.Body>
+                        </Spin>
+                    </Card>
                 </div>
             </DndProvider>)
     )
@@ -133,10 +137,14 @@ ModulePlannerPageTemp.propTypes = {
     callBackendAPI: PropTypes.func.isRequired,
     setCallBackendNow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    setFirstRender: PropTypes.func.isRequired,
+    setSelectedModules: PropTypes.func.isRequired,
     removeSuccess: PropTypes.func.isRequired,
+    setRules: PropTypes.func.isRequired,
     modplan: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
-    cap: PropTypes.object.isRequired
+    cap: PropTypes.object.isRequired,
+    success: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -147,6 +155,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, 
-                    { callBackendAPI, setCallBackendNow, updateSettings, initialSettings, 
+                    { callBackendAPI, setCallBackendNow, updateSettings, setFirstRender,
                         setSelectedModules, removeSuccess, setRules  }) 
                     (ModulePlannerPageTemp);

@@ -53,8 +53,10 @@ function Subrules(props) {
 
     return (    
         <div>
-            <Card.Title onClick={() => setIsOpen(!isOpen)}
-                        style={{color: rule.evaluation ? 'green' : 'red', cursor: 'pointer'}}>{rule.name}</Card.Title>
+            <Card.Title 
+                className="rule"
+                onClick={() => setIsOpen(!isOpen)}
+                style={{color: rule.evaluation ? 'green' : 'red', cursor: 'pointer'}}>{rule.name}</Card.Title>
             {isOpen && <Card.Subtitle>{rule.desc}</Card.Subtitle>}
             
         </div>

@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { generateOptions } from "../../utils/commonFunctions";
 import { Select, Empty } from "antd";
 import isEmpty from "is-empty"
 
-// let isOverviewTableFilled = true;
 
+let semesterCount = 0;
+let noModulesSemesterCount = 0;
 export const TableContent = (props) => {
     let totalMCs = 0;
-
+    // const [modules, setModules] = useState();
     const modules =  props.module.filter((object, i) => object.location === props.title);
+    
+    //update modules
+    // useEffect(() => {
+    //     const filteredModules =  props.module.filter((object, i) => object.location === props.title);
+    //     setModules(filteredModules);
+    // }, [props.module])
+
     const makeTable = () => {
+        console.log(props.module)
         return (
             modules.map((object, i) => {
                 const {moduleCode, title, moduleCredit} = object;
@@ -70,9 +79,45 @@ export const TableContent = (props) => {
         )
     }
 
-    // if(isEmpty(modules) && isOverviewTableFilled) {
-
-    // }
+    const handleEmpty = () => {
+        console.log(modules)
+        if(isEmpty(modules)) {
+            if(props.category === "capTable" && !props.lastInCategory) {
+                semesterCount += 1;
+                noModulesSemesterCount += 1;
+            } else if(!props.category ||
+                (semesterCount === noModulesSemesterCount && props.lastInCategory)) {
+                    //reset sem and nomodulesem count
+                    semesterCount = 0;
+                    noModulesSemesterCount = 0;
+                    return (
+                        <Empty
+                            imageStyle={{margin: "20px"}}
+                            description={
+                                <div>
+                                    <span>
+                                        No data
+                                    </span> 
+                                    <br/>
+                                    {!props.category && (
+                                        <span>
+                                            Add modules by clicking the button below!
+                                        </span>
+                                    )}  
+                                </div>
+                                }/>
+                    )
+            }
+        } else if (props.category === "capTable" && !props.lastInCategory) {
+                semesterCount += 1;
+                return makeTable();
+            
+        } else {
+            semesterCount = 0;
+            noModulesSemesterCount = 0;
+            return makeTable();
+        }
+    }
  
     if(props.category === "tables") {
         return (
@@ -80,7 +125,7 @@ export const TableContent = (props) => {
                 <h3>{props.title}</h3> 
                 <table className="table table-hover">
                     <tbody>
-                        {makeTable()}
+                        {handleEmpty()}
                     </tbody>
                 </table>
             </div>
@@ -93,7 +138,7 @@ export const TableContent = (props) => {
                     )}
                     {(!props.category || props.displayHeader) &&  
                         (   
-                            <thead className="cap-table-header">
+                            <thead className={props.isPast ? "cap-table-header" : "cap-table-header isPast"}>
                             <th>Module Code</th>
                             <th>Module Title</th>
                             <th>Modular Credits</th>
@@ -109,21 +154,7 @@ export const TableContent = (props) => {
                                     <h6 className="table-semester-header">{props.title}</h6>
                                 </tr>
                             )}
-                            {isEmpty(modules) && !props.category
-                                ? <Empty
-                                    imageStyle={{margin: "20px"}}
-                                    description={
-                                        <div>
-                                            <span>
-                                                No data
-                                            </span> 
-                                            <br/>
-                                            <span>
-                                                Add modules by clicking the button below!
-                                            </span>
-                                        </div>
-                                        }/>
-                                : makeTable()}
+                            {handleEmpty()}
                         </tbody>
             </div>
         )

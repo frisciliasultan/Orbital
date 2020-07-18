@@ -7,6 +7,7 @@ import {
     GET_SUCCESS,
     SET_ACAD_OPTIONS,
     SET_EDIT_ALL,
+    SET_FIRST_RENDER,
     SETTINGS_LOADING
 } from "./types";
 import { setUserLoading } from "./authActions";
@@ -137,3 +138,9 @@ export const setSettingsLoading = (status) => {
     }
 }
 
+export const setFirstRender = (status) => {
+    return {
+        type: SET_FIRST_RENDER,
+        status
+    }
+}

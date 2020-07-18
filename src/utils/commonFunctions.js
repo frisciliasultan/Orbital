@@ -139,9 +139,15 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
             return display.map((sem, i) => {
                 if(props) {
                     const status = checkIsPast(sem, props.userSemester, props.currentSemester, props.month);
+                    const nextStatus = status 
+                                        ? checkIsPast(display[i + 1], props.userSemester, props.currentSemester, props.month)
+                                        : null;
                     if(!status) {
                         nthFutureSem++
                     }
+                    // if(i === (display.length - 1) || (status && !nextStatus)) {
+                    //     isLastinCategory = true;
+                    // }
                     return (
                         <TableContent
                             title={sem}
@@ -151,6 +157,7 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
                             handleCheckboxChange={props.handleCheckboxChange}
                             isPast={status}
                             displayHeader={ i === 0 || nthFutureSem === 1}
+                            lastInCategory={i === (display.length - 1) || (status && !nextStatus)}
                             gradeList={props.gradeList}/>
                     )
                 } else {

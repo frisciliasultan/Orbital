@@ -6,6 +6,7 @@ import {
     CLEAN_UP_SETTINGS,
     SET_ACAD_OPTIONS,
     SET_EDIT_ALL,
+    SET_FIRST_RENDER,
     SETTINGS_LOADING
 } from "../actions/types";
 
@@ -21,7 +22,8 @@ const initialState = {
     targetGradOptions: [],
     userInfo: {},
     isEditing: {},
-    isLoading: false
+    isLoading: false,
+    firstRender: true
 }
 
 export default function (state = initialState, action ) {
@@ -129,7 +131,12 @@ export default function (state = initialState, action ) {
                 ...state,
                 isLoading: action.payload
             }
-            
+        
+        case SET_FIRST_RENDER:
+            return {
+                ...state,
+                firstRender: action.status
+            }
         case CLEAN_UP_SETTINGS:
             return initialState;
 

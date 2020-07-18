@@ -5,7 +5,7 @@ import LoadingDots from "../Loading Page/LoadingDots";
 import { Table } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { setSemesterOptions, calculateCAP, setCAP } from '../../actions/capActions';
-import { updateSettings } from "../../actions/settingsActions";
+import { updateSettings, setFirstRender } from "../../actions/settingsActions";
 import { setSelectedModules, callBackendAPI, setModuleLocation } from "../../actions/modplanActions";
 import { removeSuccess } from "../../actions/successActions";
 import { generateOptions, generateObject, handleSaveClick, checkIsPast } from "../../utils/commonFunctions";
@@ -38,7 +38,7 @@ const CAPCalculatorPage = (props) => {
     //semester that user selects
     const [semester, setSemester] = useState("Overview");
     //semester index that user selects 
-    const [semIndex, setSemIndex] = useState();
+    const [semIndex, setSemIndex] = useState(-1);
     //AY that user selects
     const [AY, setAY] = useState();
     //whether autocomplete is open
@@ -55,8 +55,10 @@ const CAPCalculatorPage = (props) => {
     useEffect(() => {
         //if user has previously saved modPlan, 
         // transfer the information to selectedModules in modPlan Redux state
-        if (!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)) {
-            props.setSelectedModules(null, props.settings.userInfo.modPlan)
+        if (!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)
+            && props.settings.firstRender) {
+            props.setSelectedModules(null, props.settings.userInfo.modPlan);
+            props.setFirstRender(false);
         } 
 
         //if user has previously saved transcript, 
@@ -89,19 +91,19 @@ const CAPCalculatorPage = (props) => {
             const updatedUserSemester = props.settings.currentSemester === "Semester 1" 
                 ? statusYear * 2 - 1 
                 : statusYear * 2;
-            const updatedUserAY = `Year ${Math.ceil(updatedUserSemester / 2)} ${props.settings.currentSemester}`;
+            // const updatedUserAY = `Year ${Math.ceil(updatedUserSemester / 2)} ${props.settings.currentSemester}`;
             setUserSemester(updatedUserSemester);
-            setSemester(updatedUserAY);
+            // setSemester(updatedUserAY);
             
         }
         
     }, [props.settings.userInfo.matriculationYear, props.settings.userInfo.targetGradYear])
 
-    useEffect(() => {
-        if(!semIndex && !isEmpty(props.cap.semesterOptions)) {
-            setSemIndex(props.cap.semesterOptions.indexOf(semester));
-        }
-    }, [props.cap.semesterOptions])
+    // useEffect(() => {
+    //     if(!semIndex && !isEmpty(props.cap.semesterOptions)) {
+    //         setSemIndex(props.cap.semesterOptions.indexOf(semester));
+    //     }
+    // }, [props.cap.semesterOptions])
 
     useEffect(() => {
         if(semester !== "Overview") {
@@ -171,105 +173,115 @@ const CAPCalculatorPage = (props) => {
         }
         
     }
-
+    console.log(semester)
+    console.log(semIndex)
+    console.log(props.cap.semesterOptions)
     return(
         isEmpty(props.settings.userInfo)
             ? <LoadingDots/>
-            : (<div className="main-cap-div">
-                <div className="cap-description">
-                    <h1 className="main-title">CAP Calculator</h1>
-                    <h3 className="current-cap">Current CAP: {props.cap.cap}</h3>
-                    <h3 className="target-future-cap">Target Future CAP: {props.cap.targetCap}</h3>
-                    <label>Semester :</label>
-                    <Select 
-                        id="time"
-                        defaultValue="Overview"
-                        value={semester}
-                        onChange={(e, props) => {setSemester(e); setSemIndex(props.index);}}
-                        style={{width: "250px"}}>
-                        {/* buffer to display to wait for userInfo */}
-                        {isEmpty(props.cap.semesterOptions) && <Option>Overview</Option>}
-                        <Option value="Overview" index={-1}>Overview</Option>
-                        {generateOptions(props.cap.semesterOptions)}
-                    </Select>
+            : ( 
+                <div>
+                    <div className="page-title">
+                        <h3 id="module-planner-title">CAP Calculator</h3>
+                    </div>
+                <div className="main-cap-div">
+                    <div className="cap-description">
+                        <div className="cap-status">
+                            <h3 className="current-cap">Current CAP: {props.cap.cap}</h3>
+                            <h3 className="target-future-cap">Target Future CAP: {props.cap.targetCap}</h3>
+                        </div>
+                       
+                        <label>Semester :</label>
+                        <Select 
+                            id="time"
+                            defaultValue="Overview"
+                            value={semester}
+                            onChange={(e, props) => {setSemester(e); setSemIndex(props.index);}}
+                            style={{width: "250px"}}>
+                            {/* buffer to display to wait for userInfo */}
+                            {isEmpty(props.cap.semesterOptions) && <Option>Overview</Option>}
+                            <Option value="Overview" index={-1}>Overview</Option>
+                            {generateOptions(props.cap.semesterOptions)}
+                        </Select>
 
-             {/* <span className="fa-layers fa-fw "/> */}
-                {semIndex !== -1 &&
-                    (
-                        <i className="fas fa-arrow-left fa-lg fa-border"
-                            onClick={() => { handleArrowClick("left") }}/>
-                    )
-                } 
-                {semIndex !== (props.cap.semesterOptions.length - 1) && 
-                    (
-                        <i className="fas fa-arrow-right fa-lg fa-border"
-                            onClick={() => { handleArrowClick("right") }}/> 
-                    )}
-                </div>
-            
-            {/* Table to display modules taken according to modulePlanner */}
-
-            <div className="cap-table-section container">
-                <h3 id={semester === "Overview" ? "overview" : undefined}>{semester === "Overview" ? "Overview" : "Courses taken this semester"}</h3>
-                <Table className="table table-hover cap-table">
-                        {semester === "Overview" 
-                            ? generateObject(
-                                props.settings.userInfo.matriculationYear, 
-                                props.settings.userInfo.targetGradYear,
-                                "tables", 
-                                props.modplan.selectedModules, 
-                                { 
-                                    handleGradeClick: handleGradeClick,
-                                    handleCheckboxChange: handleCheckboxChange,
-                                    setModuleLocation: props.setModuleLocation,
-                                    userSemester: userSemester,
-                                    currentSemester: props.settings.currentSemester,
-                                    month: props.settings.month,
-                                    gradeList: gradeList
-                                } 
-                                )
-                            : (
-                                <TableContent 
-                                    handleGradeClick={handleGradeClick}
-                                    handleCheckboxChange={handleCheckboxChange}
-                                    setModuleLocation={props.setModuleLocation}
-                                    module={props.modplan.selectedModules}
-                                    title={semester}
-                                    isPast={isPast}
-                                    gradeList={gradeList}/>
+                {/* <span className="fa-layers fa-fw "/> */}
+                    {semIndex !== -1 &&
+                        (
+                            <i className="fas fa-arrow-left fa-lg fa-border"
+                                onClick={() => { handleArrowClick("left") }}/>
+                        )
+                    } 
+                    {semIndex !== (props.cap.semesterOptions.length - 1) && 
+                        (
+                            <i className={"fas fa-arrow-right fa-lg fa-border " + semester}
+                                onClick={() => { handleArrowClick("right") }}/> 
                         )}
-                </Table>
-            </div>
-            
-            
-            <div className="button-group">
-            {/* For users to add modules directly from CAP Calculator */}
-            {semester !== "Overview" && isTextBoxOpen && 
-                <AutoCompleteText
-                    id="cap-autocomplete"
-                    AY={AY}
-                    location={semester}
-                    module={props.modplan.modules}
-                    category="module"/>}
-            
-            {semester !== "Overview" && <button className="button settings-button" id="cap-add-module-button" onClick={() => setIsTextBoxOpen(!isTextBoxOpen)}>Add Module</button>}
+                    </div>
+                
+                {/* Table to display modules taken according to modulePlanner */}
 
-            <button className="button settings-button" id="cap-save-cap-button" onClick={() => handleSaveClick(props)}>{isPast || semester === "Overview" ? "Save Transcript" : "Save Target Grade" }</button>
-            </div>
+                <div className="cap-table-section container">
+                    <h3 id={semester === "Overview" ? "overview" : undefined}>{semester === "Overview" ? "Overview" : "Courses taken this semester"}</h3>
+                    <Table className="table table-hover cap-table">
+                            {semester === "Overview" && props.modplan.selectedModules 
+                                ? generateObject(
+                                    props.settings.userInfo.matriculationYear, 
+                                    props.settings.userInfo.targetGradYear,
+                                    "tables", 
+                                    props.modplan.selectedModules, 
+                                    { 
+                                        handleGradeClick: handleGradeClick,
+                                        handleCheckboxChange: handleCheckboxChange,
+                                        setModuleLocation: props.setModuleLocation,
+                                        userSemester: userSemester,
+                                        currentSemester: props.settings.currentSemester,
+                                        month: props.settings.month,
+                                        gradeList: gradeList
+                                    } 
+                                    )
+                                : (
+                                    <TableContent 
+                                        handleGradeClick={handleGradeClick}
+                                        handleCheckboxChange={handleCheckboxChange}
+                                        setModuleLocation={props.setModuleLocation}
+                                        module={props.modplan.selectedModules}
+                                        title={semester}
+                                        isPast={isPast}
+                                        gradeList={gradeList}/>
+                            )}
+                    </Table>
+                </div>
+                
+                
+                <div className="button-group">
+                {/* For users to add modules directly from CAP Calculator */}
+                {semester !== "Overview" && isTextBoxOpen && 
+                    <AutoCompleteText
+                        id="cap-autocomplete"
+                        AY={AY}
+                        location={semester}
+                        module={props.modplan.modules}
+                        category="module"/>}
+                
+                {semester !== "Overview" && <button className="button settings-button" id="cap-add-module-button" onClick={() => setIsTextBoxOpen(!isTextBoxOpen)}>Add Module</button>}
 
-            {!isEmpty(props.success) && 
-                        <Alert 
-                            message={props.success} 
-                            type="success" 
-                            showIcon 
-                            closable
-                            style={{margin: "15px 0px"}} />
-                    }
-                    
-                    {!isEmpty(props.success) && 
-                        setTimeout(props.removeSuccess, 2000) &&
-                        clearTimeout(setTimeout(props.removeSuccess, 2000))}
-        </div>)
+                <button className="button settings-button" id="cap-save-cap-button" onClick={() => handleSaveClick(props)}>{isPast || semester === "Overview" ? "Save Transcript" : "Save Target Grade" }</button>
+                </div>
+
+                {!isEmpty(props.success) && 
+                            <Alert 
+                                message={props.success} 
+                                type="success" 
+                                showIcon 
+                                closable
+                                style={{margin: "15px 0px"}} />
+                        }
+                        
+                        {!isEmpty(props.success) && 
+                            setTimeout(props.removeSuccess, 2000) &&
+                            clearTimeout(setTimeout(props.removeSuccess, 2000))}
+            </div>
+            </div>)
     );
 }
 
@@ -280,6 +292,7 @@ CAPCalculatorPage.propType = {
     callBackendAPI: PropTypes.func.isRequired,
     setModuleLocation: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    setFirstRender: PropTypes.func.isRequired,
     generateOptions: PropTypes.func.isRequired,
     calculateCAP: PropTypes.func.isRequired,
     setCAP: PropTypes.func.isRequired,
@@ -296,5 +309,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
-                        { setSemesterOptions, setSelectedModules, callBackendAPI, setModuleLocation, updateSettings, calculateCAP, setCAP, removeSuccess })
+                        { setSemesterOptions, setSelectedModules, callBackendAPI, setModuleLocation, updateSettings, setFirstRender, calculateCAP, setCAP, removeSuccess })
                         (CAPCalculatorPage);
