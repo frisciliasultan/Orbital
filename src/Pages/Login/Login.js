@@ -56,7 +56,7 @@ const Login = (props) => {
           <div class="social-container">
               <Facebook source="login"/>
               <Google source="login"/>
-              <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+              {/* <a href="#" class="social"><i class="fab fa-instagram"></i></a> */}
           </div>
           <span>or use your account</span>
 
@@ -92,7 +92,7 @@ const Login = (props) => {
             {errors.passwordincorrect}
           </span>
 
-          <a href="#">Forgot your password?</a>
+          {/* <a href="#">Forgot your password?</a> */}
           <button type="submit">Sign In</button>
       </form>
   );

@@ -41,9 +41,9 @@ class PrivateNav extends React.Component {
                 </Link>
                 
                 
-                <Link to="/select-modules" onClick={this.warning} className="navlink">
+                {/* <Link to="/select-modules" onClick={this.warning} className="navlink">
                         Module Information
-                </Link>
+                </Link> */}
 
                 <Link to="/module-planner" onClick={this.warning} className="navlink">
                     Module Planner
@@ -59,7 +59,7 @@ class PrivateNav extends React.Component {
 
                     {/* <NavIcon icon={this.props.userProfilePicture} /> */}
                     {/* <NavIcon icon={logoImg} /> */}
-                <Link to="/settings/profile" className="navlink">
+                <Link to="/settings/academics" className="navlink">
                     Settings
                 </Link>
 

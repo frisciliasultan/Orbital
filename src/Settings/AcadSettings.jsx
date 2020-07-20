@@ -12,7 +12,7 @@ import { updateSettings, setMatriculationYearOptions,
 import { deleteUser } from "../actions/authActions";
 import { removeSuccess } from "../actions/successActions";
 import isEmpty from "is-empty";
-import { generateOptions } from '../utils/commonFunctions';
+import { checkSubmission } from '../utils/commonFunctions';
 import { Spin, notification } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -24,7 +24,7 @@ const AcadSettings = (props) => {
     {
       major: null,
       majorIndex: null,
-      specialisation: [],
+      specialisation: null,
       secondMajors: [],
       minors: [],
       residence: null,
@@ -33,12 +33,10 @@ const AcadSettings = (props) => {
     }
   );
 
-  const [isEditing, setIsEditing] = useState(false);
-
   useEffect(() => {
     if(isEmpty(props.settings.bachelorOptions)) {
         props.setDegreeOptions();
-    }
+    } 
   }, []);
 
   useEffect(() => {
@@ -49,21 +47,19 @@ const AcadSettings = (props) => {
   }, [props.settings.currentAY]);
 
   useEffect(() => {
-    if(props.settings.userInfo.major) {
-      setUserInput({
-        major: props.userInfo.major,
-        majorIndex: props.userInfo.majorIndex,
-        specialisation: props.userInfo.specialisation ,
-        secondMajor: props.userInfo.secondMajor,
-        minor: props.userInfo.minor,
-        residence: props.userInfo.residential,
-        matriculationYear: props.userInfo.matriculationYear,
-        targetGradYear: props.userInfo.targetGradYear
-      });
-      
-      if(props.auth.firstTimeRegistered || !props.settings.userInfo.major) {
-        console.log(props.auth.firstTimeRegistered)
-        console.log(props.settings.userInfo.faculty)
+    if(!isEmpty(props.settings.userInfo)) {
+      if(props.settings.userInfo.major) {
+        setUserInput({
+          major: props.userInfo.major,
+          majorIndex: props.userInfo.majorIndex,
+          specialisation: props.userInfo.specialisation,
+          secondMajors: props.userInfo.secondMajors,
+          minors: props.userInfo.minors,
+          residence: props.userInfo.residential,
+          matriculationYear: props.userInfo.matriculationYear,
+          targetGradYear: props.userInfo.targetGradYear
+        });
+      } else {
         props.setEditAll(true, props.settings.isEditing, "editAll");
       }
     }
@@ -83,50 +79,59 @@ const AcadSettings = (props) => {
   };
 
   const handleChange = (unusedParam, object) => {
-    const {name, value, selectedindex, tag} = object;
-    const updated = {
-                      name: value,
-                      tag: tag
-                    };
-    if(name === "major") {
-      setUserInput({[name]: {
-                              name: value,
-                              tag: tag
-                            },
-                    majorIndex: (selectedindex)});
+    console.log(object.name)
+    console.log(object)
+    const {name, value, selectedindex, tag, honours, specialisation} = object;
 
-    } else if(name === "matriculationYear" || name === "targetGradYear") {
+    if(name === "major") {
+      if(honours || specialisation) {
+        setUserInput(
+          {[name]: {
+            name: value,
+            tag: tag,
+            honours: honours,
+            specialisation: specialisation
+          },
+          majorIndex: (selectedindex)}
+        );
+      } else {
+        setUserInput(
+          {[name]: {
+            name: value,
+            tag: tag
+          },
+          majorIndex: (selectedindex)}
+        );
+      }
+    } else if(name === "matriculationYear" || name === "targetGradYear" || name === "specialisation") {
+      console.log(name)
       setUserInput({[name]: value});
    
     } else {
-      setUserInput({[name]: {
-                              name: value,
-                              tag: tag
-                            }
-                    });
+      // if(isEmpty(options)) {
+      //   setUserInput(
+      //     {[name]: {
+      //       name: value,
+      //       tag: tag,
+      //       options: options
+      //     }}
+      //   );
+      // } else {
+        console.log('called')
+        setUserInput(
+          {[name]: {
+            name: value,
+            tag: tag
+          }}
+        );
+      // }
     } 
   };
 
-
-  //Check if there is any part of userData that is undefined/falsy
-  const checkSubmission = (userData) => {
-    const keys = Object.keys(userData);
-    let status;
-
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      status = (userData[key] || userData[key] === 0) ? true : false;
-     
-      if(!status) {
-        return status = false;
-      }
-    }
-
-    return status;
-  }
-
   const handleSubmit = (category) => {
     const userData = {
+      name: props.auth.user.name,
+      email: props.auth.user.email,
       major: userInput.major,
       majorIndex: userInput.majorIndex,
       specialisation: userInput.specialisation,
@@ -140,34 +145,39 @@ const AcadSettings = (props) => {
       targetCap: props.cap.targetCap
     }
 
-  //if all props of userData is filled, allow user to save
-  //else alert popup to redirect user back to filling in their data (TEMPORARY)
-  if(checkSubmission(userData)) {
-    props.updateSettings(userData, props.history);
-    props.setEditAll(false, props.settings.isEditing, category);
+    //if all props of userData is filled, allow user to save
+    //else alert popup to redirect user back to filling in their data (TEMPORARY)
+    if(checkSubmission(userData)) {
+      props.updateSettings(userData, props.history, props.settings.isEditing, category);
 
-  } else {
-    openNotification('warning', 'bottomRight');
-    props.setEditAll(true, props.settings.isEditing, category);
-  }
-} 
+    } else {
+      openNotification('warning', 'bottomRight');
+      // props.setEditAll(true, props.settings.isEditing, category);
+    }
+  } 
 
   const presentButton = () => {
-    if(!props.settings.isEditing[0]) {
-      if(!isEditing) {
+    if(!props.settings.isEditing.editAll) {
+      if(!props.settings.isEditing[0]) {
         return <button 
           className="button settings-button" 
-          onClick={() => setIsEditing(true)}>
+          onClick={() => props.setEditAll(true, props.settings.isEditing, 0)}>
               Edit Settings
         </button>
+
       } else {
-        return <button 
-          className="button settings-button" 
-          onClick={() => {
-            handleSubmit(0);
-            }}>
-            Save Settings
-        </button>
+        return (
+          <div>
+            <button 
+              className="button settings-button" 
+              onClick={() => {
+                handleSubmit(0);
+                }}>
+                Save Settings
+            </button>
+            <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+          </div>
+        )
       }
     }
   }
@@ -179,8 +189,6 @@ const AcadSettings = (props) => {
         clearTimeout(setTimeout(props.removeSuccess, 2000))
      } 
   }
-
-  console.log(userInput);
 
   return (
     props.auth.loading 
@@ -200,7 +208,7 @@ const AcadSettings = (props) => {
                     handleChange={handleChange}
                     name="matriculationYear"
                     value={userInput.matriculationYear}
-                    editing={isEditing || props.settings.editAll}
+                    editing={props.settings.isEditing[0] || props.settings.isEditing.editAll}
                     optionList={props.settings.matriculationOptions}/>
 
                   <Options
@@ -208,7 +216,7 @@ const AcadSettings = (props) => {
                     handleChange={handleChange}
                     name="targetGradYear"
                     value={userInput.targetGradYear}
-                    editing={isEditing || props.settings.editAll}
+                    editing={props.settings.isEditing[0] || props.settings.isEditing.editAll}
                     optionList={props.settings.targetGradOptions}/>
 
                   <Options
@@ -216,7 +224,7 @@ const AcadSettings = (props) => {
                     handleChange={handleChange}
                     name="residence"
                     value={userInput.residence}
-                    editing={isEditing || props.settings.editAll}
+                    editing={props.settings.isEditing[0] || props.settings.isEditing.editAll}
                     optionList={props.settings.residenceOptions}/>
                 </tbody>
               </table>
@@ -238,16 +246,16 @@ const AcadSettings = (props) => {
                     Edit All Settings
               </button>
             : (
-              <div>
-              <button 
-                className="button settings-button" id="all-settings"
-                onClick={() => {
-                    handleSubmit("editAll");}}>
-                  Save All Settings
-                  <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
-              </button>
-             
-               </div>)
+              <Spin indicator={antIcon} spinning={props.settings.isLoading}>
+                <button 
+                  className="button settings-button" id="all-settings"
+                  onClick={() => {
+                      handleSubmit("editAll");}}>
+                    Save All Settings
+                  
+                </button>
+              </Spin>
+              )
           }
           </div>
         </div>)

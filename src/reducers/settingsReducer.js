@@ -119,6 +119,7 @@ export default function (state = initialState, action ) {
         
         case SET_EDIT_ALL:
             const { status, current, category } = action;
+
             const updated = {...current};
             updated[category] = status;
             return {

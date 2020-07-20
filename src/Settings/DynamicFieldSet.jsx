@@ -8,18 +8,35 @@ import isEmpty from 'is-empty';
 const { Option } = Select;
   
   const DynamicFieldSet = (props) => {
-    const [options, setOptions] = useState(props.optionList);
+    const [options, setOptions] = useState([]);
     const [keyList, setKeyList] = useState([1]);
     const length = keyList.length;
 
     useEffect(() => {
-      let userInputLength = props.value.length;
-      if(userInputLength > 0) {
+      if(props.value.length > 0) {
+        //set options after first render
+        const tempOptions = [...props.optionList];
+        props.value.map((object) => {
+          console.log(object)
+          for(let i = 0; i < props.optionList.length; i++) {
+            //remove selected option from options
+              if(props.optionList[i].fullName === object.name) {
+                console.log('removed')
+                tempOptions.splice(i, 1, null);
+              } 
+          }
+        })
+        setOptions(tempOptions);
+
+   
+        let userInputLength = props.value.length;
+        //determine how many fields in the beginning
         let temp = [];
         while(userInputLength-- > 0) {
+          console.log('called')
           temp.push(1);
         }
-        setKeyList(temp);
+        setKeyList(temp);          
       }
     }, []);
 
@@ -135,6 +152,7 @@ const { Option } = Select;
   //check whether options is all null or at least 1 filled
   const checkIsOptionsEmpty = () => {
     for(let i = 0; i < options.length; i++ ) {
+
       if(options && options[i]) {
         return false;
       } 

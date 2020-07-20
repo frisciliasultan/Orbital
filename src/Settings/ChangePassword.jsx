@@ -31,17 +31,17 @@ const tailFormItemLayout = {
 const RegistrationForm = (props) => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
-    props.setChangePassword(false);
-  };
+  // const onFinish = values => {
+  //   console.log('Received values of form: ', values);
+  //   props.setVisible(false);
+  // };
 
   return (
     <Form
       {...formItemLayout}
       form={form}
       name="register"
-      onFinish={onFinish}
+      // onFinish={onFinish}
       scrollToFirstError
     >
 
@@ -83,11 +83,11 @@ const RegistrationForm = (props) => {
       </Form.Item>
 
       
-      <Form.Item {...tailFormItemLayout}>
+      {/* <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   );
 };

@@ -119,6 +119,7 @@ const ModulePlannerPageTemp = (props) => {
                     <p>Click on each requirement for further information</p>
                     <Card className="rule-container">
                         <Spin indicator={antIcon} tip="Loading..." spinning={props.modplan.loading}>
+                            <div className="inner-rule-container">
                             <Card.Title className="card-title">Degree Requirements</Card.Title>
                                 <Card.Body className="rule-card-body">
                                     <Rules
@@ -126,6 +127,7 @@ const ModulePlannerPageTemp = (props) => {
                                         settings={props.settings}
                                         ruleFunction={ruleFunction}/>      
                                 </Card.Body>
+                            </div>
                         </Spin>
                     </Card>
                 </div>

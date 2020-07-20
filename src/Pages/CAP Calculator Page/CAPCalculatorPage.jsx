@@ -173,9 +173,7 @@ const CAPCalculatorPage = (props) => {
         }
         
     }
-    console.log(semester)
-    console.log(semIndex)
-    console.log(props.cap.semesterOptions)
+  
     return(
         isEmpty(props.settings.userInfo)
             ? <LoadingDots/>

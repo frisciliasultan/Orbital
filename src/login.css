@@ -398,11 +398,6 @@ div.settings {
 	width: 201px;
 }
 
-/* .table.settings-table tbody tr td: :nth-child(1) {
-	width: 100px;
-} */
-
-
 .table.settings-table tr td:nth-child(2) {
 	width: 400px;
 }
@@ -558,6 +553,10 @@ button.button.settings-button {
 	position: relative;
 	min-height: 400px;
 	margin-bottom: 30px;
+}
+
+.inner-rule-container {
+	margin-right: auto;
 }
 .button #eval-button {
 	margin-right: 10px;
@@ -913,4 +912,9 @@ h2 .year-title {
 .ant-alert-close-icon {
 	bottom: 12.0005px;
 	top: unset;
+}
+
+.ant-spin-container {
+	display: flex;
+	justify-content: center;
 }

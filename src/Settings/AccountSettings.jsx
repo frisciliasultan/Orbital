@@ -1,17 +1,22 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import SideNav from "./SideNav";
-import { Input, Popconfirm, message } from 'antd';
+import { Input, Popconfirm, notification, message, Modal, Button, Spin } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RegistrationForm from "./ChangePassword";
 import { deleteUser } from "../actions/authActions";
+import { setEditAll } from "../actions/settingsActions";
+import { removeSuccess } from "../actions/successActions";
+import { handleSaveClick, checkSubmission } from "../utils/commonFunctions";
+import isEmpty from "is-empty";
 import LoadingDots from "../Pages/Loading Page/LoadingDots";
+import { LoadingOutlined } from '@ant-design/icons';
 
 const AccountSettings = (props) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [changePassword, setChangePassword] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    // const [changePassword, setChangePassword] = useState(false);
 
     const [userInput, setUserInput] = useReducer(
         (state, newState) => ({...state, ...newState}), 
@@ -20,7 +25,11 @@ const AccountSettings = (props) => {
           email: props.auth.user.email,
         }
       );
-    
+      const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    useEffect(() => {
+    feedback();
+    }, [props.success])
+
     function confirm(e) {
         console.log(e);
         message.success('Account successfully deleted');
@@ -31,42 +40,76 @@ const AccountSettings = (props) => {
         props.deleteUser();
     }
     
+    const openNotification = (type, placement) => {
+        notification[type]({
+          message: type === "success" ? "Success!" : "Whoops!",
+          description:
+            type === "success" ? props.success : "Please fill in your particulars before saving!",
+          placement,
+        });
+      };
+
     const presentButton = () => {
-          if(!isEditing) {
+          if(!props.isEditing[2]) {
             return <button 
               className="button settings-button" 
-              onClick={() => setIsEditing(true)}>
+              onClick={() => props.setEditAll(true, props.isEditing, 2)}>
                   Edit Settings
             </button>
           } else {
-            return <button 
-              className="button settings-button" 
-              onClick={() => {
-                handleSubmit();
-                setIsEditing(false);}}>
-                Save Settings
-            </button>
+            return (
+                <div>
+                  <button 
+                   className="button settings-button" 
+                   onClick={handleSubmit}>
+                      Save Settings
+                  </button>
+                  <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+                </div>
+              )
           }
       }
     
-    const handleSubmit = () => {
-
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserInput({[name]: value})
     }
 
+    const handleSubmit = () => {
+        const userData = {
+            name: userInput.name,
+            email: userInput.email,
+          }
+      
+        //if all props of userData is filled, allow user to save
+        //else alert popup to redirect user back to filling in their data (TEMPORARY)
+        if(checkSubmission(userData)) {
+            handleSaveClick(props, userData, 2);
+        } else {
+            openNotification('warning', 'bottomRight');
+        }
+    } 
+
+
     const renderContent = (name) => {
-        if(isEditing) {
+        if(props.isEditing[2]) {
             if(name === "username") {
                 return (
                     <Input 
                          placeholder="Enter username"
                          type="text"
+                         value={userInput.username}
                          name={name}
+                         onChange={(e) => handleChange(e)}
+                        //  onPressEnter={(e) => handleChange(e)}
+                        //  onFocusOut={(e) => handleChange(e)}
                          prefix={<UserOutlined />}/>) 
             } else {
                 return (
                     <Input 
                          placeholder={`Enter ${name}`}
                          type="email"
+                         value={userInput.email}
                          name={name}/>) 
             }
                 
@@ -74,8 +117,24 @@ const AccountSettings = (props) => {
             return userInput[name];
         }
     }
+    
+    const handleOk = () => {
+      //what happens when updating password
+    };
+    
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const feedback = () => {
+        if(!isEmpty(props.success)) {
+         openNotification('success', "bottomRight" );
+           setTimeout(props.removeSuccess, 500) &&
+           clearTimeout(setTimeout(props.removeSuccess, 2000))
+        } 
+     }
+
     return (
-        
         <div className="settings">
             <SideNav active="account"/>
                 <div className="acad-settings">
@@ -104,27 +163,34 @@ const AccountSettings = (props) => {
                                     {renderContent("email")}
                                 </td>
                             </tr>)}
-
-                            {changePassword && (<tr>
-                                <td>
-                                    <label>Changing Password</label>
-                                </td>
-
-                                <td>
-                                <RegistrationForm 
-                                    setChangePassword={setChangePassword}/>
-                                </td>
-                            </tr>)}
                         </tbody>
                     </table>
                   
                     {presentButton()}
-                    {!changePassword && 
+                    {!isModalVisible && 
                         <button 
                             className="button settings-button" 
-                            onClick={() => setChangePassword(true)}>
+                            onClick={() => setIsModalVisible(true)}>
                                 Change Password
                         </button>}
+                    
+                        <Modal
+                            visible={isModalVisible}
+                            title="Change Password"
+                            onOk={handleOk}
+                            onCancel={handleCancel}
+                            footer={[
+                                <Button key="back" onClick={handleCancel}>
+                                Return
+                                </Button>,
+                                <Button key="submit" type="primary" loading={props.auth.isLoading} onClick={handleOk}>
+                                Save
+                                </Button>,
+                            ]}
+                        >
+                             <RegistrationForm 
+                                    setIsModalVisible={setIsModalVisible}/>
+                        </Modal>                            
                     
                         <Popconfirm
                             title="Confirm delete account?"
@@ -145,11 +211,18 @@ const AccountSettings = (props) => {
 
 AccountSettings.propType = {
     deleteUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    removeSuccess: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    isEditing: PropTypes.object.isRequired,
+    success: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired
 };
 
 const mapStateToProp = state => ({
-    auth: state.auth
+    auth: state.auth,
+    settings: state.settings,
+    isEditing: state.settings.isEditing,
+    success: state.success
 });
 
-export default connect(mapStateToProp, { deleteUser }) (AccountSettings);
+export default connect(mapStateToProp, { deleteUser, setEditAll, removeSuccess }) (AccountSettings);

@@ -6,19 +6,35 @@ import { Switch, Select } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
-    const [isOpen, setIsOpen] = useState(!isEmpty(props.value) ? true : false);
+    const [isOpen, setIsOpen] = useState(isEmpty(props.value) || !props.value ? false : true);
     const { Option } = Select;
+
     let value;
-    if (!isEmpty(props.value) && props.name !== "specialisation"
-        && props.name !== "secondMajors" && props.name !== "minors") {
-        value = props.value.name ? props.value.name : props.value;
+    if (!isEmpty(props.value)) {
+        if(props.name === "honours") {
+            value = props.value ? "With Honours" : "Without Honours"; 
+        } else if(props.name === "specialisation") {
+            value = props.value ? props.value : "None ";
+        } else if(props.name === "secondMajors" || props.name === "minors") {
+            props.value.map((object) => {
+                if(value) {
+                    value += `, ${object.name}`
+                } else {
+                    value = object.name;
+                }
+            })
+        } else {
+            value = props.value.name ? props.value.name : props.value;
+        }
     } else {
         value = "None ";
     } 
-    console.log(value)
+
     const renderContent = () => {
         if(props.editing) {
-            if(!props.hidden) {
+            if(props.name == "honours" || props.hidden && !isOpen) {
+                return value;
+            } else if(!props.hidden) {
                 return (
                     <Select
                         showSearch
@@ -37,8 +53,11 @@ const Options = (props) => {
                             {"Choose " + props.label}
                         </Option>
                         {generateOptions(props.optionList, props.name)}
-                    </Select> ) 
+                    </Select> 
+                    ) 
             } else if (isOpen) {
+                if(!isEmpty(props.optionList)) {
+                    console.log(props.value)
                 return (
                     <div>
                     <DynamicFieldSet
@@ -49,23 +68,26 @@ const Options = (props) => {
                         value={props.value}/>
                     </div>
                 )
-            } else {
-                return value;
-            }
+                }
+            } 
         } else {
             return value;
         }
     }
 
     const handleSwitch = () => {
-        if(isOpen) {
-            if(props.name === "specialisation") {
-                props.setUserInput({specialisation: "None "});
-            } else {
-                props.setUserInput({[props.name]: []});
+        if(props.name === "honours") {
+            
+            props.setUserInput({major: {...props.major, honours: !isOpen}});
+        } else {
+            if(isOpen) {
+                if(props.name === "specialisation") {
+                    props.setUserInput({specialisation: "None "});
+                } else {
+                    props.setUserInput({[props.name]: []});
+                }
             }
         }
-
         setIsOpen(!isOpen);
     }
 
@@ -80,7 +102,7 @@ const Options = (props) => {
                 </td>
 
                 <td>
-                    {props.hidden && props.editing
+                    {(props.hidden || props.name === "honours") && props.editing
                         ? <Switch  
                             checked={isOpen} 
                             onChange={handleSwitch}/>

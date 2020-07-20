@@ -6,13 +6,13 @@ const SideNav = (props) => {
           <div className="sidenav">
             <h1>Settings</h1>
               
-              <Link 
+              {/* <Link 
                 to="./profile" 
                 className="navlink"
                 id={props.active === 'profile' ? props.active : undefined}>
                 <i className="fas fa-user fa-fw"/>
                 Profile
-              </Link>
+              </Link> */}
               
               <Link 
                 to="./academics" 

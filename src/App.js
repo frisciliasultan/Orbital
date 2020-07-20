@@ -92,7 +92,7 @@ const App = (props) => {
       <Switch>
         <Route 
           exact path="/" 
-          component={AboutPage} />
+          component={LoginPage} />
 
         <Route 
           exact path="/login" 

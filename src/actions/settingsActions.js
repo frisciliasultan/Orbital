@@ -42,7 +42,7 @@ export const initialSettings = () => async dispatch => {
         }
 }
 
-export const updateSettings = (userData, history) => dispatch => {
+export const updateSettings = (userData, history, currIsEditing, editCategory) => dispatch => {
     axios.defaults.timeout = 10000;
     dispatch(setSettingsLoading(true))
 
@@ -55,9 +55,11 @@ export const updateSettings = (userData, history) => dispatch => {
                         type: GET_SUCCESS,
                         payload: "Saved successfully!"
             });
-            dispatch(setSettingsLoading(false))
+            dispatch(setSettingsLoading(false));
+            if(currIsEditing) {
+                dispatch(setEditAll(false, currIsEditing, editCategory))
             }
-        )
+    })
         .catch(err => {
                 dispatch(setSettingsLoading(false));
                 console.log(err);

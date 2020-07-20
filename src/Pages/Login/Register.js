@@ -67,7 +67,7 @@ const Register = (props) => {
                 <div className="social-container">
                   <Facebook source="register"/>
                   <Google source="register"/>
-                  <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+                  {/* <a href="#" class="social"><i class="fab fa-instagram"></i></a> */}
                 </div>
                 <span>or use your email for registration</span>
                 
