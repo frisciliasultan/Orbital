@@ -6,10 +6,10 @@ const initialState = {};
 
 const middleware = [thunk];
 
-window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-  trace: true, // (action) => { return ‘trace as string’; }
-  traceLimit: 25,
-})
+// window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+//   trace: true, // (action) => { return ‘trace as string’; }
+//   traceLimit: 25,
+// })
 
 const store = createStore(
   rootReducer,
