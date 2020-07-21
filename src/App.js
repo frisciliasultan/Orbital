@@ -126,17 +126,7 @@ const App = (props) => {
             component={AcadSettings} />  */}
         
         <PrivateRouteTemp 
-<<<<<<< HEAD
-            exact path="/settings" 
-            type="settings"
-            active="academics"
-            component={AcadSettings} /> 
-            
-        <PrivateRouteTemp 
-            exact path="/settings/profile" 
-=======
             exact path="/profile-settings" 
->>>>>>> hosting
             type="settings"
             active="profile"
             component={ProfileSettings} /> 
