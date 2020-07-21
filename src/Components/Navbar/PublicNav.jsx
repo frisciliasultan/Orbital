@@ -22,9 +22,9 @@ export class PublicNav extends React.Component {
                         About
                     </Link> */}
                      
-                     <Link to="/login" className="navlink">
+                     {/* <Link to="/login" className="navlink">
                          Login
-                     </Link>
+                     </Link> */}
 
             </Navbar>
 
