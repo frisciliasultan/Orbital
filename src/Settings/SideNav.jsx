@@ -24,7 +24,7 @@ const SideNav = (props) => {
   
               
               <Link 
-                to="./account-settings" 
+                to="/account-settings" 
                 className="navlink"
                 id={props.active === 'account' ? props.active : undefined}>
                 <i className="fas fa-cog fa-fw"/>
