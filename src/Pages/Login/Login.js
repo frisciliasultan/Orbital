@@ -23,10 +23,10 @@ const Login = (props) => {
   useEffect(() => {
     // If logged in and not first time registering and initial setup (current AY, userInfo) done, 
     // if user navigates to Login page, should redirect them to module planner
-    if(!props.auth.loading && props.auth.isAuthenticated && !props.auth.firstTimeRegistered ) {
+    if(props.auth.isAuthenticated && !props.auth.firstTimeRegistered ) {
       props.history.push("/module-planner");
     }
-  }, [props.auth.loading]);
+  }, [props.auth.isAuthenticated]);
 
   useEffect(() => {
     if (props.errors) {
@@ -56,7 +56,7 @@ const Login = (props) => {
           <div class="social-container">
               <Facebook source="login"/>
               <Google source="login"/>
-              <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+              {/* <a href="#" class="social"><i class="fab fa-instagram"></i></a> */}
           </div>
           <span>or use your account</span>
 
@@ -92,7 +92,7 @@ const Login = (props) => {
             {errors.passwordincorrect}
           </span>
 
-          <a href="#">Forgot your password?</a>
+          {/* <a href="#">Forgot your password?</a> */}
           <button type="submit">Sign In</button>
       </form>
   );

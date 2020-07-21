@@ -4,7 +4,11 @@ import {
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
     CLEAN_UP_SETTINGS,
-    GET_SUCCESS
+    GET_SUCCESS,
+    SET_ACAD_OPTIONS,
+    SET_EDIT_ALL,
+    SET_FIRST_RENDER,
+    SETTINGS_LOADING
 } from "./types";
 import { setUserLoading } from "./authActions";
 import axios from "axios";
@@ -18,11 +22,11 @@ export const setUserSettings = (userData) => {
 
 export const initialSettings = () => async dispatch => {
     try {
-        axios.defaults.timeout = 5000;
+        axios.defaults.timeout = 10000;
         dispatch(setUserLoading(true));
         
         const isFetched = await axios  
-                        .get('https://modtree-api.netlify.app/.netlify/functions/account')
+                        .get('https://modtree-api.netlify.app/.netlify/functions/user/account')
                         .then(res => {
                                 dispatch(setUserSettings(res.data))
                             })
@@ -38,23 +42,28 @@ export const initialSettings = () => async dispatch => {
         }
 }
 
-export const updateSettings = (userData) => dispatch => {
-    axios.defaults.timeout = 6000;
+export const updateSettings = (userData, history, currIsEditing, editCategory) => dispatch => {
+    axios.defaults.timeout = 10000;
+    dispatch(setSettingsLoading(true))
+
     axios
-        .put("https://modtree-api.netlify.app/.netlify/functions/account", userData)
-        .then(res => {console.log(res); dispatch(setUserSettings(res.data.updated))})
+        .put("https://modtree-api.netlify.app/.netlify/functions/user/account", userData)
+        .then(res => {
+           dispatch(setUserSettings(res.data.updated))})
         .then(res => {
             dispatch({
                         type: GET_SUCCESS,
                         payload: "Saved successfully!"
             });
-            dispatch(setUserLoading(false))
+            dispatch(setSettingsLoading(false));
+            if(currIsEditing) {
+                dispatch(setEditAll(false, currIsEditing, editCategory))
             }
-        )
+    })
         .catch(err => {
-                dispatch(setUserLoading(false))
+                dispatch(setSettingsLoading(false));
                 console.log(err);
-                // window.location.replace("/500-error")
+                history.push("/500-error");
             })
 };
 
@@ -88,67 +97,52 @@ export const cleanUpSettings = () => {
         type: CLEAN_UP_SETTINGS
     }
 }
-//turn array of choices into options dropdown
-// export const generateOptions = (optionList, category,) {
 
-//     let facIndex = this.state.facIndex;
-//   if(choices === 'faculty'){
-//     return this.state.dummyfac.map((obj) => {
-//       return (
-//       <option value={Object.keys(obj)}>
-//         {Object.keys(obj)}
-//       </option>
-//       );
-//     });
-//   } else if(choices === 'major') {
-//       if(this.state.faculty) {
-//     return this.state.dummyfac
-//            [facIndex]
-//            [this.state.faculty].map((obj) => {
-//                   return (
-//                     <option value={Object.keys(obj)}>
-//                       {Object.keys(obj)}
-//                     </option>
-//                   )
-//               }
-//     )}
-//   } else if(choices === 'specialisation') {
-//       if(this.state.major && this.state.faculty) {
-//       return this.state.dummyfac
-//              [facIndex]
-//              [this.state.faculty][this.state.majorIndex][this.state.major].map((item) => {
-//                   return (
-//                     <option>
-//                       {item}
-//                     </option>
-//                   )
-//                 }    
-//       )}
-//   } else if(choices === 'residence') {
-//     return this.state.residenceOptions.map((obj) => {
-//       return (
-//       <option value={obj}>
-//         {obj}
-//       </option>
-//       );
-//     });
-//   } else {
-//       let options;
+export const setDegreeOptions = () => dispatch => {
+    axios.defaults.timeout = 10000;
+    axios.all([
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/bachelors'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/secondMajors'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/minors'),
+        axios.get('https://modtree-api.netlify.app/.netlify/functions/info/residences')
+    ])
+    .then(resArr => {
+            dispatch(setAcadOptions(resArr[0].data, resArr[1].data, resArr[2].data, resArr[3].data));
+        }) 
+    .catch(err => {
+        console.log(err)
+    });
+}
 
-//       if(choices === 'matriculationYear') {
-//         options = this.props.settings.matriculationOptions
-//       } else {
-//         options = this.props.settings.targetGradOptions
-//       }
+export const setAcadOptions = (bachelors, secondMajors, minors, residences) => {
+    return {
+        type: SET_ACAD_OPTIONS,
+        bachelors,
+        secondMajors,
+        minors, 
+        residences
+    }
+}
 
-//     return options.map((option) => {
-//       return (
-//       <option value={option}>
-//         {option}
-//       </option>
-//       );
-//     });
-//   }
-// }
+export const setEditAll = (status, current, category) => {
+    return {
+        type: SET_EDIT_ALL,
+        status,
+        current,
+        category
+    }
+} 
 
+export const setSettingsLoading = (status) => {
+    return {
+        type: SETTINGS_LOADING,
+        payload: status
+    }
+}
 
+export const setFirstRender = (status) => {
+    return {
+        type: SET_FIRST_RENDER,
+        status
+    }
+}

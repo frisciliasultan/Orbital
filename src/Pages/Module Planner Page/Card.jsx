@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { ItemTypes } from './itemType';
 import { useDrag } from 'react-dnd';
+import { message } from "antd";
 
 const ModuleCard = props => {
     const [{ isDragging}, drag] = useDrag({
@@ -13,8 +14,31 @@ const ModuleCard = props => {
             isDragging: !!monitor.isDragging()
         })
     })
-   
-    let message = false;
+    
+    let timer;
+    const handleClick = () => {
+        if(timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            console.log('called')
+            message.warning({
+                content: 'Double click to delete',
+              })
+      
+              message.config({
+                maxCount: 1,
+                duration: .7,
+                top: '70px',
+              })
+        }, 250)
+    }
+
+    const handleDoubleClick = () => {
+        clearTimeout(timer);
+        props.del({id: props.id}, null, null, props.selectedModules);
+    }
+
     return (
         <Button
             ref={drag}
@@ -36,19 +60,10 @@ const ModuleCard = props => {
                 <i  
                 class="fa fa-trash-alt fa-border"
                 id="mod-plan-trash"
-                onClick={() => {}} 
-                onDoubleClick={() => props.del({id: props.id}, null, null, props.selectedModules)} />
+                onClick={handleClick} 
+                onDoubleClick={handleDoubleClick} />
                 </div>
             </div>
-            {/* <span>{props.title}</span>
-                <br/>
-            <span>{props.MCs + ' MCs'}</span>
-            <br />
-            <i  
-                class="fa fa-trash-alt"
-                style={{cursor: "pointer"}}
-                onClick={() => {}} 
-                onDoubleClick={() => props.del({id: props.id}, null, null, props.selectedModules)} /> */}
         </Button>
     )
 }

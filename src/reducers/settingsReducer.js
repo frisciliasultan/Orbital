@@ -3,16 +3,27 @@ import {
     SET_CURRENT_SEMESTER,
     SET_MATRICULATION_OPTIONS,
     SET_TARGET_GRAD_OPTIONS,
-    CLEAN_UP_SETTINGS
+    CLEAN_UP_SETTINGS,
+    SET_ACAD_OPTIONS,
+    SET_EDIT_ALL,
+    SET_FIRST_RENDER,
+    SETTINGS_LOADING
 } from "../actions/types";
 
 const initialState = {
     currentAY: null,
     currentSemester: null,
     month: null,
+    bachelorOptions: [],
+    secondMajorOptions: [],
+    minorOptions: [],
+    residenceOptions: [],
     matriculationOptions:[],
     targetGradOptions: [],
-    userInfo: {}
+    userInfo: {},
+    isEditing: {},
+    isLoading: false,
+    firstRender: true
 }
 
 export default function (state = initialState, action ) {
@@ -96,6 +107,37 @@ export default function (state = initialState, action ) {
                 targetGradOptions: targetGradOptions    
             }
         
+        case SET_ACAD_OPTIONS:
+            const { bachelors, secondMajors, minors, residences } = action;
+            return {
+                ...state,
+                bachelorOptions: bachelors,
+                secondMajorOptions: secondMajors,
+                minorOptions: minors,
+                residenceOptions: residences
+            }
+        
+        case SET_EDIT_ALL:
+            const { status, current, category } = action;
+
+            const updated = {...current};
+            updated[category] = status;
+            return {
+                ...state,
+                isEditing: updated
+            }
+        
+        case SETTINGS_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload
+            }
+        
+        case SET_FIRST_RENDER:
+            return {
+                ...state,
+                firstRender: action.status
+            }
         case CLEAN_UP_SETTINGS:
             return initialState;
 

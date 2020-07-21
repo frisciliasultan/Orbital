@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'antd/dist/antd.css';
 import React, { useEffect } from "react";
-import { ModuleSelectionPage } from "./Pages/Module Selection Page/ModuleSelectionPage"
+import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelectionPage"
 import { LoginPage } from './Pages/Login/LoginPage'
 import "./login.css";
 import {
@@ -15,6 +16,8 @@ import { PublicNav } from './Components/Navbar/PublicNav';
 import  ModulePlannerPageTemp  from "./Pages/Module Planner Page/ModulePlannerPage";
 import  CAPCalculatorPage  from "./Pages/CAP Calculator Page/CAPCalculatorPage";
 import AcadSettings from './Settings/AcadSettings';
+import ProfileSettings from "./Settings/ProfileSettings";
+import AcccountSettings from "./Settings/AccountSettings";
 
 import PrivateRoute from './Components/PrivateRoute';
 import jwt_decode from "jwt-decode";
@@ -30,7 +33,8 @@ import ServerError from './Pages/Error Page/ServerError';
 import store from './store';
 import { connect } from 'react-redux';
 
-
+import axios from "axios";
+import AccountSettings from './Settings/AccountSettings';
 
 let totalGEMMCs = 0;
 
@@ -39,14 +43,21 @@ if (localStorage.jwtToken) {
   // Set auth token header auth
   const token = localStorage.jwtToken;
   setAuthToken(token);
-
+  console.log(token)
   // Decode token and get user info and exp
   const decoded = jwt_decode(token);
 
+  // Check for expired token
+  const currentTime = Date.now() / 1000; // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+    // Redirect to login
+    window.location.href = "./login";
+  }
+
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded, false));
-
-    
 
     // Set current AY and semester
     const time = new Date();
@@ -69,25 +80,19 @@ if (localStorage.jwtToken) {
     store.dispatch(initialSettings());
 
     
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
+  
 }
 
 const App = (props) => {
   return (
-    <div>
+    <div className="main-container">
+      {/* <PrivateNav class="navbar" /> */}
       {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
     
       <Switch>
         <Route 
           exact path="/" 
-          component={AboutPage} />
+          component={LoginPage} />
 
         <Route 
           exact path="/login" 
@@ -112,7 +117,20 @@ const App = (props) => {
         <PrivateRouteTemp 
             exact path="/settings/academics" 
             type="settings"
+            active="academics"
             component={AcadSettings} /> 
+        
+        <PrivateRouteTemp 
+            exact path="/settings/profile" 
+            type="settings"
+            active="profile"
+            component={ProfileSettings} /> 
+        
+        <PrivateRouteTemp 
+            exact path="/settings/account" 
+            type="settings"
+            active="account"
+            component={ AccountSettings } /> 
 
         <Route 
           exact path="/500-error" 

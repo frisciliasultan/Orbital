@@ -56,7 +56,7 @@ function Board (props) {
 
         return (
             
-            <div>
+            <div className="card-board">
                 <h3>{props.semester}</h3>
             <div   
                 ref={drop}
@@ -69,9 +69,11 @@ function Board (props) {
                         outline: isBoardFilled ? 'none' : '1px dotted'}}>
                             {isBoardFilled ? generateCards : 'Drop module here'}
             </div>
+
             {isTextBoxOpen && <AutoCompleteText 
                                             AY={props.AY}
                                             location={props.id}
+                                            category="module"
                                             module={props.module}/>}
                 <Button className="button" id="addModule" onClick={handleButtonClick}>Add Module</Button>
                 <h5>Total MCs: {totalMCs}</h5>

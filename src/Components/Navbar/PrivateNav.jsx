@@ -5,14 +5,30 @@ import NavIcon from "../NavIcon";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
 import { connect} from "react-redux"
+import { message } from 'antd';
 
 
 class PrivateNav extends React.Component {
-    
+    warning = () => {
+        if(!this.props.settings.userInfo.major) {
+            
+            message.warning({
+                content: 'Please fill in your particulars!',
+            })
+
+            message.config({
+                maxCount: 1,
+                duration: .7,
+                top: '70px',
+            })
+
+        }
+      };
+      
     render() {
         return (
             <Navbar className="navbar" expand="xl" sticky="top">
-                <Link to="/module-planner" className="navbrand">
+                <Link to="/module-planner" onClick={this.warning} className="navbrand">
                     <Navbar.Brand>
                         <img
                         alt=""
@@ -25,15 +41,15 @@ class PrivateNav extends React.Component {
                 </Link>
                 
                 
-                <Link to="/select-modules" className="navlink">
+                {/* <Link to="/select-modules" onClick={this.warning} className="navlink">
                         Module Information
-                </Link>
+                </Link> */}
 
-                <Link to="/module-planner" className="navlink">
+                <Link to="/module-planner" onClick={this.warning} className="navlink">
                     Module Planner
                 </Link>
 
-                <Link to="/cap-calculator" className="navlink">
+                <Link to="/cap-calculator" onClick={this.warning} className="navlink">
                     CAP Calculator
                 </Link>
 
@@ -56,4 +72,7 @@ class PrivateNav extends React.Component {
    }
 }
 
-export default connect(null, {logoutUser})(PrivateNav);
+const mapStateToProps = state => ({
+    settings: state.settings
+})
+export default connect(mapStateToProps, {logoutUser})(PrivateNav);

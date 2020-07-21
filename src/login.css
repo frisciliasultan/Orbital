@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+/* @import url('https://fonts.googleapis.com/css?family=Montserrat:400, 800'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,800&display=swap');
 
 * {
 	box-sizing: border-box;
@@ -6,18 +7,22 @@
 
 body {
 	background: #f6f5f7;
-	/* display: flex; */
+	/* display: flex;
 	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+	align-items: center; */
+	/* flex-direction: column; */
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin: -20px 0 50px;
+	margin: 0;
 }
 
 h1 {
 	font-weight: bold;
 	margin: 0;
+}
+
+.overlay-panel h1 {
+	color: white;
 }
 
 h2 {
@@ -54,6 +59,7 @@ button {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+	margin-top: 15px;
 }
 
 button:active {
@@ -67,6 +73,17 @@ button:focus {
 button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
+}
+
+label {
+	margin-right: 20px;
+}
+
+th, td {
+	width: 100px;
+}
+.checkbox {
+	width: fit-content;
 }
 
 form {
@@ -96,9 +113,9 @@ input {
 	position: relative;
 	top: 50px;
 	overflow: hidden;
-	width: 768px;
+	width: 800px;
 	max-width: 100%;
-	min-height: 480px;
+	min-height: 580px;
 	margin-bottom: 20px;
 }
 
@@ -107,6 +124,22 @@ input {
 	top: 0;
 	height: 100%;
 	transition: all 0.6s ease-in-out;
+}
+
+.page-title {
+	background-color: #FFFFFF;
+    height: 60px;
+    display: flex;
+	width: 100%;
+	align-content: center;
+	align-items: center;
+}
+
+.page-title h3 {
+	font-size: 31.25px;
+    font-weight: 600;
+    margin-left: 30px;
+    margin: 10px 100px;
 }
 
 .sign-in-container {
@@ -280,6 +313,157 @@ footer a {
 }
 
 /* Settings */
+div.settings {
+	display: flex;
+	justify-content: center;
+	align-content:  flex-start;
+	align-items: flex-start; 
+	height: 100vh;
+	background-color: #f6f5f7;
+}
+
+.sidenav  {
+	height: 100%;
+	width: 250px;
+	position: fixed;
+	left: 0px;
+	/* top: 60px; */
+	background-color: #FFFFFF;
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.sidenav h1 {
+	margin: 40px 30px 25px;
+	font-size: 40px;
+	line-height: 37px;
+	font-weight: 600;
+	align-self: flex-start;
+}
+
+.sidenav .navlink {
+	color: black;
+	font-size: 17px;
+	width: 100%;
+	margin: 0px;
+	padding: 10px 30px;
+	box-sizing: border-box;
+	border-radius: 10px;
+	text-align: left;
+	/* border-style: solid;  */
+}
+
+.sidenav .navlink:hover {
+	color: #f78620;
+}
+
+ .navlink#profile, .navlink#academics, .navlink#account {
+	color: #f78620;
+	background-color: #11224b;
+}
+
+.navlink i {
+	margin-right: 10px;
+}
+
+/* acad settings */
+.acad-settings {
+	display: flex;
+	flex-direction: column;
+	margin: 50px 0 0 250px;
+}
+
+.acad-settings h1 {
+	font-size: 40px;
+    margin: 20px;
+    align-self: center;
+}
+
+.card-header {
+	background-color: #FFFFFF;
+	color: black;
+	font-size: 25px;
+	font-weight: bold;
+	height: 60px;
+}
+
+.table.settings-table tr td, #degree-acad-table tr td {
+	padding: 5px 20px; 
+  }
+
+.table.settings-table tbody tr td:-child(1) {
+	left: 10px;
+	width: 201px;
+}
+
+.table.settings-table tr td:nth-child(2) {
+	width: 400px;
+}
+
+button.button.settings-button {
+	width: fit-content;
+    margin: 10px 20px;
+    font-size: 14px;
+    border-radius: 7px;
+    height: fit-content;
+    text-transform: capitalize;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+#all-settings {
+	align-self: center;
+    width: 70%;
+    margin: 50px 0px;
+    font-size: large;
+}
+
+#degree-settings, #general-acad {
+	display: flex;
+    flex-flow: row wrap;
+    min-height: auto;
+	width: 70%;
+	margin-bottom: 60px;
+}
+
+#degree-acad-table {
+	margin-top: 0;
+}
+
+/* Dynamic Field Set */
+#dynamic_form_item , .ant-form.ant-form-horizontal {
+	background-color: transparent;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-items: flex-start; 
+	align-content: flex-start;
+}
+
+.dynamic-delete-button {
+    cursor: pointer;
+	position: absolute;
+    top: 4px;
+    font-size: 24px;
+    color: #999;
+	transition: all 0.3s;
+	margin: 0;
+	left: 320px;
+  }
+  .dynamic-delete-button:hover {
+    color: #777;
+  }
+  .dynamic-delete-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+ .ant-col.ant-form-item-control.ant-col-xs-24.ant-col-xs-offset-0.ant-col-sm-20.ant-col-sm-offset-4{
+	align-items: flex-start;
+ }
+
 #delete {
 	background-color: #de4949;
 	border: none;
@@ -302,11 +486,51 @@ footer a {
 
 /* Module Planner CSS */
 .container-module-planner {
-	display: grid;
-	grid-template: 12fr / 12fr;
+	display: flex;
+	flex-flow: column wrap;
 	overflow: scroll;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
+	margin: 50px 100px;
+}
+
+.year-display {
+    display: flex;
+    overflow: hidden;
+    margin: 35px 0 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 500px;
+    align-content: flex-start;
+    justify-content: flex-start;
+    padding-bottom: 50px;
+}
+
+.container.year-card  {
+    width: max-content;
+    margin: 0px;
+    margin-right: 50px;
+    padding: 25px 20px;
+    min-height: fit-content;
+    top: unset;
+}
+
+.container.year-card .card-title{
+	font-size: 25px;
+}
+
+.container.year-card .card-subtitle{
+	font-size: 20px;
+}
+
+.container.year-card .card-body {
+	display: flex;
+	display: flex;
+    height: fit-content;
+}
+
+.card-board {
+	margin-right: 10px;
+	height: fit-content;
 }
 
 .button {
@@ -316,22 +540,26 @@ footer a {
 	width: 150px;
 }
 
+.button:active, .button:hover {
+	background-color: #007bff;
+}
+
 #addModule {
 	margin-top: 20px;
 }
 
-#module-card {
-
+.rule-container {
+	max-width: 650px;
+	position: relative;
+	min-height: 400px;
+	margin-bottom: 30px;
 }
 
+.inner-rule-container {
+	margin-right: auto;
+}
 .button #eval-button {
 	margin-right: 10px;
-}
-
-.year-display {
-	width: 4fr;
-	background-color: off-white;
-	font-family: Arial, Helvetica, sans-serif;
 }
 
 h2 .year-title {
@@ -348,11 +576,94 @@ h2 .year-title {
 	margin: 0;
 }
 
+.AutoCompleteText .autocomplete-input#major, 
+	.AutoCompleteText .autocomplete-input#minor{
+	width: 350px,;
+	margin: 0;
+	position: relative;
+
+}
+
+.AutoCompleteText ul {
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+	padding: 0;
+	width: 250px;
+} 
+
+.AutoCompleteText ul::before{
+    content: '';
+}
+
+.AutoCompleteText li {
+	padding: 10px 5px;
+	background-color: #f6f5f7;
+}
+
+.AutoCompleteText li:hover {
+    background-color: #FFFFFF;
+}
+
 .col-3 {
 	display: flex;
 	align-items: center;	
 	justify-content: center;
 }
+
+.trashbox {
+	padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
+    max-height: 300px;
+}
+
+.trashbox .card-title {
+	font-size: 25px;
+}
+
+.trashbox .card-header {
+	font-size: 20px;
+}
+
+.trashbox .trash-icon {
+	display: flex;
+    margin: 40px 0;
+    align-content: center;
+	justify-content: center;
+	
+}
+
+.trashbox i {
+	font-size: 80px;
+	text-align: center;
+	justify-self: center;
+	align-self: center;
+	margin-left: 0;
+	cursor: default;
+}
+
+.card-title {
+	font-size: 25px;
+    margin: 20px 0px 30px 20px;
+    font-weight: 600;
+}
+
+.rule {
+	font-size: 20px;
+	margin: 15px 0px;
+	font-weight: 400;
+}
+
+.rule-card-body {
+	padding-top: 0px;
+}
+.ant-spin.ant-spin-spinning.ant-spin-show-text {
+	top: 150px;
+}
+
 
 /* CAP calculator  */
  .fa-arrow-right, .fa-arrow-left, .fa-trash-alt {
@@ -366,6 +677,10 @@ h2 .year-title {
 	margin-left: 5px;
 }
 
+.fa-arrow-right.Overview  {
+	margin-left: 53.5px;
+}
+
 .fa-trash-alt {
 	border-color: transparent;
 	/* border-color: black; */
@@ -377,8 +692,233 @@ h2 .year-title {
 	margin-right: 15px;
 }
 
-/* Year display */
-.year-display {
-	margin-top: 25px;
+.main-cap-div {
+	display: flex;
+	flex-direction: column;
+	margin: 0px 100px 50px 100px;
+}
+
+.cap-status {
+	display: flex;
+}
+
+.main-title {
+	font-size: 61.04px;
+	font-weight: 800;	
+}
+
+.cap-description h3{
+	margin: 30px 60px 20px 0px;
+	font-size: 20px;
+}
+
+
+.table-semester-header {
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+.cap-table-section.container {
+	margin: 20px 0px;
+    width: 100%;
+    padding: 0px 40px;
+    position: inherit;
+    min-height: fit-content;
+}
+
+.cap-table {
+	align-self: center;
+}
+
+.cap-table-section h3 {
+	font-size: 25px;
+    font-weight: 600;
+    margin: 30px 0px 15px;
+}
+
+.cap-table-section #overview {
+	margin-bottom: 0px;
+}
+
+.cap-table-header-body h4{
+	margin: 30px 0px 10px;
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.cap-table-header, .cap-table-row {
+	display: flex;
+}
+
+.cap-table-header {
+	margin-top: 0px;
+}
+
+.cap-table-header th, .cap-table-body tr td {
+	padding-left: 0px;
+}
+
+.cap-table-header th{
+	font-size: 20px;
+	font-weight: 500;
+}
+
+
+.cap-table-body {
+	display: flex;
+	flex-flow: column;
+}
+
+.cap-table-body tr h6 {
+	font-weight: 500;
+	margin: 15px 0px 10px;
+	font-size: 17px;
+}
+
+.cap-table-row {
+	width: 100%;
+}
+
+.cap-table tr:nth-last-child() {
+	margin-bottom: 10px;
+}
+
+.cap-table-header th:nth-child(1), .cap-table td:nth-child(1) {
+	flex-grow: 2;
+    width: 150px;
+}
+.cap-table-header th:nth-child(2), .cap-table td:nth-child(2) {
+    flex-grow: 2;
+    width: 400px;
+}
+.cap-table-header th:nth-child(3), .cap-table td:nth-child(3) {
+	flex-grow: 1;
+    width: 200px;
+}
+.cap-table-header th:nth-child(4), .cap-table td:nth-child(4) {
+    flex-grow: 1;
+    width: 100px;
+}
+.cap-table-header th:nth-child(5), .cap-table td:nth-child(5) {
+	flex-grow: 1;
+	width: 70px;
+}
+.cap-table-header th:nth-child(6) {
+	flex-grow: 0;
+}
+
+.cap-table-header.isPast th:nth-child(1), .cap-table.isPast td:nth-child(1) {
+	flex-grow: 2;
+    width: 150px;
+}
+.cap-table-header.isPast th:nth-child(2), .cap-table.isPast td:nth-child(2) {
+    flex-grow: 2;
+    width: 300px;
+}
+.cap-table-header.isPast th:nth-child(3), .cap-table.isPast td:nth-child(3) {
+	flex-grow: 1;
+    width: 130px;
+}
+.cap-table-header.isPast th:nth-child(4), .cap-table.isPast td:nth-child(4) {
+	flex-grow: 1;
+    width: 150px;
+}
+
+.cap-table-header.isPast th:nth-child(5), .cap-table.isPast td:nth-child(5) {
+	flex-grow: 0;
+}
+
+
+#cap-autocomplete {
+	width: 300px;
+    margin: 15px 0px;
+}
+
+#cap-add-module-button {
+	margin-left: 0;
+	margin-right: 25px;
+}
+
+#cap-save-cap-button {
+	margin-left: 0px;
+	margin-right: 15px;
+}
+
+.button-group {
 	margin-left: 20px;
+}
+
+/* Loading screen */
+.loading-container {
+	/* background-color: blue; */
+	margin-top: 300px; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	justify-self: center;
+}
+
+#dot1, #dot2, #dot3 {
+	transform: translateY(-20px);
+	font-size: 30px;
+	margin: 0 15px;
+  }
+
+
+@keyframes dot1 {
+	from {
+		transform: translateY(-20px);
+	  }
+	  to {
+		transform: translateY(20px);
+	  }
+}
+
+@keyframes dot2 {
+	from {
+		transform: translateY(-20px);
+	  }
+	  to {
+		transform: translateY(20px);
+	  }
+}
+
+@keyframes dot3 {
+	from {
+		transform: translateY(-20px);
+	  }
+	  to {
+		transform: translateY(20px);
+	  }
+}
+
+#dot1 {
+	animation: dot1 1s ease infinite alternate -1s;
+	color: #11224b;
+}
+
+#dot2 {
+	animation: dot2 1s ease infinite alternate -.8s;
+	color: #f78620;
+}
+
+#dot3 {
+	animation: dot3 1s ease infinite alternate -.4s;
+	color: #11224b;
+
+}
+
+/* Feedback Ant Design  */
+.ant-alert-close-icon {
+	bottom: 12.0005px;
+	top: unset;
+}
+
+.ant-modal-close-icon {
+	bottom: 12.0005px;
+	top: unset;
+}
+.ant-spin-container {
+	display: flex;
+	justify-content: center;
 }

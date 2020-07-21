@@ -6,6 +6,7 @@ import {
     SET_SELECTED_MODULES,
     SET_MODULE_LOCATION,
     SET_CURRRENT_SEMESTER, 
+    SET_MODPLAN_LOADING,
     CLEAN_UP_MODPLAN
 } from "../actions/types";
 
@@ -13,7 +14,8 @@ const initialState = {
     selectedModules: [], 
     callBackendNow: false,
     rules: [],
-    modules: []
+    modules: [],
+    loading: false
 }
 
 export default function (state = initialState, action) {
@@ -57,6 +59,7 @@ export default function (state = initialState, action) {
                 if(module[i].moduleCode === moduleAdded.moduleCode) {
                     unique = false;
                     indexOfDuplicate = i;
+                    break;
                 }
             }
 
@@ -64,7 +67,6 @@ export default function (state = initialState, action) {
                 if(unique) {
                     module.push(moduleAdded);
                 } else {
-                    
                     module.splice(indexOfDuplicate, 1, moduleAdded);         
                 }
             }
@@ -81,8 +83,6 @@ export default function (state = initialState, action) {
 
             if(!location) {
                 changedModule = modulesToFilter.filter((object) => object.moduleCode !== item.id);
-                console.log(modulesToFilter.filter((object) => object.moduleCode === item.id));
-                console.log(changedModule);
             } else {
                 const temp = modulesToFilter.filter((object) => object.moduleCode === item.id);
                 const moduleToChange = [...temp];
@@ -102,7 +102,11 @@ export default function (state = initialState, action) {
                AY: action.AY,
                semester: action.semester
            }
-        
+        case SET_MODPLAN_LOADING:
+            return {
+                ...state,
+                loading: action.status
+            }
         case CLEAN_UP_MODPLAN:
             return initialState;
 
