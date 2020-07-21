@@ -15,7 +15,7 @@ const SideNav = (props) => {
               </Link> */}
               
               <Link 
-                to="./academics" 
+                to="/academics-settings" 
                 className="navlink"
                 id={props.active === 'academics' ? props.active : undefined}>
                 <i className="fas fa-graduation-cap fa-fw"/>
@@ -24,7 +24,7 @@ const SideNav = (props) => {
   
               
               <Link 
-                to="./account" 
+                to="./account-settings" 
                 className="navlink"
                 id={props.active === 'account' ? props.active : undefined}>
                 <i className="fas fa-cog fa-fw"/>

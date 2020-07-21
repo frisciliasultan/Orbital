@@ -59,7 +59,7 @@ class PrivateNav extends React.Component {
 
                     {/* <NavIcon icon={this.props.userProfilePicture} /> */}
                     {/* <NavIcon icon={logoImg} /> */}
-                <Link to="/settings/academics" className="navlink">
+                <Link to="/academics-settings" className="navlink">
                     Settings
                 </Link>
 
