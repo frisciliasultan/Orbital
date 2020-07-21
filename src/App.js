@@ -114,12 +114,19 @@ const App = (props) => {
             component={CAPCalculatorPage} /> 
 
         <PrivateRouteTemp 
-            exact path="/settings/academics" 
+            exact path="/academics-settings" 
             type="settings"
             active="academics"
             component={AcadSettings} /> 
+
+        {/* <PrivateRouteTemp 
+            exact path="/settings" 
+            type="settings"
+            active="academics"
+            component={AcadSettings} />  */}
         
         <PrivateRouteTemp 
+<<<<<<< HEAD
             exact path="/settings" 
             type="settings"
             active="academics"
@@ -127,12 +134,15 @@ const App = (props) => {
             
         <PrivateRouteTemp 
             exact path="/settings/profile" 
+=======
+            exact path="/profile-settings" 
+>>>>>>> hosting
             type="settings"
             active="profile"
             component={ProfileSettings} /> 
         
         <PrivateRouteTemp 
-            exact path="/settings/account" 
+            exact path="/account-settings" 
             type="settings"
             active="account"
             component={ AccountSettings } /> 
