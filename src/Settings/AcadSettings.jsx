@@ -176,6 +176,11 @@ const AcadSettings = (props) => {
                 Save Settings
             </button>
             <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+            <button
+                className="button settings-button"
+                onClick={() => props.setEditAll(false, props.settings.isEditing, 0)}>
+                  Cancel
+            </button>
           </div>
         )
       }
