@@ -118,6 +118,12 @@ const App = (props) => {
             type="settings"
             active="academics"
             component={AcadSettings} /> 
+
+        <PrivateRouteTemp 
+            exact path="/settings" 
+            type="settings"
+            active="academics"
+            component={AcadSettings} /> 
         
         <PrivateRouteTemp 
             exact path="/settings/profile" 
