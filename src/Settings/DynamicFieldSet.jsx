@@ -1,17 +1,16 @@
 import { Form, Button, Select, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { generateOptions } from "../utils/commonFunctions";
-// import AutocompleteText from "../Pages/Module Planner Page/AutocompleteText";
 import React, { useState, useEffect} from "react";
 import isEmpty from 'is-empty';
 
 const { Option } = Select;
   
   const DynamicFieldSet = (props) => {
-    const [options, setOptions] = useState([]);
+    const [options, setOptions] = useState(props.optionList);
     const [keyList, setKeyList] = useState([1]);
     const length = keyList.length;
-
+  
     useEffect(() => {
       if(props.value.length > 0) {
         //set options after first render
