@@ -5,7 +5,7 @@ const filterMods = require('./filterMods');
 
 function compile(ruleTag) {
   if (typeof ruleTag == 'object') { 
-    let ruleObj = ruleTag;
+    ruleObj = ruleTag;
     if (ruleObj.func === 'planned') {
       return planned(ruleObj);
     } else if (ruleObj.func === 'and') {
@@ -268,7 +268,7 @@ async function filter(ruleObj) {
   var params = ruleObj.params;
 
   function checkFor (moduleCode, attribute, acceptedVals) {
-    let key = parseMod(moduleCode)[attribute];
+    key = parseMod(moduleCode)[attribute];
     assert(key !== undefined);
     return acceptedVals.includes(key);
   }
