@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import RegistrationForm from "./ChangePassword";
 import { deleteUser } from "../actions/authActions";
-import { setEditAll } from "../actions/settingsActions";
+import { setEditAll, updateSettings } from "../actions/settingsActions";
 import { removeSuccess } from "../actions/successActions";
 import { handleSaveClick, checkSubmission } from "../utils/commonFunctions";
 import isEmpty from "is-empty";
@@ -54,7 +54,7 @@ const AccountSettings = (props) => {
             return <button 
               className="button settings-button" 
               onClick={() => props.setEditAll(true, props.isEditing, 2)}>
-                  Edit Settings
+                  Edit Username
             </button>
           } else {
             return (
@@ -62,7 +62,7 @@ const AccountSettings = (props) => {
                   <button 
                    className="button settings-button" 
                    onClick={handleSubmit}>
-                      Save Settings
+                      Save Username
                   </button>
                   <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
                 </div>
@@ -72,12 +72,13 @@ const AccountSettings = (props) => {
     
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log(name, value)
         setUserInput({[name]: value})
     }
 
     const handleSubmit = () => {
         const userData = {
-            name: userInput.name,
+            name: userInput.username,
             email: userInput.email,
           }
       
@@ -105,12 +106,13 @@ const AccountSettings = (props) => {
                         //  onFocusOut={(e) => handleChange(e)}
                          prefix={<UserOutlined />}/>) 
             } else {
-                return (
-                    <Input 
-                         placeholder={`Enter ${name}`}
-                         type="email"
-                         value={userInput.email}
-                         name={name}/>) 
+                return userInput[name];
+                // return (
+                //     <Input 
+                //          placeholder={`Enter ${name}`}
+                //          type="email"
+                //          value={userInput.email}
+                //          name={name}/>) 
             }
                 
         } else {
@@ -120,6 +122,7 @@ const AccountSettings = (props) => {
     
     const handleOk = () => {
       //what happens when updating password
+      setIsModalVisible(false);
     };
     
     const handleCancel = () => {
@@ -146,7 +149,7 @@ const AccountSettings = (props) => {
                         <tbody>
                             <tr>
                                 <td>
-                                    Username :
+                                    Username
                                 </td>
 
                                 <td>
@@ -156,7 +159,7 @@ const AccountSettings = (props) => {
 
                             {!props.auth.socialLogin && (<tr>
                                 <td>
-                                    <label>Email :</label>
+                                    <label>Email</label>
                                 </td>
 
                                 <td>
@@ -180,12 +183,18 @@ const AccountSettings = (props) => {
                             onOk={handleOk}
                             onCancel={handleCancel}
                             footer={[
-                                <Button key="back" onClick={handleCancel}>
-                                Return
-                                </Button>,
-                                <Button key="submit" type="primary" loading={props.auth.isLoading} onClick={handleOk}>
-                                Save
-                                </Button>,
+                                null
+                                // <Button key="back" onClick={handleCancel}>
+                                // Return
+                                // </Button>,
+                                // <Button key="submit" type="primary" loading={props.auth.isLoading} onClick={handleOk}>
+                                // Save
+                                // </Button>,
+                            //     <Form.Item {...tailFormItemLayout}>
+                            //     <Button type="primary" htmlType="submit">
+                            //       Submit
+                            //     </Button>
+                            //   </Form.Item>
                             ]}
                         >
                              <RegistrationForm 
@@ -212,17 +221,23 @@ const AccountSettings = (props) => {
 AccountSettings.propType = {
     deleteUser: PropTypes.func.isRequired,
     removeSuccess: PropTypes.func.isRequired,
+    setEditAll: PropTypes.func.isRequired,
+    updateSettings: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     isEditing: PropTypes.object.isRequired,
     success: PropTypes.object.isRequired,
-    settings: PropTypes.object.isRequired
+    settings: PropTypes.object.isRequired,
+    modplan: PropTypes.object.isRequired,
+    cap: PropTypes.object.isRequired
 };
 
 const mapStateToProp = state => ({
     auth: state.auth,
     settings: state.settings,
     isEditing: state.settings.isEditing,
-    success: state.success
+    success: state.success,
+    modplan: state.modplan,
+    cap: state.cap
 });
 
-export default connect(mapStateToProp, { deleteUser, setEditAll, removeSuccess }) (AccountSettings);
+export default connect(mapStateToProp, { deleteUser, setEditAll, removeSuccess, updateSettings }) (AccountSettings);

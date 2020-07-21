@@ -221,11 +221,15 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
   export const checkSubmission = (userData) => {
     const keys = Object.keys(userData);
     let status;
-
+    console.log(keys)
+    console.log(userData)
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       status = (userData[key] || userData[key] === 0) ? true : false;
-     
+     console.log(userData.name)
+     console.log(key)
+      console.log(status)
+     console.log(userData[key])
       if(!status) {
         return status = false;
       }

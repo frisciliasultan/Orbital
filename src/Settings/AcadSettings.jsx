@@ -270,9 +270,10 @@ AcadSettings.propTypes = {
   setDegreeOptions: PropTypes.func.isRequired,
   setEditAll: PropTypes.func.isRequired,
   removeSuccess: PropTypes.func.isRequired,
-  deleteUser: PropTypes.func.isRequired,
   modplan: PropTypes.array.isRequired,
   settings: PropTypes.object.isRequired,
+  cap: PropTypes.object.isRequired,
+  success: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -285,4 +286,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, 
-  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions, setEditAll, removeSuccess, deleteUser }) (AcadSettings);
+  { updateSettings, setMatriculationYearOptions, setTargetGradYearOptions, setDegreeOptions, setEditAll, removeSuccess }) (AcadSettings);
