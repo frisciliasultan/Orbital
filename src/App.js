@@ -43,7 +43,6 @@ if (localStorage.jwtToken) {
   // Set auth token header auth
   const token = localStorage.jwtToken;
   setAuthToken(token);
-  console.log(token)
   // Decode token and get user info and exp
   const decoded = jwt_decode(token);
 

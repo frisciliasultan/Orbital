@@ -38,4 +38,5 @@ function toView(ruleObj) {
   }
 }
 
-module.exports = toView;
+// module.exports = toView;
+export default toView;

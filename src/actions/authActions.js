@@ -47,7 +47,7 @@ export const loginUser = (userData, status, social) => dispatch => {
   //indicate beginnning of request
   dispatch(setUserLoading(true));
 
-  axios.defaults.timeout = 5000;
+  axios.defaults.timeout = 10000;
   
   //fetching
   axios

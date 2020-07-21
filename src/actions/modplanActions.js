@@ -11,9 +11,11 @@ import {
     CLEAN_UP_MODPLAN
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
+import compile from "../backend_utils/compile";
+import toView from "../backend_utils/toView";
 
-const compile = require('../backend_utils/compile');
-const toView = require('../backend_utils/toView');
+// const compile = require('../backend_utils/compile');
+// const toView = require('../backend_utils/toView');
 
 export const setIsBoardFilled = () => {
     return {
