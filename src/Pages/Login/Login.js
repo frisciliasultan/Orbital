@@ -54,8 +54,8 @@ const Login = (props) => {
       <form noValidate onSubmit={onSubmit}>
           <h1>Sign in</h1>
           <div class="social-container">
-              <Facebook source="login"/>
-              <Google source="login"/>
+              {/* <Facebook source="login"/>
+              <Google source="login"/> */}
               {/* <a href="#" class="social"><i class="fab fa-instagram"></i></a> */}
           </div>
           <span>or use your account</span>
