@@ -11,7 +11,7 @@ const AboutPage = (props) => {
             if (!props.auth.firstTimeRegistered ) {
                 props.history.push("/module-planner");
             } else {
-                props.history.push("/settings/academics");
+                props.history.push("/academics-settings");
             }
         }
       }, [props.auth.isAuthenticated]);
