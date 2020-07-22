@@ -134,7 +134,7 @@ const AcadSettings = (props) => {
       email: props.auth.user.email,
       major: userInput.major,
       majorIndex: userInput.majorIndex,
-      specialisation: userInput.specialisation ? userInput.specialisation : null,
+      specialisation: userInput.specialisation ? userInput.specialisation : "None ",
       secondMajors: userInput.secondMajors,
       minors: userInput.minors,
       residential: userInput.residence,
