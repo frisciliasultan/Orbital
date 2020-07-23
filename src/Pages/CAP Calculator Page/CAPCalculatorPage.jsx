@@ -296,14 +296,17 @@ CAPCalculatorPage.propType = {
     setCAP: PropTypes.func.isRequired,
     settings: PropTypes.object.isRequired,
     cap: PropTypes.object.isRequired,
-    selectedModules: PropTypes.object.isRequired
+    modplan: PropTypes.object.isRequired,
+    success: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
     settings: state.settings,
     cap: state.cap,
     modplan: state.modplan,
-    success: state.success
+    success: state.success,
+    auth: state.auth
 });
 
 export default connect(mapStateToProps,

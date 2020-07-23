@@ -21,7 +21,6 @@
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.20",
     "react-instagram-login": "^1.4.0",
-    "react-onclickoutside": "^6.9.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -32,6 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
+    "test:watch": "npm test -- --watch",
     "eject": "react-scripts eject"
   },
   "proxy": "https://modtree-api.netlify.app/.netlify/functions/",
@@ -51,11 +51,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/react": "^10.4.7",
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
     "node-sass": "^4.14.1",
     "react-test-renderer": "^16.13.1"
   }
+
 }
