@@ -6,17 +6,13 @@ const initialState = {};
 
 const middleware = [thunk];
 
-// window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-//   trace: true, // (action) => { return ‘trace as string’; }
-//   traceLimit: 25,
-// })
-
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   initialState,
-  compose(
+  // compose(
     applyMiddleware(...middleware),
     // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+  );
+
 export default store;

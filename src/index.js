@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Main from './App';
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router} from "react-router-dom"
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
@@ -12,7 +12,7 @@ import store from './store';
 
 
 ReactDOM.render(
-  <Provider store={store}><Router><App /></Router></Provider>,
+  <Provider store={store}><App /></Provider>,
   document.getElementById('app')
 );
 

@@ -147,6 +147,7 @@ ModulePlannerPageTemp.propTypes = {
     settings: PropTypes.object.isRequired,
     cap: PropTypes.object.isRequired,
     success: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -154,6 +155,7 @@ const mapStateToProps = state => ({
     cap: state.cap,
     modplan: state.modplan,
     success: state.success,
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, 

@@ -1,16 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'antd/dist/antd.css';
 import React, { useEffect } from "react";
+
 import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelectionPage"
 import { LoginPage } from './Pages/Login/LoginPage'
 import "./login.css";
 import {
+  BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
 
-import AboutPage from "./Pages/About Page/AboutPage";
+// import AboutPage from "./Pages/About Page/AboutPage";
 import PrivateNav from './Components/Navbar/PrivateNav';
 import { PublicNav } from './Components/Navbar/PublicNav';
 import  ModulePlannerPageTemp  from "./Pages/Module Planner Page/ModulePlannerPage";
@@ -84,76 +85,73 @@ if (localStorage.jwtToken) {
 
 const App = (props) => {
   return (
-    <div className="main-container">
-      {/* <PrivateNav class="navbar" /> */}
-      {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
-    
-      <Switch>
-        <Route 
-          exact path="/" 
-          component={LoginPage} />
+    <Router>
+      <div className="main-container">
+        {/* <PrivateNav class="navbar" /> */}
+        {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
+      
+        <Switch>
+          <Route 
+            exact path="/" 
+            component={LoginPage} />
 
-        <Route 
-          exact path="/login" 
-          component={LoginPage} />
+          <Route 
+            exact path="/login" 
+            component={LoginPage} />
 
-        <PrivateRouteTemp 
-          exact path="/dashboard" 
-          component={Dashboard} />
+          <PrivateRouteTemp 
+            exact path="/dashboard" 
+            component={Dashboard} />
 
-        <PrivateRouteTemp 
-            exact path="/select-modules" 
-            component={ModuleSelectionPage} />
+          <PrivateRouteTemp 
+              exact path="/select-modules" 
+              component={ModuleSelectionPage} />
 
-        <PrivateRouteTemp 
-            exact path="/module-planner" 
-            component={ModulePlannerPageTemp} />
+          <PrivateRouteTemp 
+              exact path="/module-planner" 
+              component={ModulePlannerPageTemp} />
 
-        <PrivateRouteTemp 
-            exact path="/cap-calculator" 
-            component={CAPCalculatorPage} /> 
+          <PrivateRouteTemp 
+              exact path="/cap-calculator" 
+              component={CAPCalculatorPage} /> 
 
-        <PrivateRouteTemp 
-            exact path="/academics-settings" 
-            type="settings"
-            active="academics"
-            component={AcadSettings} /> 
+          <PrivateRouteTemp 
+              exact path="/academics-settings" 
+              type="settings"
+              active="academics"
+              component={AcadSettings} /> 
 
-        {/* <PrivateRouteTemp 
-            exact path="/settings" 
-            type="settings"
-            active="academics"
-            component={AcadSettings} />  */}
-        
-        <PrivateRouteTemp 
-            exact path="/profile-settings" 
-            type="settings"
-            active="profile"
-            component={ProfileSettings} /> 
-        
-        <PrivateRouteTemp 
-            exact path="/account-settings" 
-            type="settings"
-            active="account"
-            component={ AccountSettings } /> 
+          {/* <PrivateRouteTemp 
+              exact path="/settings" 
+              type="settings"
+              active="academics"
+              component={AcadSettings} />  */}
+          
+          <PrivateRouteTemp 
+              exact path="/profile-settings" 
+              type="settings"
+              active="profile"
+              component={ProfileSettings} /> 
+          
+          <PrivateRouteTemp 
+              exact path="/account-settings" 
+              type="settings"
+              active="account"
+              component={ AccountSettings } /> 
 
-        <Route 
-          exact path="/500-error" 
-          component={ServerError}/>
+          <Route 
+            exact path="/500-error" 
+            component={ServerError}/>
 
-        <Route 
-          component={() => <div className="display-2"><strong>404 NOT FOUND</strong></div>}/>
-      </Switch>
-    </div>
+          <Route 
+            component={() => <div className="display-2"><strong>404 NOT FOUND</strong></div>}/>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  loading: state.auth.loading
-})
-
-export default connect(mapStateToProps)(App);
+export default App;
 
 
 
