@@ -12,12 +12,9 @@ import { cleanUpModPlan } from "./modplanActions";
 import { cleanUpCAP } from "./capActions";
 
 // Register User
-export const registerUser = (userData, social) => dispatch => {
+export const registerUser = (userData, social, history) => dispatch => {
   const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/register"
   axios.defaults.timeout = 10000;
-
-  // //indicate beginnning of request
-  // dispatch(setUserLoading(true));
 
   //fetching
   axios
@@ -34,14 +31,14 @@ export const registerUser = (userData, social) => dispatch => {
 
       else {
         console.log(err);
-        // window.location.replace("/500-error")
+        history.push("/500-error")
       }
     }
     );
 };
 
 // Login - get user token
-export const loginUser = (userData, status, social) => dispatch => {
+export const loginUser = (userData, firstTimeRegistered, social, history) => dispatch => {
   const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/login"
   
   //indicate beginnning of request
@@ -64,29 +61,30 @@ export const loginUser = (userData, status, social) => dispatch => {
       const decoded = jwt_decode(token);
 
       // Set current user
-      dispatch(setCurrentUser(decoded, status, social));
+      dispatch(setCurrentUser(decoded, firstTimeRegistered, social));
 
       //Set userInfo
-      // dispatch(initialSettings());
-
-      //Set current AY and sem
-      const time = new Date();
-      const month = time.getMonth() + 1;
-      const year = time.getFullYear();
-      const isSem2 = (month <= 7);
-      let currentSemester;
-      let currentAY;
-
-      if(isSem2) {
-          currentAY = `${year - 1}/${year}`
-          currentSemester = "Semester 2"
-      } else {
-          currentAY = `${year}/${year + 1}`
-          currentSemester = "Semester 1"
-      }
-        dispatch(setCurrentSemester(currentAY, currentSemester, month));
+      dispatch(initialSettings());
       })
-    .then(res => dispatch(initialSettings()))
+      .then( res => {
+        //Set current AY and sem
+        const time = new Date();
+        const month = time.getMonth() + 1;
+        const year = time.getFullYear();
+        const isSem2 = (month <= 7);
+        let currentSemester;
+        let currentAY;
+  
+        if(isSem2) {
+            currentAY = `${year - 1}/${year}`
+            currentSemester = "Semester 2"
+        } else {
+            currentAY = `${year}/${year + 1}`
+            currentSemester = "Semester 1"
+        }
+          dispatch(setCurrentSemester(currentAY, currentSemester, month));
+      })
+    // .then(res => dispatch(initialSettings()))
     //Indicate end of request
     // .then(res => 
       // dispatch(setUserLoading(false))) 
@@ -103,20 +101,18 @@ export const loginUser = (userData, status, social) => dispatch => {
         })
       } else {
         //if server error redirect to error page
-        // window.location.replace("/500-error")
+        history.push("/500-error")
         console.log(err);
       } 
-    
-    }
-    );
+    });
 };
 
 // Set logged in user
-export const setCurrentUser = (decoded, status, social) => {
+export const setCurrentUser = (decoded, firstTimeRegistered, social) => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded,
-    firstTimeRegistered: status,
+    firstTimeRegistered: firstTimeRegistered,
     socialLogin: social
   };
 };
@@ -151,7 +147,10 @@ export const logoutUser = () => dispatch => {
 };
 
 export const deleteUser = () => dispatch => {
+   //indicate beginnning of request
+   dispatch(setUserLoading(true));
   axios.delete("https://modtree-api.netlify.app/.netlify/functions/account")
     .then(res => dispatch(logoutUser()))
+    .then(res => dispatch(setUserLoading(false)))
     .catch(err => console.log(err))
 }

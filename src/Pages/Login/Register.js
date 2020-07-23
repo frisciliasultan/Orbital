@@ -12,7 +12,7 @@ const Register = (props) => {
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({...state, ...newState}),
     {
-      name: "",
+          name: "",
           email: "",
           password: "",
           password2: "",
@@ -33,13 +33,13 @@ const Register = (props) => {
           email: userInput.email,
           password: userInput.password
         };  
-        props.loginUser(userData, true, false)
+        props.loginUser(userData, true, false, props.history)
       } 
-       else if (props.auth.isAuthenticated && !props.auth.loading) {
+       else {
         props.history.push('/academics-settings');
       }
     }
-  }, [props.auth.loading, props.auth.firstTimeRegistered])
+  }, [props.auth.firstTimeRegistered, props.auth.isAuthenticated])
 
     const onChange = e => {
       const { id, value } = e.target; 
@@ -55,7 +55,7 @@ const Register = (props) => {
         password: userInput.password,
         password2: userInput.password2
         }; 
-        props.registerUser(newUser, false); 
+        props.registerUser(newUser, false, props.history); 
     };
 
 

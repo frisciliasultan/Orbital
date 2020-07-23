@@ -101,7 +101,14 @@ const ModulePlannerPageTemp = (props) => {
     
                     <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
 
-                    <Button className="button" onClick={() => handleSaveClick(props)} >Save</Button>
+                    <div>
+                    <Button 
+                    className="button"  
+                    onClick={() => handleSaveClick(props)}>
+                            Save
+                    </Button>
+                    <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+                    </div>
                     
                     {!isEmpty(props.success) && 
                         <Alert 

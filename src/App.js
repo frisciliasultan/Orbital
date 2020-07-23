@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import React, { useEffect } from "react";
 
 import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelectionPage"
-import { LoginPage } from './Pages/Login/LoginPage'
+import LoginPage from './Pages/Login/LoginPage'
 import "./login.css";
 import {
   BrowserRouter as Router,
@@ -87,7 +87,6 @@ const App = (props) => {
   return (
     <Router>
       <div className="main-container">
-        {/* <PrivateNav class="navbar" /> */}
         {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
       
         <Switch>
@@ -135,7 +134,7 @@ const App = (props) => {
           
           <PrivateRouteTemp 
               exact path="/account-settings" 
-              type="settings"
+              // type="settings"
               active="account"
               component={ AccountSettings } /> 
 

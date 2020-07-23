@@ -199,7 +199,7 @@ const AcadSettings = (props) => {
     props.auth.loading 
       ? <LoadingDots/>
       : (<div className="settings">
-          <SideNav active="academics"/>
+          <SideNav active="academics" major={props.settings.userInfo.major}/>
           
           <div className="acad-settings">
             <h1>Academic Settings</h1>
@@ -213,6 +213,7 @@ const AcadSettings = (props) => {
                     handleChange={handleChange}
                     name="matriculationYear"
                     value={userInput.matriculationYear}
+                    dependency={userInput.targetGradYear}
                     editing={props.settings.isEditing[0] || props.settings.isEditing.editAll}
                     optionList={props.settings.matriculationOptions}/>
 
@@ -221,6 +222,7 @@ const AcadSettings = (props) => {
                     handleChange={handleChange}
                     name="targetGradYear"
                     value={userInput.targetGradYear}
+                    dependency={userInput.matriculationYear}
                     editing={props.settings.isEditing[0] || props.settings.isEditing.editAll}
                     optionList={props.settings.targetGradOptions}/>
 

@@ -52,7 +52,9 @@ const Options = (props) => {
                              disabled>
                             {"Choose " + props.label}
                         </Option>
-                        {generateOptions(props.optionList, props.name)}
+                        {props.name === "matriculationYear" || props.name === "targetGradYear"
+                            ? generateOptions(props.optionList, props.name, props.dependency)
+                            : generateOptions(props.optionList, props.name)}
                     </Select> 
                     ) 
             } else if (isOpen) {

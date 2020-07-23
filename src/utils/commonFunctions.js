@@ -52,23 +52,44 @@ export const generateOptions = (optionList, category, object) => {
                     }
             })
         } else if (category === 'matriculationYear') {
+            let isDisabled = false;
             return optionList.map((option) => {
+                if(object) {
+                    if(option.substr(3,4) > object.substr(0,4)) {
+                        isDisabled = true;
+                    } else {
+                        isDisabled = false;
+                    }
+                }
+
                 return (
                     <Option 
                         key={option.substr(3,9)} 
                         value={option.substr(3,9)}
+                        disabled={isDisabled}
                         name={category}>
                     {option}
                     </Option>
                 );
             })
         } else if (category === 'targetGradYear') {
+            let isDisabled = false;
+
             return optionList.map((option) => {
+                if(object) {
+                    if(option.substr(6,4) >= object.substr(0,4)) {
+                        isDisabled = false;
+                    } else {
+                        isDisabled = true;
+                    }
+                } 
+
                 return (
                     <Option 
                         key={option.substr(6,9)} 
                         value={option.substr(6,9)}
-                        name={category}>
+                        name={category}
+                        disabled={isDisabled}>
                     {option}
                     </Option>
                 );
@@ -86,7 +107,6 @@ export const generateOptions = (optionList, category, object) => {
 }
 
 export const handleSaveClick = (props, data, editCategory) => {
-    console.log(data)
     const userData = {
         name: data ? data.name : props.auth.user.name,
         email: data ? data.email : props.auth.user.email,
@@ -147,14 +167,16 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
                 return display;
             } else if(category === "tables") {
                 let nthFutureSem = 0;
-               
+               console.log(display, props.userSemester)
                 return display.map((sem, i) => {
                     if(props) {
                         if(props.userSemester) {
                             const status = checkIsPast(sem, props.userSemester, props.currentSemester, props.month);
-                            const nextStatus = status 
-                                            ? checkIsPast(display[i + 1], props.userSemester, props.currentSemester, props.month)
-                                            : null;
+                            let nextStatus = true;
+                            if(status && (i + 1 < display.length)) {
+                                nextStatus = checkIsPast(display[i + 1], props.userSemester, props.currentSemester, props.month)
+                            }
+
                             if(!status) {
                                 nthFutureSem++
                             }
@@ -193,6 +215,7 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
 
      //Eg. Y2S1 => 3 (third sem)
     export const convertSemToNumber = (sem) => {
+        console.log(sem)
         if(sem.substr(7) === "Semester 1") {
             return sem.substr(5,1) * 2 - 1;
         } else {
@@ -202,7 +225,7 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
 
     //check if the semester chosen is in the past or future
     export const checkIsPast = (curr, user, currentSemester, month) => {
-        
+        console.log(curr, user, currentSemester, month)
         const currSem = convertSemToNumber(curr);
         if (user > currSem) {
             return true;
