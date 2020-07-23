@@ -58,6 +58,7 @@ const AccountSettings = (props) => {
             </button>
           } else {
             return (
+                <>
                 <div>
                   <button 
                    className="button settings-button" 
@@ -66,6 +67,13 @@ const AccountSettings = (props) => {
                   </button>
                   <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
                 </div>
+
+                <button
+                    className="button settings-button"
+                    onClick={() => props.setEditAll(false, props.isEditing, 2)}>
+                    Cancel
+                </button>
+                </>
               )
           }
       }
@@ -139,7 +147,7 @@ const AccountSettings = (props) => {
 
     return (
         <div className="settings">
-            <SideNav active="account"/>
+            <SideNav active="account" major={props.settings.userInfo.major}/>
                 <div className="acad-settings">
                 <Card className="container" id="degree-settings">
                     <Card.Header>
@@ -170,7 +178,7 @@ const AccountSettings = (props) => {
                     </table>
                   
                     {presentButton()}
-                    {!isModalVisible && 
+                    {/* {!isModalVisible && 
                         <button 
                             className="button settings-button" 
                             onClick={() => setIsModalVisible(true)}>
@@ -199,8 +207,9 @@ const AccountSettings = (props) => {
                         >
                              <RegistrationForm 
                                     setIsModalVisible={setIsModalVisible}/>
-                        </Modal>                            
-                    
+                        </Modal>                             */}
+
+                        
                         <Popconfirm
                             title="Confirm delete account?"
                             onConfirm={confirm}
@@ -211,6 +220,8 @@ const AccountSettings = (props) => {
                                 className="button settings-button" id="delete">
                                     Delete account
                             </button>
+                            <Spin indicator={antIcon} spinning={props.auth.loading}/>
+
                         </Popconfirm>
                 </Card>
                 </div>

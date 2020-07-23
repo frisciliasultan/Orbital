@@ -9,9 +9,6 @@ import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const DegreeSettings = (props) => {
-    console.log(props.userInput)
-    console.log(props.userInput.secondMajors)
-    console.log(props.userInput.minors)
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
     const renderButton = () => {
         if(!props.settings.isEditing.editAll) {

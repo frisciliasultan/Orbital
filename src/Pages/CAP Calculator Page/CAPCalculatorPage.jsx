@@ -10,9 +10,9 @@ import { setSelectedModules, callBackendAPI, setModuleLocation } from "../../act
 import { removeSuccess } from "../../actions/successActions";
 import { generateOptions, generateObject, handleSaveClick, checkIsPast } from "../../utils/commonFunctions";
 import isEmpty from 'is-empty';
-import { Select, Alert } from "antd";
+import { Select, Alert, Spin } from "antd";
 import { TableContent } from "../Module Selection Page/Table Content";
-
+import { LoadingOutlined } from '@ant-design/icons';
 
 const CAPCalculatorPage = (props) => {
     const { Option } = Select;
@@ -43,6 +43,8 @@ const CAPCalculatorPage = (props) => {
     const [AY, setAY] = useState();
     //whether autocomplete is open
     const [isTextBoxOpen, setIsTextBoxOpen] = useState(false);
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     //call NUS MODS if it is not called already 
     // to provide pool of modules for user to select
@@ -107,6 +109,7 @@ const CAPCalculatorPage = (props) => {
 
     useEffect(() => {
         if(semester !== "Overview") {
+            console.log(semester)
             setIsPast(
                 checkIsPast(semester, userSemester, props.settings.currentSemester, props.settings.month)
                 );
@@ -263,7 +266,14 @@ const CAPCalculatorPage = (props) => {
                 
                 {semester !== "Overview" && <button className="button settings-button" id="cap-add-module-button" onClick={() => setIsTextBoxOpen(!isTextBoxOpen)}>Add Module</button>}
 
-                <button className="button settings-button" id="cap-save-cap-button" onClick={() => handleSaveClick(props)}>{isPast || semester === "Overview" ? "Save Transcript" : "Save Target Grade" }</button>
+                    
+                        <button 
+                        className="button settings-button" id="cap-save-cap-button" 
+                        onClick={() => handleSaveClick(props)}>
+                            {isPast || semester === "Overview" ? "Save Transcript" : "Save Target Grade" }
+                        </button>
+                        <Spin indicator={antIcon} spinning={props.settings.isLoading}></Spin>
+                    
                 </div>
 
                 {!isEmpty(props.success) && 

@@ -10,7 +10,7 @@ const PrivateRouteTemp = ({ component: Component, auth, userInfo, type, ...rest 
       if( auth.isAuthenticated === true ) {
         if((!auth.loading && userInfo.major) || type === "settings") {
           return <Component {...props} />
-        } else if(!auth.loading && !userInfo.faculty) {
+        } else if(!auth.loading && !userInfo.major) {
           return <Redirect to="/academics-settings" />
         }
       } else {

@@ -1,7 +1,23 @@
 import React from "react"; 
 import { Link } from "react-router-dom";
+import { message } from "antd";
+
 
 const SideNav = (props) => {
+  
+  const warning = () => {
+    if(!props.major) {
+        message.warning({
+            content: 'Please fill in your particulars!',
+        })
+
+        message.config({
+            maxCount: 1,
+            duration: .7,
+            top: '70px',
+        })
+    }
+  };
     return (
           <div className="sidenav">
             <h1>Settings</h1>
@@ -26,6 +42,7 @@ const SideNav = (props) => {
               <Link 
                 to="/account-settings" 
                 className="navlink"
+                onClick={warning}
                 id={props.active === 'account' ? props.active : undefined}>
                 <i className="fas fa-cog fa-fw"/>
                 Account
