@@ -151,7 +151,11 @@ const App = (props) => {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps)(App);
 
 
 
