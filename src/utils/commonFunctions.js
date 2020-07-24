@@ -167,10 +167,9 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
                 return display;
             } else if(category === "tables") {
                 let nthFutureSem = 0;
-               console.log(display, props.userSemester)
                 return display.map((sem, i) => {
                     if(props) {
-                        if(props.userSemester) {
+                        if(props.userSemester || props.userSemester === 0) {
                             const status = checkIsPast(sem, props.userSemester, props.currentSemester, props.month);
                             let nextStatus = true;
                             if(status && (i + 1 < display.length)) {
@@ -180,10 +179,6 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
                             if(!status) {
                                 nthFutureSem++
                             }
-                            // if(i === (display.length - 1) || (status && !nextStatus)) {
-                            //     isLastinCategory = true;
-                            // }
-        
                             return (
                                 <TableContent
                                     title={sem}
@@ -215,7 +210,6 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
 
      //Eg. Y2S1 => 3 (third sem)
     export const convertSemToNumber = (sem) => {
-        console.log(sem)
         if(sem.substr(7) === "Semester 1") {
             return sem.substr(5,1) * 2 - 1;
         } else {
@@ -225,7 +219,6 @@ export const generateObject = (matriYear, gradYear, category, module, props) => 
 
     //check if the semester chosen is in the past or future
     export const checkIsPast = (curr, user, currentSemester, month) => {
-        console.log(curr, user, currentSemester, month)
         const currSem = convertSemToNumber(curr);
         if (user > currSem) {
             return true;

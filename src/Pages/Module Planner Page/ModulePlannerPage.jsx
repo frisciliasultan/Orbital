@@ -42,10 +42,12 @@ const ModulePlannerPageTemp = (props) => {
     }, [props.settings.userInfo])
 
     useEffect(() => {
-        fetchRules();
+        if(props.settings.userInfo) {
+            fetchRules();
+        }
     }, [props.settings.userInfo.major, props.settings.userInfo.specialisation, 
             props.settings.userInfo.secondMajors, props.settings.userInfo.minors,
-            props.setting.userInfo.residential]);
+            props.settings.userInfo.residential]);
 
     useEffect(() => {
         if(isEmpty(props.modplan.modules)){

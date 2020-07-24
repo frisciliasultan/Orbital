@@ -79,8 +79,6 @@ const AcadSettings = (props) => {
   };
 
   const handleChange = (unusedParam, object) => {
-    console.log(object.name)
-    console.log(object)
     const {name, value, selectedindex, tag, honours, specialisation} = object;
 
     if(name === "major") {
@@ -117,7 +115,6 @@ const AcadSettings = (props) => {
       //     }}
       //   );
       // } else {
-        console.log('called')
         setUserInput(
           {[name]: {
             name: value,
