@@ -26,10 +26,8 @@ const ModulePlannerPageTemp = (props) => {
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     useEffect(() => {
-        const fetchRules = async () => {
-            const evalfunc = await props.callBackendAPI("Rules", props.settings.userInfo.modPlan, props.history);
-            setRuleFunction(evalfunc);
-        } 
+        
+
         if(!isEmpty(props.settings.userInfo)) {
             if(isEmpty(props.modplan.rules)) {
                 fetchRules();
@@ -44,10 +42,23 @@ const ModulePlannerPageTemp = (props) => {
     }, [props.settings.userInfo])
 
     useEffect(() => {
+        if(props.settings.userInfo) {
+            fetchRules();
+        }
+    }, [props.settings.userInfo.major, props.settings.userInfo.specialisation, 
+            props.settings.userInfo.secondMajors, props.settings.userInfo.minors,
+            props.settings.userInfo.residential]);
+
+    useEffect(() => {
         if(isEmpty(props.modplan.modules)){
             props.callBackendAPI('NUSMods', null, props.history);
         } 
     }, [])
+
+    const fetchRules = async () => {
+        const evalfunc = await props.callBackendAPI("Rules", props.settings.userInfo.modPlan, props.history);
+        setRuleFunction(evalfunc);
+    } 
 
     const handleEvalButtonClick = () => {
         const modules = props.modplan.selectedModules;
