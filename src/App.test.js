@@ -1,28 +1,13 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { render } from '@testing-library/react';
-// import App from './App';
-import { total } from "./addTesting";
+import React from 'react';
+import { shallow } from 'enzyme';
+import App from './App';
 
-const add = jest.fn(() => 3);
+describe('App component', () => {
+  it('should render without errors', () => {
+    const wrapper = shallow(<App />);
+    console.log(wrapper.debug());
+    // const mainContainer = wrapper.find('.main-container');
+    // expect(mainContainer.length).toBe(1);
 
-// const add = require('./addTesting');
-test('Fake Test', () => {
-  expect(true).toBeTruthy();
+  })
 })
-
-test('Truthy Test', () => {
-  expect(true).toBeTruthy();
-})
-
-test('<Add>', () => {
-  expect(add(1,2)).toBe(3);
-  expect(add(3,5)).toBe(3);
-  expect(add).toHaveBeenCalledTimes(2);
-  expect(add).toHaveBeenCalledWith(1,2);
-})
-
-// test('total', () => {
-//   expect(total(5, 20)).toBe('$25');
-// })
-
