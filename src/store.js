@@ -19,8 +19,8 @@ const store = createStore(
 // const store = createStore(
 //   rootReducer,
 //   initialState,
-//   composeEnhancers(
-//       applyMiddleware(thunk),
+//   compose(
+//       applyMiddleware(...middleware),
 //   )
 // );
 

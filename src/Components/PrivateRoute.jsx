@@ -10,7 +10,7 @@ const PrivateRouteTemp = ({ component: Component, auth, userInfo, isEditing, typ
     {...rest}
     render={props => {
       if( auth.isAuthenticated === true ) {
-        if(((!auth.loading && userInfo.major && !isSettingsEditing(isEditing))) 
+        if((((!auth.loading && userInfo.major) && !isSettingsEditing(isEditing))) 
           || (type === "academics-settings" && !isEditing[2])
           || (type === "account-settings" && isEditing[2])) {
           return <Component {...props} />
