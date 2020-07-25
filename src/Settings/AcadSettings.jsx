@@ -49,7 +49,6 @@ const AcadSettings = (props) => {
   useEffect(() => {
     if(!isEmpty(props.settings.userInfo)) {
       if(props.settings.userInfo.major) {
-        console.log('updated')
         setUserInput({
           major: props.userInfo.major,
           majorIndex: props.userInfo.majorIndex,

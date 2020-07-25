@@ -22,7 +22,11 @@ describe('loginUser action', () => {
                 data: expectedState
             })
         });
-
-        return store.dispatch();
+        console.log(store)
+        return store.dispatch(loginUser())
+        .then(() => {
+            const newState = store.getState();
+            expect(newState.posts).toBe(expectedState);
+        })
     })
 })
