@@ -147,7 +147,7 @@ const AccountSettings = (props) => {
 
     return (
         <div className="settings">
-            <SideNav active="account" major={props.settings.userInfo.major}/>
+            <SideNav active="account" major={props.settings.userInfo.major} isEditing={props.settings.isEditing}/>
                 <div className="acad-settings">
                 <Card className="container" id="degree-settings">
                     <Card.Header>

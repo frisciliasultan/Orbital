@@ -35,7 +35,7 @@ const AcadSettings = (props) => {
 
   useEffect(() => {
     if(isEmpty(props.settings.bachelorOptions)) {
-        props.setDegreeOptions();
+        props.setDegreeOptions(props.history);
     } 
   }, []);
 
@@ -49,6 +49,7 @@ const AcadSettings = (props) => {
   useEffect(() => {
     if(!isEmpty(props.settings.userInfo)) {
       if(props.settings.userInfo.major) {
+        console.log('updated')
         setUserInput({
           major: props.userInfo.major,
           majorIndex: props.userInfo.majorIndex,
@@ -63,7 +64,7 @@ const AcadSettings = (props) => {
         props.setEditAll(true, props.settings.isEditing, "editAll");
       }
     }
-  }, [props.userInfo]);
+  }, [props.settings.userInfo]);
 
   useEffect(() => {
     feedback();
@@ -196,7 +197,7 @@ const AcadSettings = (props) => {
     props.auth.loading 
       ? <LoadingDots/>
       : (<div className="settings">
-          <SideNav active="academics" major={props.settings.userInfo.major}/>
+          <SideNav active="academics" major={props.settings.userInfo.major} isEditing={props.settings.isEditing}/>
           
           <div className="acad-settings">
             <h1>Academic Settings</h1>
@@ -246,7 +247,9 @@ const AcadSettings = (props) => {
           {!props.settings.isEditing.editAll 
             ? <button 
                 className="button settings-button" id="edit-all-button"
-                onClick={() => props.setEditAll(true, props.settings.isEditing, "editAll")}>
+                onClick={() => {
+                    props.setEditAll(true, {}, "editAll");
+                  }}>
                     Edit All Settings
               </button>
             : (
@@ -283,7 +286,7 @@ AcadSettings.propTypes = {
   modplan: PropTypes.array.isRequired,
   settings: PropTypes.object.isRequired,
   cap: PropTypes.object.isRequired,
-  success: PropTypes.object.isRequired
+  success: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

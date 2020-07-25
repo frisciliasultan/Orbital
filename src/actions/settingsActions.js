@@ -98,7 +98,7 @@ export const cleanUpSettings = () => {
     }
 }
 
-export const setDegreeOptions = () => dispatch => {
+export const setDegreeOptions = (history) => dispatch => {
     axios.defaults.timeout = 10000;
     axios.all([
         axios.get('https://modtree-api.netlify.app/.netlify/functions/info/bachelors'),
@@ -111,6 +111,7 @@ export const setDegreeOptions = () => dispatch => {
         }) 
     .catch(err => {
         console.log(err)
+        history.push('/500-error');
     });
 }
 

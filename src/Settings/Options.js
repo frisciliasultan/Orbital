@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AutoCompleteText from "../Pages/Module Planner Page/AutocompleteText";
 import { generateOptions } from "../utils/commonFunctions";
 import isEmpty from "is-empty";
@@ -6,8 +6,12 @@ import { Switch, Select } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
-    const [isOpen, setIsOpen] = useState((isEmpty(props.value) || !props.value) ? false : true);
+    const [isOpen, setIsOpen] = useState(false);
     const { Option } = Select;
+
+    useEffect(() => {
+        setIsOpen(!isEmpty(props.value));
+    }, [props.value]);
 
     let value;
     if (!isEmpty(props.value)) {
@@ -59,7 +63,6 @@ const Options = (props) => {
                     ) 
             } else if (isOpen) {
                 if(!isEmpty(props.optionList)) {
-                    console.log(props.value)
                 return (
                     <div>
                     <DynamicFieldSet

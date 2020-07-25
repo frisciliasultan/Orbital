@@ -17,11 +17,9 @@ const { Option } = Select;
         //set options after first render
         const tempOptions = [...props.optionList];
         props.value.map((object) => {
-          console.log(object)
           for(let i = 0; i < props.optionList.length; i++) {
             //remove selected option from options
               if(props.optionList[i].fullName === object.name) {
-                console.log('removed')
                 tempOptions.splice(i, 1, null);
               } 
           }
@@ -33,7 +31,6 @@ const { Option } = Select;
         //determine how many fields in the beginning
         let temp = [];
         while(userInputLength-- > 0) {
-          console.log('called')
           temp.push(1);
         }
         setKeyList(temp);          
