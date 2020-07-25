@@ -2,15 +2,21 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import isEmpty from "is-empty";
+import { isSettingsEditing } from '../utils/commonFunctions'
 
-const PrivateRouteTemp = ({ component: Component, auth, userInfo, type, ...rest }) => (
+const PrivateRouteTemp = ({ component: Component, auth, userInfo, isEditing, type, ...rest }) => (
   <Route
     {...rest}
     render={props => {
       if( auth.isAuthenticated === true ) {
-        if((!auth.loading && userInfo.major) || type === "settings") {
+        if(((!auth.loading && userInfo.major && !isSettingsEditing(isEditing))) 
+          || (type === "academics-settings" && !isEditing[2])
+          || (type === "account-settings" && isEditing[2])) {
           return <Component {...props} />
-        } else if(!auth.loading && !userInfo.major) {
+        } else if(isEditing[2]) {
+          return <Redirect to="/account-settings" />
+        } else  {
           return <Redirect to="/academics-settings" />
         }
       } else {
@@ -25,7 +31,8 @@ PrivateRouteTemp.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth, 
-  userInfo: state.settings.userInfo
+  userInfo: state.settings.userInfo,
+  isEditing: state.settings.isEditing
 });
 
 export default connect(mapStateToProps)(PrivateRouteTemp);

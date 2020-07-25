@@ -6,23 +6,21 @@ import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
 import { connect} from "react-redux"
 import { message } from 'antd';
+import { isSettingsEditing } from '../../utils/commonFunctions';
 
 
 class PrivateNav extends React.Component {
     warning = () => {
-        if(!this.props.settings.userInfo.major) {
-            
+        if(!this.props.settings.userInfo.major || isSettingsEditing(this.props.settings.isEditing)) {
             message.warning({
                 content: 'Please fill in your particulars!',
             })
-
-            message.config({
-                maxCount: 1,
-                duration: .7,
-                top: '70px',
-            })
-
-        }
+        } 
+        message.config({
+            maxCount: 1,
+            duration: .7,
+            top: '70px',
+        })
       };
       
     render() {
@@ -59,7 +57,12 @@ class PrivateNav extends React.Component {
 
                     {/* <NavIcon icon={this.props.userProfilePicture} /> */}
                     {/* <NavIcon icon={logoImg} /> */}
-                <Link to="/academics-settings" className="navlink">
+                <Link to="/academics-settings" 
+                    onClick={() => {
+                        if(this.props.settings.isEditing[2]) {
+                            this.warning();
+                        }}} 
+                    className="navlink">
                     Settings
                 </Link>
 
