@@ -28,7 +28,9 @@ const CAPCalculatorPage = (props) => {
         {grade: "C", gradePoint: 2},
         {grade: "D+", gradePoint: 1.5},
         {grade: "D", gradePoint: 1},
-        {grade: "F", gradePoint: 0}
+        {grade: "F", gradePoint: 0},
+        {grade: "CS"},
+        {grade: "CU"}
     ];
 
     //whether the semester selected has been completed by user

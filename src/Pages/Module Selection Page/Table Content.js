@@ -100,7 +100,7 @@ export const TableContent = (props) => {
                                     <input
                                         className="checkbox"
                                         type="checkbox"
-                                        checked={object.SU}
+                                        checked={object.SU || object.grade === "CS" || object.grade === "CU"}
                                         onChange={(e) => props.handleCheckboxChange(e, object)}/>
                                 </td>}
                                 {!props.category && (
