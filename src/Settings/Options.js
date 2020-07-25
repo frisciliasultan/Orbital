@@ -6,7 +6,7 @@ import { Switch, Select } from "antd";
 import DynamicFieldSet from "./DynamicFieldSet";
 
 const Options = (props) => {
-    const [isOpen, setIsOpen] = useState(isEmpty(props.value) || !props.value ? false : true);
+    const [isOpen, setIsOpen] = useState((isEmpty(props.value) || !props.value) ? false : true);
     const { Option } = Select;
 
     let value;

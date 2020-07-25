@@ -60,18 +60,25 @@
     "babel-jest": "^26.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.1.0",
     "jest-css-modules": "2.1.0",
     "jest-enzyme": "7.1.2",
+    "moxios": "^0.4.0",
     "node-sass": "^4.14.1",
     "react-test-renderer": "^16.13.1"
   },
   "jest": {
     "verbose": true,
+    "transformIgnorePatterns": [],
     "transform": {
       "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx$": "babel-jest",
       "^.+\\.(css|scss|less)$": "jest-css-modules"
     },
+    "setupFilesAfterEnv": [
+      "./src/setupTests.js"
+    ],
     "globals": {
       "NODE_ENV": "test"
     },
@@ -82,6 +89,10 @@
     "moduleDirectories": [
       "node_modules",
       "src"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   }
 }

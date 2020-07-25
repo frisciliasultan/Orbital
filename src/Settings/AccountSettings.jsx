@@ -209,20 +209,21 @@ const AccountSettings = (props) => {
                                     setIsModalVisible={setIsModalVisible}/>
                         </Modal>                             */}
 
+                        {!props.isEditing[2] && (
+                            <Popconfirm
+                                title="Confirm delete account?"
+                                onConfirm={confirm}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <button 
+                                    className="button settings-button" id="delete">
+                                        Delete account
+                                </button>
+                                <Spin indicator={antIcon} spinning={props.auth.loading}/>
+                            </Popconfirm>
+                        )}
                         
-                        <Popconfirm
-                            title="Confirm delete account?"
-                            onConfirm={confirm}
-                            okText="Yes"
-                            cancelText="No"
-                        >
-                            <button 
-                                className="button settings-button" id="delete">
-                                    Delete account
-                            </button>
-                            <Spin indicator={antIcon} spinning={props.auth.loading}/>
-
-                        </Popconfirm>
                 </Card>
                 </div>
         </div>

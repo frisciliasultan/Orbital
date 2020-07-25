@@ -413,13 +413,31 @@ button.button.settings-button {
     padding: 10px 15px;
 }
 
-#all-settings {
+#edit-all-button {
 	align-self: center;
     width: 70%;
     margin: 50px 0px;
     font-size: large;
 }
 
+.save-all-container {
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 150px;
+}
+
+#save-all-button {
+	align-self: center;
+	width: 600px;
+	margin: 50px 0px;
+	font-size: large;
+}
+ #cancel-save-all-button {
+	 margin: 50px 20px;
+	 font-size: large;
+	 width: 150px;
+ }
+ 
 #degree-settings, #general-acad {
 	display: flex;
     flex-flow: row wrap;

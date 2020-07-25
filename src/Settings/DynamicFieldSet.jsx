@@ -8,7 +8,7 @@ import isEmpty from 'is-empty';
 const { Option } = Select;
   
   const DynamicFieldSet = (props) => {
-    const [options, setOptions] = useState([]);
+    const [options, setOptions] = useState(props.optionList);
     const [keyList, setKeyList] = useState([1]);
     const length = keyList.length;
 

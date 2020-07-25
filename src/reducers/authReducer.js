@@ -6,7 +6,7 @@ import {
 
   const isEmpty = require("is-empty");
 
-  const initialState = {
+  export const initialState = {
     isAuthenticated: false,
     user: {},
     loading: false,
