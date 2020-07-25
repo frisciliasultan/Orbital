@@ -108,10 +108,10 @@ export const loginUser = (userData, firstTimeRegistered, social, history) => dis
 };
 
 // Set logged in user
-export const setCurrentUser = (decoded, firstTimeRegistered, social) => {
+export const setCurrentUser = (decodedToken, firstTimeRegistered, social) => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded,
+    payload: decodedToken,
     firstTimeRegistered: firstTimeRegistered,
     socialLogin: social
   };

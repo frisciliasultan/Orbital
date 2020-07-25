@@ -1,14 +1,14 @@
 import React from "react";
-import logoImg from "../../textLogo.svg";
+import logoImg from "../../../textLogo.svg";
 import { Navbar, Nav } from "react-bootstrap"
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export class PublicNav extends React.Component {
     
     render() {
         return (
-            <Navbar className="navbar" expand="xl" sticky="top">
-                <Navbar.Brand href="/" className="navbrand">
+            <Navbar className="navbar" expand="xl" sticky="top" data-test="navbar">
+                <Navbar.Brand href="/" className="navbrand" data-test="navbrand">
                     <img
                     alt=""
                     src={logoImg}

@@ -245,20 +245,26 @@ const AcadSettings = (props) => {
 
           {!props.settings.isEditing.editAll 
             ? <button 
-                className="button settings-button" id="all-settings"
+                className="button settings-button" id="edit-all-button"
                 onClick={() => props.setEditAll(true, props.settings.isEditing, "editAll")}>
                     Edit All Settings
               </button>
             : (
-              <Spin indicator={antIcon} spinning={props.settings.isLoading}>
-                <button 
-                  className="button settings-button" id="all-settings"
-                  onClick={() => {
-                      handleSubmit("editAll");}}>
-                    Save All Settings
-                  
+              <div className="save-all-container">
+                <Spin indicator={antIcon} spinning={props.settings.isLoading} >
+                  <button 
+                    className="button settings-button" id="save-all-button"
+                    onClick={() => {
+                        handleSubmit("editAll");}}>
+                      Save All Settings
+                  </button>
+                </Spin>
+                <button
+                  className="button settings-button" id="cancel-save-all-button"
+                  onClick={() => props.setEditAll(false, props.settings.isEditing, "editAll")}>
+                  Cancel
                 </button>
-              </Spin>
+              </div>
               )
           }
           </div>
