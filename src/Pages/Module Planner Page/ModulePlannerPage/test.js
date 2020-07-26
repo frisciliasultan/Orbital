@@ -48,4 +48,4 @@ describe('ModulePlannerPage Component', () => {
         const component = findByTestAttribute(wrapper, 'modulePlannerComponent');
         expect(component.length).toBe(1);
     })
-})
+}) 

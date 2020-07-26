@@ -6,7 +6,6 @@ import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelection
 import LoginPage from './Pages/Login/LoginPage'
 import "./login.css";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
@@ -85,7 +84,7 @@ if (localStorage.jwtToken) {
 
 const App = (props) => {
   return (
-    <Router>
+    
       <div className="main-container">
         {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
       
@@ -146,7 +145,6 @@ const App = (props) => {
             component={() => <div className="display-2"><strong>404 NOT FOUND</strong></div>}/>
         </Switch>
       </div>
-    </Router>
   );
 }
 
