@@ -187,7 +187,7 @@ const CAPCalculatorPage = (props) => {
         props.auth.loading
             ? <LoadingDots/>
             : ( 
-                <div>
+                <div data-test="capCalculatorPageComponent">
                     <div className="page-title">
                         <h3 id="module-planner-title">CAP Calculator</h3>
                     </div>

@@ -53,7 +53,7 @@ const Login = (props) => {
   return (
       <form noValidate onSubmit={onSubmit}>
           <h1>Sign in</h1>
-          <div class="social-container">
+          <div className="social-container">
               {/* <Facebook source="login"/>
               <Google source="login"/> */}
               {/* <a href="#" class="social"><i class="fab fa-instagram"></i></a> */}

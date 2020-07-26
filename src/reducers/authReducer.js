@@ -6,7 +6,7 @@ import {
 
   const isEmpty = require("is-empty");
 
-  export const initialState = {
+  export const authInitialState = {
     isAuthenticated: false,
     user: {},
     loading: false,
@@ -14,7 +14,7 @@ import {
     firstTimeRegistered: false
   };
   
-  export default function(state = initialState, action) {
+  export default function(state = authInitialState, action) {
     switch (action.type) {
       case SET_CURRENT_USER:
         return {

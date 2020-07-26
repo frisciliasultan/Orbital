@@ -16,3 +16,8 @@ export const testStore = (initialState) =>  {
     );
     return store;
 }
+
+export const testRender = (wrapper, component, length) => {
+    const toRender = findByTestAttribute(wrapper, component);
+    expect(toRender.length).toBe(length);
+}

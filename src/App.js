@@ -84,8 +84,7 @@ if (localStorage.jwtToken) {
 
 const App = (props) => {
   return (
-    
-      <div className="main-container">
+      <div className="main-container" data-test="appComponent">
         {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
       
         <Switch>

@@ -87,7 +87,7 @@ const ModulePlannerPage = (props) => {
     return (
         props.auth.loading
             ? <LoadingDots/>
-            : (<DndProvider backend={Backend} data-test="modulePlannerComponent">
+            : (<DndProvider backend={Backend} data-test="modulePlannerPageComponent">
                 <div className="page-title">
                     <h3 id="module-planner-title">Module Planner</h3>
                 </div>

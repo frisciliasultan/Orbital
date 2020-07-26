@@ -45,7 +45,7 @@ describe('ModulePlannerPage Component', () => {
     })
 
     it('should render without errors', () => {
-        const component = findByTestAttribute(wrapper, 'modulePlannerComponent');
+        const component = findByTestAttribute(wrapper, 'modulePlannerPageComponent');
         expect(component.length).toBe(1);
     })
 }) 

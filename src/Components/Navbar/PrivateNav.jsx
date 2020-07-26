@@ -25,53 +25,54 @@ class PrivateNav extends React.Component {
       
     render() {
         return (
-            <Navbar className="navbar" expand="xl" sticky="top">
-                <Link to="/module-planner" onClick={this.warning} className="navbrand">
-                    <Navbar.Brand>
-                        <img
-                        alt=""
-                        src={logoImg}
-                        width="150"
-                        height="30"
-                        className="d-inline-block align-top"
-                        />{' '}
-                    </Navbar.Brand>
-                </Link>
-                
-                
-                {/* <Link to="/select-modules" onClick={this.warning} className="navlink">
-                        Module Information
-                </Link> */}
+            <div data-test="privateNavBarComponent">
+                <Navbar className="navbar" expand="xl" sticky="top">
+                    <Link to="/module-planner" onClick={this.warning} className="navbrand">
+                        <Navbar.Brand>
+                            <img
+                            alt=""
+                            src={logoImg}
+                            width="150"
+                            height="30"
+                            className="d-inline-block align-top"
+                            />{' '}
+                        </Navbar.Brand>
+                    </Link>
+                    
+                    
+                    {/* <Link to="/select-modules" onClick={this.warning} className="navlink">
+                            Module Information
+                    </Link> */}
 
-                <Link to="/module-planner" onClick={this.warning} className="navlink">
-                    Module Planner
-                </Link>
+                    <Link to="/module-planner" onClick={this.warning} className="navlink">
+                        Module Planner
+                    </Link>
 
-                <Link to="/cap-calculator" onClick={this.warning} className="navlink">
-                    CAP Calculator
-                </Link>
+                    <Link to="/cap-calculator" onClick={this.warning} className="navlink">
+                        CAP Calculator
+                    </Link>
 
-                {/* <Link to="/dashboard" className="navlink">
-                    Dashboard
-                </Link> */}
+                    {/* <Link to="/dashboard" className="navlink">
+                        Dashboard
+                    </Link> */}
 
-                    {/* <NavIcon icon={this.props.userProfilePicture} /> */}
-                    {/* <NavIcon icon={logoImg} /> */}
-                <Link to="/academics-settings" 
-                    onClick={() => {
-                        if(this.props.settings.isEditing[2]) {
-                            this.warning();
-                        }}} 
-                    className="navlink">
-                    Settings
-                </Link>
+                        {/* <NavIcon icon={this.props.userProfilePicture} /> */}
+                        {/* <NavIcon icon={logoImg} /> */}
+                    <Link to="/academics-settings" 
+                        onClick={() => {
+                            if(this.props.settings.isEditing[2]) {
+                                this.warning();
+                            }}} 
+                        className="navlink">
+                        Settings
+                    </Link>
 
-                <span className="navlink" id="logout" onClick={() => this.props.logoutUser()}>
-                    Log Out
-                </span>
-            </Navbar>
-
-      )
+                    <span className="navlink" id="logout" onClick={() => this.props.logoutUser()}>
+                        Log Out
+                    </span>
+                </Navbar>
+            </div>                    
+        )
    }
 }
 
