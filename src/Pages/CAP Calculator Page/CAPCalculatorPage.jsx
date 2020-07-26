@@ -28,7 +28,9 @@ const CAPCalculatorPage = (props) => {
         {grade: "C", gradePoint: 2},
         {grade: "D+", gradePoint: 1.5},
         {grade: "D", gradePoint: 1},
-        {grade: "F", gradePoint: 0}
+        {grade: "F", gradePoint: 0},
+        {grade: "CS"},
+        {grade: "CU"}
     ];
 
     //whether the semester selected has been completed by user
@@ -149,6 +151,10 @@ const CAPCalculatorPage = (props) => {
             module.targetGrade = value;
             module.gradePoint = gradePoint;
         }
+
+        if(value === "CS" || value == "CU") {
+            module.SU = true;
+        }
         
         props.setSelectedModules(module, props.modplan.selectedModules);
     }
@@ -178,7 +184,7 @@ const CAPCalculatorPage = (props) => {
     }
   
     return(
-        isEmpty(props.settings.userInfo)
+        props.auth.loading
             ? <LoadingDots/>
             : ( 
                 <div>

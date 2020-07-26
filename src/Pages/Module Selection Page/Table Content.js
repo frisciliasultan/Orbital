@@ -95,14 +95,20 @@ export const TableContent = (props) => {
                                         {generateOptions(props.gradeList, "grade", object)}
                                     </Select>
                                 </td>
+                                
                                 {props.isPast && 
                                 <td>
                                     <input
                                         className="checkbox"
                                         type="checkbox"
-                                        checked={object.SU}
-                                        onChange={(e) => props.handleCheckboxChange(e, object)}/>
+                                        checked={object.SU || object.grade === "CS" || object.grade === "CU"}
+                                        onChange={(e) => {
+                                            if(object.grade !== "CS" || object.grade !== "CU") {
+                                                return props.handleCheckboxChange(e, object);
+                                            }
+                                        }}/>
                                 </td>}
+
                                 {!props.category && (
                                     <td>
                                         <i  

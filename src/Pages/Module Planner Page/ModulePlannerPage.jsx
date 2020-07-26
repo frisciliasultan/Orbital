@@ -26,8 +26,6 @@ const ModulePlannerPageTemp = (props) => {
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
     useEffect(() => {
-        
-
         if(!isEmpty(props.settings.userInfo)) {
             if(isEmpty(props.modplan.rules)) {
                 fetchRules();
@@ -87,7 +85,7 @@ const ModulePlannerPageTemp = (props) => {
     }
 
     return (
-        isEmpty(props.settings.userInfo) 
+        props.auth.loading
             ? <LoadingDots/>
             : (<DndProvider backend={Backend} >
                 <div className="page-title">
