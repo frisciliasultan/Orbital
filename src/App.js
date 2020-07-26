@@ -14,7 +14,7 @@ import {
 // import AboutPage from "./Pages/About Page/AboutPage";
 import PrivateNav from './Components/Navbar/PrivateNav';
 import { PublicNav } from './Components/Navbar/PublicNav';
-import  ModulePlannerPageTemp  from "./Pages/Module Planner Page/ModulePlannerPage";
+import  ModulePlannerPage  from "./Pages/Module Planner Page/ModulePlannerPage";
 import  CAPCalculatorPage  from "./Pages/CAP Calculator Page/CAPCalculatorPage";
 import AcadSettings from './Settings/AcadSettings';
 import ProfileSettings from "./Settings/ProfileSettings";
@@ -108,7 +108,7 @@ const App = (props) => {
 
           <PrivateRouteTemp 
               exact path="/module-planner" 
-              component={ModulePlannerPageTemp} />
+              component={ModulePlannerPage} />
 
           <PrivateRouteTemp 
               exact path="/cap-calculator" 

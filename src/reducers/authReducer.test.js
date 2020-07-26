@@ -12,9 +12,25 @@ describe('Auth Reducer', () => {
         expect(newState).toEqual(initialState);
     });
 
-    it('should return new state if receiving type', () => {
-        const action = setCurrentUser({}, true, false);
-        const newState = authReducer(undefined, action);
-        expect(newState).toEqual()
-    })
+    it('should return new state if it receives type SET_CURRENT_USER from local login with unexpired token'
+        , () => {
+            const mockDecodedToken = {
+                                        id: "58ai47124nfa93421ud0sn",
+                                        name: "test",
+                                        email: "test@test.com",
+                                        iat: 155919348190,
+                                        exp: 1387419413,
+                                    };
+            const expectedState = {
+                                    ...initialState, 
+                                    isAuthenticated: true, 
+                                    user: mockDecodedToken,
+                                    socialLogin: false,
+                                    firstTimeRegistered: true 
+                                };
+            const action = setCurrentUser(mockDecodedToken, true, false);
+            const newState = authReducer(initialState, action);
+            expect(newState).toEqual(expectedState);
+        }
+    )
 })
