@@ -151,6 +151,10 @@ const CAPCalculatorPage = (props) => {
             module.targetGrade = value;
             module.gradePoint = gradePoint;
         }
+
+        if(value === "CS" || value == "CU") {
+            module.SU = true;
+        }
         
         props.setSelectedModules(module, props.modplan.selectedModules);
     }
@@ -180,7 +184,7 @@ const CAPCalculatorPage = (props) => {
     }
   
     return(
-        isEmpty(props.settings.userInfo)
+        props.auth.loading
             ? <LoadingDots/>
             : ( 
                 <div>
