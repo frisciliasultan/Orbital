@@ -45,7 +45,7 @@ const Login = (props) => {
           email: userInput.email,
           password: userInput.password
         };  
-    props.loginUser(userData, false, false); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    props.loginUser(userData, false, false, props.history); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
   };
 
   const { errors } = userInput;

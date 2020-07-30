@@ -4,7 +4,7 @@ import {
     USER_REGISTERED
   } from "../actions/types";
 import authReducer, { authInitialState } from './authReducer';
-import { setCurrentUser } from '../actions/authActions';
+import { setCurrentUser, setUserRegistered, setUserLoading } from '../actions/authActions';
 
 describe('Auth Reducer', () => {
     it('should return default state', () => {
@@ -12,7 +12,7 @@ describe('Auth Reducer', () => {
         expect(newState).toEqual(authInitialState);
     });
 
-    it('should return new state if it receives type SET_CURRENT_USER from local login with unexpired token'
+    it('should return new state if it receives type SET_CURRENT_USER'
         , () => {
             const mockDecodedToken = {
                                         id: "58ai47124nfa93421ud0sn",
@@ -33,4 +33,26 @@ describe('Auth Reducer', () => {
             expect(newState).toEqual(expectedState);
         }
     )
+
+    it('should return new state if receives type USER_REGISTERED', () => {
+        const expectedState = {
+            ...authInitialState,
+            firstTimeRegistered: true
+        }
+        const action = setUserRegistered();
+        const newState = authReducer(authInitialState, action);
+        expect(newState).toEqual(expectedState);
+    }); 
+
+    it('should return new state if receives type USER_LOADING', () => {
+        const expectedState = {
+            ...authInitialState,
+            loading: true
+        }
+        const action = setUserLoading(true);
+        const newState = authReducer(authInitialState, action);
+        expect(newState).toEqual(expectedState);
+    }); 
+
+    
 })

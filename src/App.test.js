@@ -69,7 +69,7 @@ describe('Unauthorised access', () => {
             testRender(wrapper, 'publicNavBarComponent', 1);
         });
     
-        it('should display login page if not logged in', () => {
+        it('should display login page', () => {
             testRender(wrapper, 'loginPageComponent', 1);
         });
     });
@@ -142,7 +142,7 @@ describe('Authorised access after settings is filled', () => {
         wrapper = setUp(authorisedState, 'mount');
     });
 
-    describe('should display when first time registering', () => {
+    describe('should display after settings is filled', () => {
         it('should display private navbar', () => {
             testRender(wrapper, 'privateNavBarComponent', 1);
         });
@@ -152,13 +152,13 @@ describe('Authorised access after settings is filled', () => {
         });
     });
 
-    describe('should not display when first time registering', () => {
+    describe('should not display after settings is filled', () => {
         it('should not display public navbar', () => {
             testRender(wrapper, 'publicNavBarComponent', 0);
         });
 
         it('should not display module planner page', () => {
-            testRender(wrapper, 'modulePlannerPageComponent', 0;
+            testRender(wrapper, 'modulePlannerPageComponent', 0);
         });
     
         it('should not display cap calculator page', () => {

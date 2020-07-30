@@ -164,7 +164,7 @@ async function mcs(ruleObj) {
         modList = filterMods(modList, params.filter);
       }
     }
-    const promiseArr = modList.map(code => getMod(2018, code));
+    const promiseArr = modList.map(code => getMod(2020, code));
     const creditArr = await Promise.all(promiseArr);
     const n = creditArr.map(item => parseInt(item.moduleCredit)).reduce((a, b) => a + b, 0);
 

@@ -139,7 +139,7 @@ export default function (state = settingsInitialState, action ) {
                 firstRender: action.status
             }
         case CLEAN_UP_SETTINGS:
-            return initialState;
+            return settingsInitialState;
 
         default:
             return state;
