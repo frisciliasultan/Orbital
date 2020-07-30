@@ -10,7 +10,7 @@ import {
     SETTINGS_LOADING
 } from "../actions/types";
 
-const initialState = {
+export const settingsInitialState = {
     currentAY: null,
     currentSemester: null,
     month: null,
@@ -26,7 +26,7 @@ const initialState = {
     firstRender: true
 }
 
-export default function (state = initialState, action ) {
+export default function (state = settingsInitialState, action ) {
     switch(action.type) {
         case SET_USER_SETTINGS:
             return {
@@ -139,7 +139,7 @@ export default function (state = initialState, action ) {
                 firstRender: action.status
             }
         case CLEAN_UP_SETTINGS:
-            return initialState;
+            return settingsInitialState;
 
         default:
             return state;

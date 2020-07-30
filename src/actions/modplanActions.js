@@ -27,7 +27,7 @@ export const callBackendAPI = (backend, modplanObj, history) => async dispatch =
 
     if(backend === 'NUSMods') {
         setAuthToken(false);
-        axios.get('https://api.nusmods.com/v2/2020-2021/moduleInfo.json' )
+        await axios.get('https://api.nusmods.com/v2/2020-2021/moduleInfo.json' )
         .then(res => dispatch(setModules(res.data)))
         .then(setAuthToken(localStorage.jwtToken))
         .catch(err => {

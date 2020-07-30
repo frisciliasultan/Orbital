@@ -15,12 +15,12 @@ describe('Public Nav component', () => {
     })
 
     it('should render without errors', () => {
-        const navbar = findByTestAttribute(component, 'navbar');
+        const navbar = findByTestAttribute(component, 'publicNavBarComponent');
         expect(navbar.length).toBe(1);
     });
 
     it('should render a logo', () => {
-        const navbrand = findByTestAttribute(component, 'navbrand');
+        const navbrand = findByTestAttribute(component, 'publicNavBrand');
         expect(navbrand.length).toBe(1);
     })
 })

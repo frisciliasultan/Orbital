@@ -7,26 +7,28 @@ export class PublicNav extends React.Component {
     
     render() {
         return (
-            <Navbar className="navbar" expand="xl" sticky="top" data-test="navbar">
-                <Navbar.Brand href="/" className="navbrand" data-test="navbrand">
-                    <img
-                    alt=""
-                    src={logoImg}
-                    width="150"
-                    height="30"
-                    className="d-inline-block align-top"
-                    />{' '}
-                </Navbar.Brand>
-                
-                    {/* <Link to="/" className="navlink">
-                        About
-                    </Link> */}
-                     
-                     {/* <Link to="/login" className="navlink">
-                         Login
-                     </Link> */}
+            <div data-test="publicNavBarComponent">
+                <Navbar className="navbar" expand="xl" sticky="top">
+                    <Navbar.Brand href="/" className="navbrand" data-test="publicNavBrand">
+                        <img
+                        alt=""
+                        src={logoImg}
+                        width="150"
+                        height="30"
+                        className="d-inline-block align-top"
+                        />{' '}
+                    </Navbar.Brand>
+                    
+                        {/* <Link to="/" className="navlink">
+                            About
+                        </Link> */}
+                        
+                        {/* <Link to="/login" className="navlink">
+                            Login
+                        </Link> */}
 
-            </Navbar>
+                </Navbar>
+            </div>
 
       )
    }

@@ -6,7 +6,6 @@ import  ModuleSelectionPage  from "./Pages/Module Selection Page/ModuleSelection
 import LoginPage from './Pages/Login/LoginPage'
 import "./login.css";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
@@ -14,7 +13,7 @@ import {
 // import AboutPage from "./Pages/About Page/AboutPage";
 import PrivateNav from './Components/Navbar/PrivateNav';
 import { PublicNav } from './Components/Navbar/PublicNav';
-import  ModulePlannerPageTemp  from "./Pages/Module Planner Page/ModulePlannerPage";
+import  ModulePlannerPage  from "./Pages/Module Planner Page/ModulePlannerPage";
 import  CAPCalculatorPage  from "./Pages/CAP Calculator Page/CAPCalculatorPage";
 import AcadSettings from './Settings/AcadSettings';
 import ProfileSettings from "./Settings/ProfileSettings";
@@ -85,8 +84,7 @@ if (localStorage.jwtToken) {
 
 const App = (props) => {
   return (
-    <Router>
-      <div className="main-container">
+      <div className="main-container" data-test="appComponent">
         {props.isAuthenticated ? <PrivateNav class="navbar" /> : <PublicNav class="navbar" />}
       
         <Switch>
@@ -108,7 +106,7 @@ const App = (props) => {
 
           <PrivateRouteTemp 
               exact path="/module-planner" 
-              component={ModulePlannerPageTemp} />
+              component={ModulePlannerPage} />
 
           <PrivateRouteTemp 
               exact path="/cap-calculator" 
@@ -146,7 +144,6 @@ const App = (props) => {
             component={() => <div className="display-2"><strong>404 NOT FOUND</strong></div>}/>
         </Switch>
       </div>
-    </Router>
   );
 }
 

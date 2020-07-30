@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Board from './Board';
-import Rules from './Rules';
-import TrashBox from './TrashBox';
-import './plannertemp.css';
+import Board from '../Board';
+import Rules from '../Rules';
+import TrashBox from '../TrashBox';
+import '../plannertemp.css';
 import { Button, Card } from 'react-bootstrap';
 import { Alert, Spin, message } from "antd";
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
-import { callBackendAPI, setCallBackendNow, setSelectedModules, evalRules, setRules } from '../../actions/modplanActions';
-import { updateSettings, setFirstRender } from "../../actions/settingsActions";
-import { removeSuccess } from "../../actions/successActions";
-import { handleSaveClick, generateObject } from "../../utils/commonFunctions";
+import { callBackendAPI, setCallBackendNow, setSelectedModules, evalRules, setRules } from '../../../actions/modplanActions';
+import { updateSettings, setFirstRender } from "../../../actions/settingsActions";
+import { removeSuccess } from "../../../actions/successActions";
+import { handleSaveClick, generateObject } from "../../../utils/commonFunctions";
 import PropTypes from 'prop-types';
 import isEmpty from 'is-empty'
-import LoadingDots from '../Loading Page/LoadingDots';
+import LoadingDots from '../../Loading Page/LoadingDots';
 import { LoadingOutlined } from '@ant-design/icons';
 
 
 
-const ModulePlannerPageTemp = (props) => {
+const ModulePlannerPage = (props) => {
     const module = props.modplan.modules;
     const [ruleFunction, setRuleFunction] = useState();
     const [alert, setAlert] = useState(false);
@@ -87,7 +87,7 @@ const ModulePlannerPageTemp = (props) => {
     return (
         props.auth.loading
             ? <LoadingDots/>
-            : (<DndProvider backend={Backend} >
+            : (<DndProvider backend={Backend} data-test="modulePlannerPageComponent">
                 <div className="page-title">
                     <h3 id="module-planner-title">Module Planner</h3>
                 </div>
@@ -151,7 +151,7 @@ const ModulePlannerPageTemp = (props) => {
     )
 }
 
-ModulePlannerPageTemp.propTypes = {
+ModulePlannerPage.propTypes = {
     callBackendAPI: PropTypes.func.isRequired,
     setCallBackendNow: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
@@ -177,4 +177,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, 
                     { callBackendAPI, setCallBackendNow, updateSettings, setFirstRender,
                         setSelectedModules, removeSuccess, setRules  }) 
-                    (ModulePlannerPageTemp);
+                    (ModulePlannerPage);

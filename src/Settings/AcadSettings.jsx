@@ -195,7 +195,7 @@ const AcadSettings = (props) => {
   return (
     props.auth.loading 
       ? <LoadingDots/>
-      : (<div className="settings">
+      : (<div className="settings" data-test="acadSettingsPageComponent">
           <SideNav active="academics" major={props.settings.userInfo.major} isEditing={props.settings.isEditing}/>
           
           <div className="acad-settings">
