@@ -4,7 +4,7 @@ import Rules from '../Rules';
 import TrashBox from '../TrashBox';
 import '../plannertemp.css';
 import { Button, Card } from 'react-bootstrap';
-import { Alert, Spin, message } from "antd";
+import { Alert, Spin, message, notification } from "antd";
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
@@ -58,29 +58,39 @@ const ModulePlannerPage = (props) => {
         setRuleFunction(evalfunc);
     } 
 
+    const openNotification = (type, placement) => {
+        notification[type]({
+          message: type === "success" ? "Evaluated" : "Whoops!",
+          description:
+            type === "success" ? "Check out your degree checklist!" : "Please add modules first!",
+          placement,
+        });
+      };
+
     const handleEvalButtonClick = () => {
         const modules = props.modplan.selectedModules;
-        if(!isEmpty(modules)) {
+        if(!isEmpty(modules) && ruleFunction) {
             props.setCallBackendNow(true);
             const modplan = modules.map((obj) => {
                 return obj.moduleCode
             });
             const asyncEvalRules = async () => {
                 const newEvaluatedRules = await evalRules(ruleFunction, modplan);
-                console.log(newEvaluatedRules)
                 props.setRules(newEvaluatedRules);
             }
             asyncEvalRules();
+            openNotification('success', "bottomRight" );
         } else {
-            message.warning({
-                content: 'Please add modules before evaluating',
-              })
-      
-              message.config({
-                maxCount: 1,
-                duration: .7,
-                top: '70px',
-              })
+            openNotification('warning', "bottomRight" );
+            //     message.warning({
+            //         content: 'Please add modules before evaluating',
+            //       })
+
+            //   message.config({
+            //     maxCount: 1,
+            //     duration: .7,
+            //     top: '70px',
+            //   })
         }
     }
 
@@ -108,12 +118,18 @@ const ModulePlannerPage = (props) => {
     
                     <br/>
     
-                    <Button className="button" id="eval-button" onClick={() => handleEvalButtonClick()}>Evaluate</Button>
+                    <Button 
+                        className="button" 
+                        id="eval-button" 
+                        disabled={!ruleFunction}
+                        onClick={() => handleEvalButtonClick()}>
+                            Evaluate
+                    </Button>
 
                     <div>
                     <Button 
-                    className="button"  
-                    onClick={() => handleSaveClick(props)}>
+                        className="button"  
+                        onClick={() => handleSaveClick(props)}>
                             Save
                     </Button>
                     <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
