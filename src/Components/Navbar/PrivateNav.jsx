@@ -4,14 +4,16 @@ import { Navbar, Nav } from "react-bootstrap"
 import NavIcon from "../NavIcon";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
+import { setEditAll } from '../../actions/settingsActions';
 import { connect} from "react-redux"
 import { message } from 'antd';
 import { isSettingsEditing } from '../../utils/commonFunctions';
+import isEmpty from 'is-empty';
 
 
 class PrivateNav extends React.Component {
     warning = () => {
-        if(!this.props.settings.userInfo.major || isSettingsEditing(this.props.settings.isEditing)) {
+        if(!this.props.settings.userInfo.major) {
             message.warning({
                 content: 'Please fill in your particulars!',
             })
@@ -22,12 +24,19 @@ class PrivateNav extends React.Component {
             top: '70px',
         })
       };
+    
+    handleClick = () => {
+        this.warning();
+        if(!isEmpty(this.props.settings.isEditing)){
+            this.props.setEditAll(false, {}, 'editAll')
+        }
+    }
       
     render() {
         return (
             <div data-test="privateNavBarComponent">
                 <Navbar className="navbar" expand="xl" sticky="top">
-                    <Link to="/module-planner" onClick={this.warning} className="navbrand">
+                    <Link to="/module-planner" onClick={this.handleClick} className="navbrand">
                         <Navbar.Brand>
                             <img
                             alt=""
@@ -40,15 +49,15 @@ class PrivateNav extends React.Component {
                     </Link>
                     
                     
-                    {/* <Link to="/select-modules" onClick={this.warning} className="navlink">
+                    {/* <Link to="/select-modules" onClick={this.handleClick} className="navlink">
                             Module Information
                     </Link> */}
 
-                    <Link to="/module-planner" onClick={this.warning} className="navlink">
+                    <Link to="/module-planner" onClick={this.handleClick} className="navlink">
                         Module Planner
                     </Link>
 
-                    <Link to="/cap-calculator" onClick={this.warning} className="navlink">
+                    <Link to="/cap-calculator" onClick={this.handleClick} className="navlink">
                         CAP Calculator
                     </Link>
 
@@ -79,4 +88,4 @@ class PrivateNav extends React.Component {
 const mapStateToProps = state => ({
     settings: state.settings
 })
-export default connect(mapStateToProps, {logoutUser})(PrivateNav);
+export default connect(mapStateToProps, { logoutUser, setEditAll })(PrivateNav);

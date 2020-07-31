@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AutoCompleteText from './AutocompleteText';
+import AutoCompleteInput from './AutoCompleteInput';
 import { Card, Button } from 'react-bootstrap';
 import ModuleCard from './Card';
 import { ItemTypes } from './itemType';
@@ -70,11 +71,18 @@ function Board (props) {
                             {isBoardFilled ? generateCards : 'Drop module here'}
             </div>
 
-            {isTextBoxOpen && <AutoCompleteText 
+            {/* {isTextBoxOpen && <AutoCompleteText 
+                                            AY={props.AY}
+                                            location={props.id}
+                                            category="module"
+                                            module={props.module}/>} */}
+
+            {isTextBoxOpen && <AutoCompleteInput
                                             AY={props.AY}
                                             location={props.id}
                                             category="module"
                                             module={props.module}/>}
+            
                 <Button className="button" id="addModule" onClick={handleButtonClick}>Add Module</Button>
                 <h5>Total MCs: {totalMCs}</h5>
                 

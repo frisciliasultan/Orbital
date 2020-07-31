@@ -47,7 +47,7 @@ export default function (state = initialState, action) {
             let unique = true;
             let indexOfDuplicate;
             const module = [...action.currentSelectedModules];
-            const { moduleAdded } = action;
+            let { moduleAdded } = action;
             
             if(!moduleAdded) {
                 return {
@@ -55,21 +55,28 @@ export default function (state = initialState, action) {
                     selectedModules: module
                 }
             }
-            for(let i = 0; i < module.length; i++) {
-                if(module[i].moduleCode === moduleAdded.moduleCode) {
-                    unique = false;
-                    indexOfDuplicate = i;
-                    break;
-                }
+
+            if(!Array.isArray(moduleAdded)) {
+                moduleAdded = [moduleAdded];
             }
 
-            if (!module.includes(moduleAdded)) {
-                if(unique) {
-                    module.push(moduleAdded);
-                } else {
-                    module.splice(indexOfDuplicate, 1, moduleAdded);         
+            moduleAdded.map((object, i) => {
+                for(let i = 0; i < module.length; i++) {
+                    if(module[i].moduleCode === object.moduleCode) {
+                        unique = false;
+                        indexOfDuplicate = i;
+                        break;
+                    }
                 }
-            }
+
+                if (!module.includes(object)) {
+                    if(unique) {
+                        module.push(object);
+                    } else {
+                        module.splice(indexOfDuplicate, 1, object);         
+                    }
+                }
+            })
 
             return {
                 ...state, 
