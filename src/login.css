@@ -534,6 +534,7 @@ button.button.settings-button {
 
 .container.year-card .card-title{
 	font-size: 25px;
+	margin-left: 20px;
 }
 
 .container.year-card .card-subtitle{
@@ -579,6 +580,10 @@ button.button.settings-button {
 }
 .button #eval-button {
 	margin-right: 10px;
+}
+
+.button#eval-button:disabled {
+	background-color: gray;
 }
 
 h2 .year-title {
