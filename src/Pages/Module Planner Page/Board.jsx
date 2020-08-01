@@ -15,6 +15,7 @@ function Board (props) {
     const [isBoardFilled, setIsBoardFilled] = useState(false);
     const [isTextBoxOpen, setIsTextBoxOpen] = useState(false);
     const selectedModules = props.modplan.selectedModules;
+    const thisSemesterModule = selectedModules.filter((object, i) => object.location === props.id);
     let totalMCs = 0;
     
     useEffect(() => { 
@@ -41,12 +42,20 @@ function Board (props) {
             }),
     })
 
-    function handleButtonClick() {
+    function handleAddButtonClick() {
         setIsTextBoxOpen(!isTextBoxOpen);
-     }
+    }
+    
+    function handleDeleteButtonClick () {
+        setIsBoardFilled(false);
+        setIsTextBoxOpen(false);
+        if(thisSemesterModule) {
+            props.setModuleLocation(thisSemesterModule, null, null, selectedModules)
+        }
+    }
 
     function updateIsBoardFilled() {
-        if(selectedModules && selectedModules.filter((object, i) => object.location === props.id).length > 0) {
+        if(selectedModules && thisSemesterModule.length > 0) {
             setIsBoardFilled(true);
             
         } else {
@@ -71,19 +80,22 @@ function Board (props) {
                             {isBoardFilled ? generateCards : 'Drop module here'}
             </div>
 
-            {/* {isTextBoxOpen && <AutoCompleteText 
-                                            AY={props.AY}
-                                            location={props.id}
-                                            category="module"
-                                            module={props.module}/>} */}
-
             {isTextBoxOpen && <AutoCompleteInput
                                             AY={props.AY}
                                             location={props.id}
                                             category="module"
                                             module={props.module}/>}
             
-                <Button className="button" id="addModule" onClick={handleButtonClick}>Add Module</Button>
+                <Button className="button" id="addModule" onClick={handleAddButtonClick}>Add Module</Button>
+                
+                {isBoardFilled && (
+                    <Button 
+                        className="button"
+                        onClick={handleDeleteButtonClick}>
+                        Delete Semester
+                    </Button>
+                )}
+
                 <h5>Total MCs: {totalMCs}</h5>
                 
                 </div>

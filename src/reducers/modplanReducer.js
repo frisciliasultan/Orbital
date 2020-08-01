@@ -84,12 +84,19 @@ export default function (state = initialState, action) {
             }
 
         case SET_MODULE_LOCATION: 
-            const { item, location, AY } = action;
+            let { item, location, AY } = action;
             const modulesToFilter = action.modules
-            let changedModule;
+            let changedModule = [];
 
             if(!location) {
-                changedModule = modulesToFilter.filter((object) => object.moduleCode !== item.id);
+                if(!Array.isArray(item)) {
+                    item = [item];
+                }
+                changedModule = [...modulesToFilter];
+                item.map((item, i) => {
+                    const toCompare = item.id ? item.id : item.moduleCode
+                    changedModule = changedModule.filter((object) => object.moduleCode !== toCompare);
+                });
             } else {
                 const temp = modulesToFilter.filter((object) => object.moduleCode === item.id);
                 const moduleToChange = [...temp];
@@ -97,7 +104,7 @@ export default function (state = initialState, action) {
                 moduleToChange[0].AY = AY;
                 changedModule = modulesToFilter.filter((object) => object.moduleCode !== item.id).concat(moduleToChange)
             }
-           
+
             return {
                 ...state,
                 selectedModules: changedModule
