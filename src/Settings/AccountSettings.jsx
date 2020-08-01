@@ -145,86 +145,93 @@ const AccountSettings = (props) => {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                props.deleteUser();
+                props.deleteUser(props.history);
             }
         });
     }
 
     return (
-        <div className="settings" data-test="accountSettingsPageComponent">
-            <SideNav active="account" major={props.settings.userInfo.major} isEditing={props.settings.isEditing}/>
-                <div className="acad-settings">
-                <Card className="container" id="degree-settings">
-                    <Card.Header>
-                        Account Settings
-                    </Card.Header>
-                    <table className="table settings-table table-hover " id="degree-acad-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Username
-                                </td>
-
-                                <td>
-                                    {renderContent("username")}
-                                </td>
-                            </tr>
-
-                            {!props.auth.socialLogin && (<tr>
-                                <td>
-                                    <label>Email</label>
-                                </td>
-
-                                <td>
-                                    {renderContent("email")}
-                                </td>
-                            </tr>)}
-                        </tbody>
-                    </table>
-                  
-                    {presentButton()}
-                    {/* {!isModalVisible && 
-                        <button 
-                            className="button settings-button" 
-                            onClick={() => setIsModalVisible(true)}>
-                                Change Password
-                        </button>}
-                    
-                        <Modal
-                            visible={isModalVisible}
-                            title="Change Password"
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                            footer={[
-                                null
-                                // <Button key="back" onClick={handleCancel}>
-                                // Return
-                                // </Button>,
-                                // <Button key="submit" type="primary" loading={props.auth.isLoading} onClick={handleOk}>
-                                // Save
-                                // </Button>,
-                            //     <Form.Item {...tailFormItemLayout}>
-                            //     <Button type="primary" htmlType="submit">
-                            //       Submit
-                            //     </Button>
-                            //   </Form.Item>
-                            ]}
-                        >
-                             <RegistrationForm 
-                                    setIsModalVisible={setIsModalVisible}/>
-                        </Modal>                             */}
-
-                        {!props.isEditing[2] && (
-                                <button 
-                                    className="button settings-button" id="delete">
-                                        Delete account
-                                </button>
-                                // <Spin indicator={antIcon} spinning={props.auth.loading}/>
-                        )}
+        props.auth.loading 
+            ? <LoadingDots/>
+            : (
+                <div className="settings" data-test="accountSettingsPageComponent">
+                    <SideNav active="account" major={props.settings.userInfo.major} isEditing={props.settings.isEditing}/>
+                        <div className="acad-settings">
+                        <Card className="container" id="degree-settings">
+                            <Card.Header>
+                                Account Settings
+                            </Card.Header>
+                            <table className="table settings-table table-hover " id="degree-acad-table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Username
+                                        </td>
+        
+                                        <td>
+                                            {renderContent("username")}
+                                        </td>
+                                    </tr>
+        
+                                    {!props.auth.socialLogin && (<tr>
+                                        <td>
+                                            <label>Email</label>
+                                        </td>
+        
+                                        <td>
+                                            {renderContent("email")}
+                                        </td>
+                                    </tr>)}
+                                </tbody>
+                            </table>
                         
-                </Card>
+                            {presentButton()}
+                            {/* {!isModalVisible && 
+                                <button 
+                                    className="button settings-button" 
+                                    onClick={() => setIsModalVisible(true)}>
+                                        Change Password
+                                </button>}
+                            
+                                <Modal
+                                    visible={isModalVisible}
+                                    title="Change Password"
+                                    onOk={handleOk}
+                                    onCancel={handleCancel}
+                                    footer={[
+                                        null
+                                        // <Button key="back" onClick={handleCancel}>
+                                        // Return
+                                        // </Button>,
+                                        // <Button key="submit" type="primary" loading={props.auth.isLoading} onClick={handleOk}>
+                                        // Save
+                                        // </Button>,
+                                    //     <Form.Item {...tailFormItemLayout}>
+                                    //     <Button type="primary" htmlType="submit">
+                                    //       Submit
+                                    //     </Button>
+                                    //   </Form.Item>
+                                    ]}
+                                >
+                                    <RegistrationForm 
+                                            setIsModalVisible={setIsModalVisible}/>
+                                </Modal>                             */}
+        
+                                {!props.isEditing[2] && (
+                                        <button 
+                                            className="button settings-button" 
+                                            id="delete"
+                                            onClick={handleDelAccButtonClick}>
+                                                Delete account
+                                        </button>
+                                        // <Spin indicator={antIcon} spinning={props.auth.loading}/>
+                                )}
+                                
+                        </Card>
+                    </div>
                 </div>
-        </div>
+            )
+       
     )
 }
 

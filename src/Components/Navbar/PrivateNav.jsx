@@ -76,7 +76,7 @@ class PrivateNav extends React.Component {
                         Settings
                     </Link>
 
-                    <span className="navlink" id="logout" onClick={() => this.props.logoutUser()}>
+                    <span className="navlink" id="logout" onClick={() => this.props.logoutUser(this.props.history)}>
                         Log Out
                     </span>
                 </Navbar>

@@ -21,10 +21,10 @@ const Register = (props) => {
   );
   
   useEffect(() => {
-    if (props.errors) {
-      setUserInput({errors: props.errors})
+    if (props.errors.register) {
+      setUserInput({errors: props.errors.register})
     }
-  }, [props.errors]);
+  }, [props.errors.register]);
 
   useEffect(() => {
     if(props.auth.firstTimeRegistered) {

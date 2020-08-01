@@ -29,10 +29,10 @@ const Login = (props) => {
   }, [props.auth.isAuthenticated]);
 
   useEffect(() => {
-    if (props.errors) {
-      setUserInput({errors: props.errors})
+    if (props.errors.login) {
+      setUserInput({errors: props.errors.login})
     }
-  }, [props.errors]);
+  }, [props.errors.login]);
 
   const onChange = e => {
     const { id, value } = e.target; 
