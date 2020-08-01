@@ -8,8 +8,10 @@ import { useDrop } from 'react-dnd';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setModuleLocation } from "../../actions/modplanActions";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal } from "antd";
 
-
+const { confirm } = Modal;
 
 function Board (props) {
     const [isBoardFilled, setIsBoardFilled] = useState(false);
@@ -47,11 +49,20 @@ function Board (props) {
     }
     
     function handleDeleteButtonClick () {
-        setIsBoardFilled(false);
-        setIsTextBoxOpen(false);
-        if(thisSemesterModule) {
-            props.setModuleLocation(thisSemesterModule, null, null, selectedModules)
-        }
+        confirm({
+            title: 'Are you sure to delete modules for this semester?',
+            icon: <ExclamationCircleOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                setIsBoardFilled(false);
+                setIsTextBoxOpen(false);
+                if(thisSemesterModule) {
+                    props.setModuleLocation(thisSemesterModule, null, null, selectedModules)
+                }
+            }
+        });
     }
 
     function updateIsBoardFilled() {
@@ -62,8 +73,7 @@ function Board (props) {
             setIsBoardFilled(false);
         }
     }
- 
-
+    
         return (
             
             <div className="card-board">

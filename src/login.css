@@ -413,7 +413,7 @@ button.button.settings-button, .button.modplan-button {
     padding: 10px 15px;
 }
 
-.button-group .button.modplan-button {
+.button-group .button {
 	margin: 10px 20px 0 0;
 }
 
@@ -500,10 +500,16 @@ button.button.settings-button, .button.modplan-button {
 
 #delete-all-button {
 	margin: 10px 20px 0 0;
+	background-color: #de4949;
+	height: fit-content;
 }
 
 .button-group.modplan-button-group {
 	display: flex;
+}
+
+#module-card {
+	margin: 0 0 15px 0;
 }
 
 #save {
@@ -663,6 +669,10 @@ h2 .year-title {
 
 .trashbox .card-title {
 	font-size: 25px;
+}
+
+.trashbox .card-subtitle {
+	margin: -.375rem 0 0 20px;
 }
 
 .trashbox .card-header {

@@ -136,14 +136,14 @@ const ModulePlannerPage = (props) => {
                     
                     <div className="button-group modplan-button-group">
                         <Button 
-                            className="button modplan-button del-button" 
+                            className="button" 
                             id="delete-all-button" 
                             onClick={handleDeleteAllButtonClick}>
                                 Delete All
                         </Button>
 
                         <Button 
-                            className="button modplan-button" 
+                            className="button" 
                             id="eval-button" 
                             disabled={!ruleFunction}
                             onClick={() => handleEvalButtonClick()}>
@@ -152,7 +152,7 @@ const ModulePlannerPage = (props) => {
 
                         <div>
                         <Button 
-                            className="button modplan-button"  
+                            className="button"  
                             onClick={() => handleSaveClick(props)}>
                                 Save
                         </Button>
