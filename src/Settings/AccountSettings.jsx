@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import SideNav from "./SideNav";
 import { Input, Popconfirm, notification, message, Modal, Button, Spin } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -14,6 +14,7 @@ import isEmpty from "is-empty";
 import LoadingDots from "../Pages/Loading Page/LoadingDots";
 import { LoadingOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 const AccountSettings = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     // const [changePassword, setChangePassword] = useState(false);
@@ -29,16 +30,6 @@ const AccountSettings = (props) => {
     useEffect(() => {
     feedback();
     }, [props.success])
-
-    function confirm(e) {
-        console.log(e);
-        message.success('Account successfully deleted');
-        message.config({
-            top: '70px',
-            duration: 2
-        })
-        props.deleteUser();
-    }
     
     const openNotification = (type, placement) => {
         notification[type]({
@@ -144,6 +135,20 @@ const AccountSettings = (props) => {
            clearTimeout(setTimeout(props.removeSuccess, 2000))
         } 
      }
+    
+    const handleDelAccButtonClick = () => {
+        confirm({
+            title: 'Do you really wish to delete your account?',
+            icon: <ExclamationCircleOutlined />,
+            // content: 'Your module plan will be removed permanently',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                props.deleteUser();
+            }
+        });
+    }
 
     return (
         <div className="settings" data-test="accountSettingsPageComponent">
@@ -210,18 +215,11 @@ const AccountSettings = (props) => {
                         </Modal>                             */}
 
                         {!props.isEditing[2] && (
-                            <Popconfirm
-                                title="Confirm delete account?"
-                                onConfirm={confirm}
-                                okText="Yes"
-                                cancelText="No"
-                            >
                                 <button 
                                     className="button settings-button" id="delete">
                                         Delete account
                                 </button>
-                                <Spin indicator={antIcon} spinning={props.auth.loading}/>
-                            </Popconfirm>
+                                // <Spin indicator={antIcon} spinning={props.auth.loading}/>
                         )}
                         
                 </Card>

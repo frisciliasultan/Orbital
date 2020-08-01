@@ -106,11 +106,12 @@ export const generateOptions = (optionList, category, object) => {
     }
 }
 
-export const handleSaveClick = (props, data, editCategory) => {
+export const handleSaveClick = (props, data, editCategory, special) => {
+    //special is for delete all button
     const userData = {
         name: data ? data.name : props.auth.user.name,
         email: data ? data.email : props.auth.user.email,
-        modPlan: props.modplan.selectedModules,
+        modPlan: special ? special : props.modplan.selectedModules,
         residential: props.settings.userInfo.residential,
         major: props.settings.userInfo.major,
         majorIndex: props.settings.userInfo.majorIndex,
