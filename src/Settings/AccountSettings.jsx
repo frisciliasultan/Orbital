@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import SideNav from "./SideNav";
 import { Input, Popconfirm, notification, message, Modal, Button, Spin } from 'antd';
-import { UserOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -12,7 +12,6 @@ import { removeSuccess } from "../actions/successActions";
 import { handleSaveClick, checkSubmission } from "../utils/commonFunctions";
 import isEmpty from "is-empty";
 import LoadingDots from "../Pages/Loading Page/LoadingDots";
-import { LoadingOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 const AccountSettings = (props) => {
@@ -140,7 +139,6 @@ const AccountSettings = (props) => {
         confirm({
             title: 'Do you really wish to delete your account?',
             icon: <ExclamationCircleOutlined />,
-            // content: 'Your module plan will be removed permanently',
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
@@ -219,8 +217,8 @@ const AccountSettings = (props) => {
         
                                 {!props.isEditing[2] && (
                                         <button 
-                                            className="button settings-button" 
-                                            id="delete"
+                                            className="button settings-button del-button" 
+                                            id="delete-account"
                                             onClick={handleDelAccButtonClick}>
                                                 Delete account
                                         </button>

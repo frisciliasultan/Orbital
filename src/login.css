@@ -402,7 +402,7 @@ div.settings {
 	width: 400px;
 }
 
-button.button.settings-button {
+button.button.settings-button, .button.modplan-button {
 	width: fit-content;
     margin: 10px 20px;
     font-size: 14px;
@@ -411,6 +411,10 @@ button.button.settings-button {
     text-transform: capitalize;
     font-weight: bold;
     padding: 10px 15px;
+}
+
+.button-group .button.modplan-button {
+	margin: 10px 20px 0 0;
 }
 
 #edit-all-button {
@@ -482,11 +486,24 @@ button.button.settings-button {
 	align-items: flex-start;
  }
 
-#delete {
+.button.del-button {
 	background-color: #de4949;
 	border: none;
 	margin-left: 10px;
 	margin-bottom: 20px;
+	width: fit-content;
+}
+
+.button.modplan-button.del-button {
+	margin: 0 0 10px 0;
+}
+
+#delete-all-button {
+	margin: 10px 20px 0 0;
+}
+
+.button-group.modplan-button-group {
+	display: flex;
 }
 
 #save {
@@ -565,7 +582,7 @@ button.button.settings-button {
 }
 
 #addModule {
-	margin-top: 20px;
+	margin: 20px 0px;
 }
 
 .rule-container {

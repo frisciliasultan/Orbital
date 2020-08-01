@@ -6,12 +6,15 @@ import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
 import { setEditAll } from '../../actions/settingsActions';
 import { connect} from "react-redux"
-import { message } from 'antd';
+import { message, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { isSettingsEditing } from '../../utils/commonFunctions';
 import isEmpty from 'is-empty';
 
+const { confirm } = Modal;
 
 class PrivateNav extends React.Component {
+    
     warning = () => {
         if(!this.props.settings.userInfo.major) {
             message.warning({
@@ -30,6 +33,20 @@ class PrivateNav extends React.Component {
         if(!isEmpty(this.props.settings.isEditing)){
             this.props.setEditAll(false, {}, 'editAll')
         }
+    }
+
+    handleLogoutClick = () => {
+        const logout = this.props.logoutUser;
+        confirm({
+            title: 'Do you really wish to quit ModTree?',
+            icon: <ExclamationCircleOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                logout();
+            }
+        });
     }
       
     render() {
@@ -76,7 +93,7 @@ class PrivateNav extends React.Component {
                         Settings
                     </Link>
 
-                    <span className="navlink" id="logout" onClick={() => this.props.logoutUser(this.props.history)}>
+                    <span className="navlink" id="logout" onClick={this.handleLogoutClick}>
                         Log Out
                     </span>
                 </Navbar>

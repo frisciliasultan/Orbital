@@ -134,30 +134,32 @@ const ModulePlannerPage = (props) => {
     
                     <br/>
                     
-                    <Button 
-                        className="button" 
-                        id="delete-all-button" 
-                        onClick={handleDeleteAllButtonClick}>
-                            Delete All
-                    </Button>
+                    <div className="button-group modplan-button-group">
+                        <Button 
+                            className="button modplan-button del-button" 
+                            id="delete-all-button" 
+                            onClick={handleDeleteAllButtonClick}>
+                                Delete All
+                        </Button>
 
-                    <Button 
-                        className="button" 
-                        id="eval-button" 
-                        disabled={!ruleFunction}
-                        onClick={() => handleEvalButtonClick()}>
-                            Evaluate
-                    </Button>
+                        <Button 
+                            className="button modplan-button" 
+                            id="eval-button" 
+                            disabled={!ruleFunction}
+                            onClick={() => handleEvalButtonClick()}>
+                                Evaluate
+                        </Button>
 
-                    <div>
-                    <Button 
-                        className="button"  
-                        onClick={() => handleSaveClick(props)}>
-                            Save
-                    </Button>
-                    <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+                        <div>
+                        <Button 
+                            className="button modplan-button"  
+                            onClick={() => handleSaveClick(props)}>
+                                Save
+                        </Button>
+                        <Spin indicator={antIcon} spinning={props.settings.isLoading}/>
+                        </div>
                     </div>
-                    
+
                     {!isEmpty(props.success) && 
                         <Alert 
                             message={props.success} 

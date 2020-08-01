@@ -86,14 +86,14 @@ function Board (props) {
                                             category="module"
                                             module={props.module}/>}
             
-                <Button className="button" id="addModule" onClick={handleAddButtonClick}>Add Module</Button>
+                <button className="button modplan-button" id="addModule" onClick={handleAddButtonClick}>Add Module</button>
                 
                 {isBoardFilled && (
-                    <Button 
-                        className="button"
+                    <button 
+                        className="button modplan-button del-button"
                         onClick={handleDeleteButtonClick}>
                         Delete Semester
-                    </Button>
+                    </button>
                 )}
 
                 <h5>Total MCs: {totalMCs}</h5>
