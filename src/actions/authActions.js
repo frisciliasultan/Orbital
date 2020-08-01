@@ -6,6 +6,7 @@ import {
   SET_CURRENT_USER,
   USER_LOADING,
   USER_REGISTERED,
+  CLEAN_UP_ERRORS
 } from "./types";
 import { setCurrentSemester, initialSettings, cleanUpSettings } from "./settingsActions";
 import { cleanUpModPlan } from "./modplanActions";
@@ -20,12 +21,17 @@ export const registerUser = (userData, social, history) => dispatch => {
   axios
     .post(link, userData)
     //set firstTimeRegistered to true
-    .then(res => dispatch(setUserRegistered())) 
+    .then(res => {
+      dispatch(setUserRegistered());
+      //set loading to true to display loading screen
+      dispatch(setUserLoading(true));
+    }) 
     .catch(err => {
       if(err.response) {
         dispatch({
           type: GET_ERRORS,
-          payload: err.response.data
+          payload: err.response.data,
+          source: "register"
         })
       }
 
@@ -41,8 +47,7 @@ export const registerUser = (userData, social, history) => dispatch => {
 export const loginUser = (userData, firstTimeRegistered, social, history) => dispatch => {
   const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/login"
   
-  //indicate beginnning of request
-  dispatch(setUserLoading(true));
+  
 
   axios.defaults.timeout = 10000;
   
@@ -50,6 +55,8 @@ export const loginUser = (userData, firstTimeRegistered, social, history) => dis
   axios
     .post(link, userData)
     .then(res => {
+      //indicate beginnning of request
+      dispatch(setUserLoading(true));
       // Set token to localStorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
@@ -97,7 +104,8 @@ export const loginUser = (userData, firstTimeRegistered, social, history) => dis
       if(err.response) {
         dispatch({
           type: GET_ERRORS,
-          payload: err.response.data
+          payload: err.response.data,
+          source: 'login'
         })
       } else {
         //if server error redirect to error page
@@ -133,24 +141,30 @@ export const setUserRegistered = () => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = (history) => dispatch => {
+  // Set current user to empty object {} which will set isAuthenticated to false
+  dispatch(setCurrentUser({}, false));
+  
   // Remove token from local storage
   localStorage.removeItem("jwtToken");
   // Remove auth header for future requests
   setAuthToken(false);
-  // Set current user to empty object {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}, false));
+ 
   dispatch(cleanUpSettings());
   dispatch(cleanUpModPlan());
   dispatch(cleanUpCAP());
-
+  dispatch({
+    type: CLEAN_UP_ERRORS
+  })
 };
 
-export const deleteUser = () => dispatch => {
+export const deleteUser = (history) => dispatch => {
    //indicate beginnning of request
    dispatch(setUserLoading(true));
   axios.delete("https://modtree-api.netlify.app/.netlify/functions/account")
-    .then(res => dispatch(logoutUser()))
+    .then(res => dispatch(logoutUser(history)))
     .then(res => dispatch(setUserLoading(false)))
-    .catch(err => console.log(err))
+    .catch(err => {
+      history.push('/500-error');
+      console.log(err);})
 }

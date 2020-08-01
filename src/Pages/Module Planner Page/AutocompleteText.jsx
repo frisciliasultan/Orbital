@@ -8,9 +8,7 @@ class AutoCompleteText extends React.Component {
     constructor (props) {
         super(props);
         this.state = { suggestions: [],
-                       text: this.props.value
-                       ? this.props.value[this.props.index] 
-                       : '',
+                       text: '',
                      };
         this.handleTextChange = this.handleTextChange.bind(this);
         this.renderSuggestions = this.renderSuggestions.bind(this);

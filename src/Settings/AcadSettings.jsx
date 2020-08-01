@@ -102,7 +102,6 @@ const AcadSettings = (props) => {
         );
       }
     } else if(name === "matriculationYear" || name === "targetGradYear" || name === "specialisation") {
-      console.log(name)
       setUserInput({[name]: value});
    
     } else {
@@ -149,7 +148,6 @@ const AcadSettings = (props) => {
 
     } else {
       openNotification('warning', 'bottomRight');
-      // props.setEditAll(true, props.settings.isEditing, category);
     }
   } 
 

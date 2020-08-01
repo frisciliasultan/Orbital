@@ -4,7 +4,7 @@ import Rules from '../Rules';
 import TrashBox from '../TrashBox';
 import '../plannertemp.css';
 import { Button, Card } from 'react-bootstrap';
-import { Alert, Spin, message, notification } from "antd";
+import { Alert, Spin, message, notification, Modal } from "antd";
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
@@ -15,9 +15,10 @@ import { handleSaveClick, generateObject } from "../../../utils/commonFunctions"
 import PropTypes from 'prop-types';
 import isEmpty from 'is-empty'
 import LoadingDots from '../../Loading Page/LoadingDots';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 
+const { confirm } = Modal;
 
 const ModulePlannerPage = (props) => {
     const module = props.modplan.modules;
@@ -33,7 +34,7 @@ const ModulePlannerPage = (props) => {
 
             if(!isEmpty(props.settings.userInfo.modPlan) && isEmpty(props.modplan.selectedModules)
                 && props.settings.firstRender) {   
-                props.setSelectedModules(null, props.settings.userInfo.modPlan, props.history);
+                props.setSelectedModules(null, props.settings.userInfo.modPlan);
                 props.setFirstRender(false);
             }
         }
@@ -94,6 +95,21 @@ const ModulePlannerPage = (props) => {
         }
     }
 
+    const handleDeleteAllButtonClick = () => {
+        confirm({
+            title: 'Are you sure to delete all modules?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Your module plan will be removed permanently',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                props.setSelectedModules(null, []);
+                handleSaveClick(props, null, null, []);
+            }
+        });
+    }
+
     return (
         props.auth.loading
             ? <LoadingDots/>
@@ -117,7 +133,14 @@ const ModulePlannerPage = (props) => {
     
     
                     <br/>
-    
+                    
+                    <Button 
+                        className="button" 
+                        id="delete-all-button" 
+                        onClick={handleDeleteAllButtonClick}>
+                            Delete All
+                    </Button>
+
                     <Button 
                         className="button" 
                         id="eval-button" 
