@@ -17,14 +17,15 @@ export const registerUser = (userData, social, history) => dispatch => {
   const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/register"
   axios.defaults.timeout = 10000;
 
+  //set loading to true to display loading screen
+  dispatch(setUserLoading(true));
+
   //fetching
   axios
     .post(link, userData)
     //set firstTimeRegistered to true
     .then(res => {
       dispatch(setUserRegistered());
-      //set loading to true to display loading screen
-      dispatch(setUserLoading(true));
     }) 
     .catch(err => {
       if(err.response) {
@@ -47,7 +48,8 @@ export const registerUser = (userData, social, history) => dispatch => {
 export const loginUser = (userData, firstTimeRegistered, social, history) => dispatch => {
   const link = social ? "https://modtree-api.netlify.app/.netlify/functions/user/sociallogin" : "https://modtree-api.netlify.app/.netlify/functions/user/login"
   
-  
+  //indicate beginnning of request
+  dispatch(setUserLoading(true));
 
   axios.defaults.timeout = 10000;
   
@@ -55,8 +57,6 @@ export const loginUser = (userData, firstTimeRegistered, social, history) => dis
   axios
     .post(link, userData)
     .then(res => {
-      //indicate beginnning of request
-      dispatch(setUserLoading(true));
       // Set token to localStorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
