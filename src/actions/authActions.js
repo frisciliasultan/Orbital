@@ -28,6 +28,7 @@ export const registerUser = (userData, social, history) => dispatch => {
       dispatch(setUserRegistered());
     }) 
     .catch(err => {
+      dispatch(setUserLoading(true));
       if(err.response) {
         dispatch({
           type: GET_ERRORS,
