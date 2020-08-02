@@ -18,7 +18,7 @@ export const registerUser = (userData, social, history) => dispatch => {
   axios.defaults.timeout = 10000;
 
   //set loading to true to display loading screen
-  dispatch(setUserLoading(true));
+  // dispatch(setUserLoading(true));
 
   //fetching
   axios
@@ -28,7 +28,7 @@ export const registerUser = (userData, social, history) => dispatch => {
       dispatch(setUserRegistered());
     }) 
     .catch(err => {
-      dispatch(setUserLoading(true));
+      // dispatch(setUserLoading(true));
       if(err.response) {
         dispatch({
           type: GET_ERRORS,
